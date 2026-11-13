@@ -1,35 +1,43 @@
 from abc import ABC, abstractmethod
 import random
-import os
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Any
 import logging
 
 logger = logging.getLogger(__name__)
 
-# Importera konfiguration
+# Prefer package imports; fall back to backend-on-sys.path style
 try:
-    from config import settings
+    from backend.config import settings
     CONFIG_AVAILABLE = True
 except ImportError:
-    CONFIG_AVAILABLE = False
-    logger.warning("Konfiguration inte tillgänglig, använder miljövariabler direkt")
+    try:
+        from config import settings
+        CONFIG_AVAILABLE = True
+    except ImportError:
+        CONFIG_AVAILABLE = False
+        logger.warning("Config not available; using environment variables directly")
 
-# Importera modellhanterare
 try:
-    from models.direct_hf_manager import DirectHFManager
+    from backend.models.direct_hf_manager import DirectHFManager
     MODEL_MANAGER_AVAILABLE = True
-    logger.info("DirectHFManager (OpenRouter/Mixtral) loaded successfully")
+    logger.info("DirectHFManager (OpenRouter) loaded successfully")
 except ImportError as e:
-    MODEL_MANAGER_AVAILABLE = False
-    logger.warning(f"Modellhanterare inte tillgänglig: {e}. Använder grundläggande reservsvar.")
+    try:
+        from models.direct_hf_manager import DirectHFManager
+        MODEL_MANAGER_AVAILABLE = True
+        logger.info("DirectHFManager (OpenRouter) loaded successfully")
+    except ImportError as e2:
+        MODEL_MANAGER_AVAILABLE = False
+        DirectHFManager = None  # type: ignore
+        logger.warning("Model manager unavailable: %s. Using fallback responses.", e2)
 
 # Global modellhanterareinstans (delad mellan alla agenter för effektivitet)
 _global_model_manager = None
 
 class BaseAgent(ABC):
     """
-    Abstrakt basklass för alla AI-agenter i rådet. Hanterar modelladdning, svarsgenerering,
-    diskussion och konsensuslogik. Subklasser måste implementera reserv- och domänspecifika metoder.
+    Abstract base class for AI Decision Council agents. Handles model loading, response
+    generation, discussion, and consensus helpers. Subclasses implement fallbacks and domain prompts.
     """
     def __init__(self, agent_name: str, system_prompt: str) -> None:
         """

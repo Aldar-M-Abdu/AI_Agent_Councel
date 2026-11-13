@@ -4,7 +4,7 @@ const config = {
   API_BASE_URL: process.env.REACT_APP_API_URL || 
     (process.env.NODE_ENV === 'production' 
       ? window.location.origin  // Use same origin in production
-      : 'http://127.0.0.1:8000' // Development backend URL - Fixed port to 8000
+      : 'http://127.0.0.1:8001' // Development backend URL (matches uvicorn / Docker)
     ),
   
   // Legacy property name for backward compatibility

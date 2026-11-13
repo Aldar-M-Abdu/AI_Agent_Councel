@@ -1,5 +1,5 @@
 """
-Professional Decision Framework for AI Agent Council
+Professional Decision Framework for AI Decision Council
 Implements structured decision-making methodologies used by international consulting firms
 """
 

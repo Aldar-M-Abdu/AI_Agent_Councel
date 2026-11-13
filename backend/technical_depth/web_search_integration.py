@@ -1,5 +1,4 @@
 import asyncio
-import aiohttp
 import json
 import time
 from typing import Dict, List, Any, Optional, Union
@@ -10,23 +9,29 @@ import re
 from urllib.parse import urlencode, urlparse
 import hashlib
 
+logger = logging.getLogger(__name__)
+
+try:
+    import aiohttp
+    AIOHTTP_AVAILABLE = True
+except ImportError:
+    aiohttp = None  # type: ignore
+    AIOHTTP_AVAILABLE = False
+    logger.warning("aiohttp not available — async web search disabled")
+
 try:
     from bs4 import BeautifulSoup
     BS4_AVAILABLE = True
 except ImportError:
     BS4_AVAILABLE = False
-    logging.warning("BeautifulSoup not available - HTML parsing will be limited")
+    logger.warning("BeautifulSoup not available - HTML parsing will be limited")
 
 try:
     import requests
     REQUESTS_AVAILABLE = True
 except ImportError:
     REQUESTS_AVAILABLE = False
-    logging.warning("Requests not available - fallback to aiohttp only")
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+    logger.warning("Requests not available - fallback to aiohttp only")
 
 @dataclass
 class SearchResult:
@@ -238,7 +243,10 @@ class WebSearchIntegration:
         
     async def _search_duckduckgo(self, query: str) -> List[SearchResult]:
         """Search using DuckDuckGo API"""
-        
+        if not AIOHTTP_AVAILABLE or aiohttp is None:
+            logger.warning("aiohttp unavailable; skipping DuckDuckGo search")
+            return []
+
         # DuckDuckGo Instant Answer API
         url = "https://api.duckduckgo.com/"
         params = {
@@ -315,6 +323,9 @@ class WebSearchIntegration:
         ]
         
         results = []
+        if not AIOHTTP_AVAILABLE or aiohttp is None:
+            logger.warning("aiohttp unavailable; skipping academic search")
+            return results
         
         for source in academic_sources:
             try:

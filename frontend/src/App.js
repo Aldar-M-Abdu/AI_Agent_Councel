@@ -1151,7 +1151,7 @@ function App() {
           <div className="header-content">
             <h1 className="title">
               <span className="title-icon">🧠</span>
-              Professionellt AI-Agentråd
+              AI Decision Council
               <IconButton 
                 onClick={() => setSettingsOpen(true)} 
                 style={{ marginLeft: 8, color: 'white' }}

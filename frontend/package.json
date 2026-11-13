@@ -1,7 +1,7 @@
 {
   "name": "react-frontend",
   "version": "1.0.0",
-  "description": "En React frontend-applikation för AI-Agent Råd systemet",
+  "description": "React frontend for AI Decision Council",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",

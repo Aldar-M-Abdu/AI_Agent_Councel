@@ -1,7 +1,4 @@
-import os
-from typing import Dict, List, Optional, TypedDict, Annotated, Any
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
-from langchain_core.tools import tool
+from typing import Dict, List, Optional, TypedDict, Any
 # TAVILY removed - web search disabled
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
@@ -11,6 +8,8 @@ from datetime import datetime
 import logging
 from dataclasses import dataclass
 
+logger = logging.getLogger(__name__)
+
 # Import professional decision-making components
 try:
     from agents.decision_framework import ProfessionalDecisionFramework, ProfessionalDecision
@@ -18,20 +17,23 @@ try:
     from agents.executive_reporter import ProfessionalExecutiveReporter, ExecutiveReport
     PROFESSIONAL_COMPONENTS_AVAILABLE = True
 except ImportError as e:
-    logger.warning(f"Professional components not available: {e}")
+    logger.warning("Professional components not available: %s", e)
     PROFESSIONAL_COMPONENTS_AVAILABLE = False
-
-# Configure logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+    ProfessionalDecisionFramework = None  # type: ignore
+    ProfessionalConsensusManager = None  # type: ignore
+    ProfessionalExecutiveReporter = None  # type: ignore
 
 # Import config
 try:
-    from config import settings
+    from backend.config import settings
     CONFIG_AVAILABLE = True
 except ImportError:
-    CONFIG_AVAILABLE = False
-    logger.warning("Config not available, using environment variables directly")
+    try:
+        from config import settings
+        CONFIG_AVAILABLE = True
+    except ImportError:
+        CONFIG_AVAILABLE = False
+        logger.warning("Config not available, using environment variables directly")
 
 class AgentState(TypedDict):
     """State schema for the agent orchestration workflow"""

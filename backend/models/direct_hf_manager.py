@@ -14,15 +14,15 @@ class DirectHFManager:
     and error handling.
     """
     
-    def __init__(self, config=None):
+    def __init__(self, config: Optional[Any] = None) -> None:
         """Initialize OpenRouter API manager"""
         self.config = config
         
         # Get API token from environment variable or config
         self.api_token = self._get_api_token()
         
-        # OpenRouter API Configuration
-        self.model_name = "mistralai/mixtral-8x7b-instruct"
+        # OpenRouter API Configuration (model from settings/env when provided)
+        self.model_name = getattr(config, "openrouter_model", None) or "mistralai/mixtral-8x7b-instruct"
         self.api_url = "https://openrouter.ai/api/v1/chat/completions"
         
         # Set headers for OpenRouter
@@ -30,24 +30,25 @@ class DirectHFManager:
             self.headers = {
                 "Authorization": f"Bearer {self.api_token}",
                 "Content-Type": "application/json",
-                "HTTP-Referer": "https://github.com/your-username/ai-agent-council",
-                "X-Title": "AI Agent Council"
+                "HTTP-Referer": "https://github.com/Aldar-M-Abdu/AI_Agent_Councel",
+                "X-Title": "AI Decision Council"
             }
-            logger.info(f"✅ Using OpenRouter API with Mixtral-8x7B-Instruct")
+            logger.info("Using OpenRouter API with model %s", self.model_name)
         else:
             self.headers = {"Content-Type": "application/json"}
-            logger.warning("⚠️  No OpenRouter API key found - using fallback mode")
+            logger.warning("No OpenRouter API key found - using fallback mode")
         
         # Generation parameters with improved defaults
         self.max_new_tokens = getattr(config, 'hf_max_tokens', 300) if config else 300
         self.temperature = getattr(config, 'hf_temperature', 0.7) if config else 0.7
         self.timeout = getattr(config, 'hf_timeout', 30) if config else 30
         
-        logger.info(f"Initializing OpenRouter API Manager")
-        logger.info(f"  Model: {self.model_name}")
-        logger.info(f"  Provider: OpenRouter")
-        logger.info(f"  Max tokens: {self.max_new_tokens}")
-        logger.info(f"  Temperature: {self.temperature}")
+        logger.info(
+            "Initializing OpenRouter API Manager (model=%s, max_tokens=%s, temperature=%s)",
+            self.model_name,
+            self.max_new_tokens,
+            self.temperature,
+        )
         logger.info(f"  Authentication: {'Yes' if self.api_token else 'No (Fallback mode)'}")
         
         # Test API connectivity
@@ -332,8 +333,8 @@ class DirectHFManager:
             self.headers = {
                 "Authorization": f"Bearer {self.api_token}",
                 "Content-Type": "application/json",
-                "HTTP-Referer": "https://github.com/your-username/ai-agent-council",
-                "X-Title": "AI Agent Council"
+                "HTTP-Referer": "https://github.com/Aldar-M-Abdu/AI_Agent_Councel",
+                "X-Title": "AI Decision Council"
             }
             logger.info("✅ API token updated successfully")
         else:

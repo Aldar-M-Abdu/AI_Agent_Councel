@@ -1,7 +1,15 @@
 import uuid
 import os
 import sys
-import asyncio
+import datetime
+import json
+import logging
+import hashlib
+import secrets
+from contextlib import asynccontextmanager
+from datetime import timedelta
+from pathlib import Path
+from typing import List, Dict, Optional, Any
 
 # Add the parent directory to the Python path for proper module imports
 parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -12,14 +20,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
-import datetime
-import json
-from typing import List, Dict, Optional, Any
-import logging
-from contextlib import asynccontextmanager
-import hashlib
-import secrets
-from datetime import timedelta
+from starlette.middleware.base import BaseHTTPMiddleware
 
 # Graciös återgång för saknad fastapi-limiter (hastighetsbegränsning inaktiverad i lokalt läge)
 class DummyLimiter:  # dummy placeholder
@@ -53,47 +54,49 @@ ComparativeAnalysis = None
 PerformanceBenchmarker = None
 WebSearchIntegration = None
 
+# Configure logging once at process start (modules use getLogger only)
+logging.basicConfig(
+    level=getattr(logging, settings.log_level.upper(), logging.INFO),
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger("ai_decision_council")
+
 try:
     from backend.orchestration import LangGraphOrchestrator, WorkflowConfig
-    print("✓ Orkestreringmodul laddad")
+    logger.info("Orchestration module loaded")
 except ImportError as e:
-    print(f"⚠ Orkestreringmodul inte tillgänglig: {e}")
+    logger.warning("Orchestration module unavailable: %s", e)
     LangGraphOrchestrator = None
     WorkflowConfig = None
 
 try:
     from backend.evaluation import MetaEvaluator, EvaluationMetrics, ComparativeAnalysis
-    print("✓ Utvärderingsmodul laddad")
+    logger.info("Evaluation module loaded")
 except ImportError as e:
-    print(f"⚠ Utvärderingsmodul inte tillgänglig: {e}")
+    logger.warning("Evaluation module unavailable: %s", e)
     MetaEvaluator = None
     EvaluationMetrics = None
     ComparativeAnalysis = None
 
 try:
     from backend.technical_depth import PerformanceBenchmarker, WebSearchIntegration
-    print("✓ Teknisk djupmodul laddad")
+    logger.info("Technical depth module loaded")
 except ImportError as e:
-    print(f"⚠ Teknisk djupmodul inte tillgänglig: {e}")
+    logger.warning("Technical depth module unavailable: %s", e)
     PerformanceBenchmarker = None
     WebSearchIntegration = None
 
 # Kontrollera om alla avancerade funktioner är tillgängliga
 if LangGraphOrchestrator and MetaEvaluator and PerformanceBenchmarker:
     ADVANCED_FEATURES_AVAILABLE = True
-    print("✓ Alla avancerade funktioner tillgängliga")
+    logger.info("Advanced features available")
 else:
-    print("⚠ Kör i grundläge - vissa avancerade funktioner inaktiverade")
+    logger.warning("Running in basic mode — some advanced features disabled")
 
-# Säkerställ att kataloger finns
-os.makedirs("discussions", exist_ok=True)
-
-# Konfigurera loggning
-logging.basicConfig(
-    level=getattr(logging, settings.log_level.upper(), logging.INFO),
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-)
-logger = logging.getLogger("ai_agent_council")
+# Runtime directories next to this module (not CWD-dependent)
+_BACKEND_DIR = Path(__file__).resolve().parent
+os.makedirs(_BACKEND_DIR / "discussions", exist_ok=True)
+os.makedirs(_BACKEND_DIR / "reports", exist_ok=True)
 
 # Globala instanser för avancerade funktioner
 meta_evaluator_instance = None
@@ -131,7 +134,7 @@ async def lifespan(app: FastAPI):
     """Hantera applikationens livscykel - uppstart och avstängning"""
     global meta_evaluator_instance, performance_benchmarker_instance, web_search_instance, orchestrator_instance
     
-    logger.info("Initierar AI-Agent Råd systemet...")
+    logger.info("Initierar AI Decision Council systemet...")
     
     # Initiera grundläggande funktionalitet först
     meta_evaluator_instance = None
@@ -183,19 +186,19 @@ async def lifespan(app: FastAPI):
     else:
         logger.info("Avancerade funktioner inte tillgängliga - kör i grundläge")
     
-    logger.info("AI-Agent Råd systemet startat och redo!")
+    logger.info("AI Decision Council systemet startat och redo!")
     
     yield
     
-    logger.info("Stänger ner AI-Agent Råd systemet...")
+    logger.info("Stänger ner AI Decision Council systemet...")
 
 app = FastAPI(
-    title="AI-Agent Råd API",
-    description="Ett API för att få beslut från ett råd av AI-agenter med olika personligheter. Inkluderar avancerade orkestreringsmöjligheter.",
+    title="AI Decision Council API",
+    description="Multi-agent decision-support API: specialist agents debate a question and return a structured recommendation. Includes optional LangGraph orchestration.",
     version="2.0.0",
     contact={
-        "name": "AI-Agent Råd Team",
-        "url": "https://github.com/aldarabdu/agent",
+        "name": "Aldar Abdu",
+        "url": "https://github.com/Aldar-M-Abdu/AI_Agent_Councel",
         "email": "aldar.m.abdu@gmail.com"
     },
     license_info={
@@ -279,6 +282,7 @@ class FullDiscussionResponse(BaseModel):
     consensus_contributions: List[ConsensusResponse]
     final_recommendation: str
     discussion_file: str
+    confidence_score: float = Field(default=0.0, ge=0.0, le=1.0)
 
 class RootResponse(BaseModel):
     message: str
@@ -505,14 +509,14 @@ def get_orchestrator() -> "LangGraphOrchestrator":
 
 @app.get("/", response_model=RootResponse)
 async def root():
-    return {"message": "AI-Agent Råd API"}
+    return {"message": "AI Decision Council API"}
 
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint to verify API is running"""
     return {
         "status": "healthy",
-        "message": "AI Agent Council API is running",
+        "message": "AI Decision Council API is running",
         "timestamp": datetime.datetime.now().isoformat(),
         "version": "2.0.0"
     }
@@ -697,13 +701,10 @@ async def simple_debate(request: DecisionRequest, agents: List[BaseAgent] = Depe
     """Simple debate endpoint for basic agent consultation (fallback for frontend)"""
     return await get_decision(request, agents)
 
-# Persistent storage for user accounts and history
-import json
-from pathlib import Path
-
-HISTORY_FILE = Path("user_history.json")
-USERS_FILE = Path("user_accounts.json")
-SESSIONS_FILE = Path("user_sessions.json")
+# Persistent storage for user accounts and history (always under backend/)
+HISTORY_FILE = _BACKEND_DIR / "user_history.json"
+USERS_FILE = _BACKEND_DIR / "user_accounts.json"
+SESSIONS_FILE = _BACKEND_DIR / "user_sessions.json"
 
 def load_history_store():
     """Load history from persistent storage"""
@@ -909,17 +910,35 @@ async def get_decision_with_discussion(data: DecisionRequest, agents: List[BaseA
         consensus_responses.append({"agent_name": agent.agent_name, "consensus_contribution": consensus})
 
     final_recommendation = "Final recommendation based on discussion."
+
+    # Derive a simple 0–1 confidence from agent texts using the consensus helper
+    try:
+        from backend.agents.consensus_manager import ProfessionalConsensusManager
+        consensus_helper = ProfessionalConsensusManager()
+        confidences = [
+            consensus_helper.calculate_response_confidence(item["text_response"])
+            for item in agent_responses
+            if item.get("text_response")
+        ]
+        confidence_score = float(sum(confidences) / len(confidences)) if confidences else 0.0
+        confidence_score = max(0.0, min(1.0, confidence_score))
+    except Exception as e:
+        logger.warning(f"Could not compute confidence_score: {e}")
+        confidence_score = 0.0
     
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = f"discussion_{timestamp}.txt"
-    filepath = os.path.join("discussions", filename)
-    with open(filepath, "w") as f:
+    discussions_dir = os.path.join(os.path.dirname(__file__), "discussions")
+    os.makedirs(discussions_dir, exist_ok=True)
+    filepath = os.path.join(discussions_dir, filename)
+    with open(filepath, "w", encoding="utf-8") as f:
         f.write(json.dumps({
             "question": data.user_text,
             "initial_responses": agent_responses,
             "discussions": discussion_responses,
             "consensus": consensus_responses,
-            "final_recommendation": final_recommendation
+            "final_recommendation": final_recommendation,
+            "confidence_score": confidence_score,
         }, indent=2))
 
     response = FullDiscussionResponse(
@@ -929,7 +948,8 @@ async def get_decision_with_discussion(data: DecisionRequest, agents: List[BaseA
         discussions=discussion_responses,
         consensus_contributions=consensus_responses,
         final_recommendation=final_recommendation,
-        discussion_file=filepath
+        discussion_file=filepath,
+        confidence_score=confidence_score,
     )
     discussion_store[request_id] = response
     return response
@@ -990,7 +1010,7 @@ async def professional_decision_analysis(
     background_tasks: BackgroundTasks
 ):
     """
-    Generate Fortune 500 enterprise-grade strategic decision analysis
+    Generate a structured multi-perspective strategic decision analysis
     
     This endpoint provides C-suite level decision support with:
     - Advanced strategic frameworks (Porter's Five Forces, SWOT, McKinsey 7S, BCG Matrix)
@@ -1634,7 +1654,7 @@ async def export_professional_report(request_id: str, format: str = "html"):
                 
                 # Footer
                 story.append(Spacer(1, 30))
-                story.append(Paragraph("This report was generated by the AI Agent Council Decision Support System", 
+                story.append(Paragraph("This report was generated by the AI Decision Council Decision Support System", 
                                      styles['Italic']))
                 
                 # Build PDF
@@ -1980,7 +2000,7 @@ def generate_beautiful_html_report(report_data, report_type: str, request_id: st
     <div class="report-container">
         <div class="report-header">
             <h1>🏢 {title}</h1>
-            <div class="subtitle">AI Agent Council Decision Analysis</div>
+            <div class="subtitle">AI Decision Council Decision Analysis</div>
             <div class="report-meta">
                 <div class="meta-item">📊 Report ID: {request_id}</div>
                 <div class="meta-item">📅 Generated: {generated_at}</div>
@@ -2040,7 +2060,7 @@ def generate_beautiful_html_report(report_data, report_type: str, request_id: st
         </div>
         
         <div class="footer">
-            <p><strong>AI Agent Council</strong> • Professional Decision Support System</p>
+            <p><strong>AI Decision Council</strong> • Decision Support System</p>
             <p>Generated on {generated_at} • Report ID: {request_id}</p>
             <p style="margin-top: 10px; font-size: 0.9rem;">This report was generated by an AI system and should be reviewed by qualified professionals before implementation.</p>
         </div>
@@ -2276,9 +2296,6 @@ async def get_available_models():
         logger.error(f"Error getting available models: {e}")
         raise HTTPException(status_code=500, detail="Failed to retrieve available models")
 
-# --- Security & Routers ---
-from starlette.middleware.base import BaseHTTPMiddleware
-
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         response = await call_next(request)
@@ -2292,9 +2309,6 @@ app.add_middleware(SecurityHeadersMiddleware)
 @app.get("/api/download-report/{filename}")
 async def download_report(filename: str):
     """Download a generated report file"""
-    import os
-    from fastapi.responses import FileResponse
-    
     # Security check - only allow specific file patterns
     if not filename.startswith('report_') or not (filename.endswith('.html') or filename.endswith('.pdf') or filename.endswith('.json')):
         raise HTTPException(status_code=400, detail="Invalid filename")
@@ -2352,5 +2366,5 @@ async def serve_frontend(full_path: str):
 
 if __name__ == "__main__":
     import uvicorn
-    print("Starting AI Agent Council API server...")
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True) 
+    logger.info("Starting AI Decision Council API server on 0.0.0.0:8001")
+    uvicorn.run(app, host="0.0.0.0", port=8001) 
