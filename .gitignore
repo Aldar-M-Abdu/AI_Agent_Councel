@@ -103,13 +103,11 @@ celerybeat.pid
 
 # Environments
 .env
-.env.local
-.env.development
-.env.test
-.env.production
-.venv
-env/
+.env.*
+!.env.example
+.venv/
 venv/
+env/
 ENV/
 env.bak/
 venv.bak/
@@ -124,8 +122,9 @@ venv.bak/
 # mkdocs documentation
 /site
 
-# mypy
+# mypy / ruff
 .mypy_cache/
+.ruff_cache/
 .dmypy.json
 dmypy.json
 
@@ -239,9 +238,6 @@ Thumbs.db
 logs/
 *.log
 
-# Docker
-.dockerignore
-
 # Security
 *.pem
 *.key
@@ -256,6 +252,13 @@ secrets/
 *.db
 *.sqlite
 *.sqlite3
+
+# Runtime auth / session / history data (never commit real user data)
+backend/user_accounts.json
+backend/user_sessions.json
+backend/user_history.json
+backend/discussions/
+backend/reports/
 
 # AI/ML models and data
 models/*.pkl
