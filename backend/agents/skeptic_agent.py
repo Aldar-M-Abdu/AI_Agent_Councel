@@ -2,60 +2,60 @@ from .base_agent import BaseAgent
 
 class SkepticAgent(BaseAgent):
     """
-    Chefsriskansvarig och Kritisk Analysexpert som specialiserar sig på hotbedömning, 
-    sårbarhetsanalys och defensiv strategi. Fokuserar på att skydda värde och förhindra förluster.
+    Chief Risk Officer and Critical Analysis expert specializing in threat assessment,
+    vulnerability analysis, and defensive strategy. Focuses on protecting value and preventing losses.
     """
     def __init__(self):
         super().__init__(
             agent_name="Skeptic Agent", 
-            system_prompt="""Du är en Chefsriskansvarig (CRO) och Kritisk Analysexpert med 20+ års erfarenhet av att skydda Fortune 500-företag från strategiska hot.
+            system_prompt="""You are a Chief Risk Officer (CRO) and Critical Analysis expert with 20+ years of experience protecting large enterprises from strategic threats.
 
 IMPORTANT: Always respond in English. Use professional English terminology in risk and security areas.
 
-Din expertis inkluderar:
+Your expertise includes:
 
-KÄRNKOMPETENSER:
-• Företagsriskhantering (ERM) & Efterlevnad
-• Cybersäkerhet & Informationssäkerhetsstrategi
-• Finansiell Riskanalys & Stresstestning
-• Operationell Riskbedömning & Affärskontinuitet
-• Strategisk Hotintelligens & Konkurrensanalys
-• Krishantering & Beredskapsplanering
-• Regelefterlevnad & Juridisk Riskbegränsning
-• Due Diligence & Utredningsmetoder
+CORE COMPETENCIES:
+• Enterprise Risk Management (ERM) & Compliance
+• Cybersecurity & Information Security Strategy
+• Financial Risk Analysis & Stress Testing
+• Operational Risk Assessment & Business Continuity
+• Strategic Threat Intelligence & Competitive Analysis
+• Crisis Management & Contingency Planning
+• Regulatory Compliance & Legal Risk Mitigation
+• Due Diligence & Investigative Methods
 
-KRITISK ANALYSMETODIK:
-1. HOTIDENTIFIERING: Systematiskt identifiera interna och externa risker med etablerade ramverk
-2. SÅRBARHETSBEDÖMNING: Analysera svagheter i system, processer och strategiska positioner
-3. PÅVERKANSANALYS: Kvantifiera potentiella förluster och konsekvenser med probabilistiska modeller
-4. DEFENSIV STRATEGI: Utveckla flerskiktad skydd och begränsningsstrategier
-5. BEREDSKAPSPLANERING: Skapa responseprotokoll för olika felscenarier
+CRITICAL ANALYSIS METHODOLOGY:
+1. THREAT IDENTIFICATION: Systematically identify internal and external risks with established frameworks
+2. VULNERABILITY ASSESSMENT: Analyze weaknesses in systems, processes, and strategic positions
+3. IMPACT ANALYSIS: Quantify potential losses and consequences with probabilistic models
+4. DEFENSIVE STRATEGY: Develop multi-layered protection and mitigation strategies
+5. CONTINGENCY PLANNING: Create response protocols for various failure scenarios
 
-RISKFILOSOFI:
-• Evidensbaserad Skepticism: Utmana antaganden med data och historiska prejudikat
-• Djupgående Försvar: Flera lager av skydd mot potentiella hot
-• Värsta-fall Beredskap: Planera för lågsannolikhet, högpåverkan scenarier
-• Kontinuerlig Vaksamhet: Pågående övervakning och hotlandskapsbedomning
-• Försiktig Konservativism: Skydda befintligt värde innan riskfyllda möjligheter eftersträvas
+RISK PHILOSOPHY:
+• Evidence-Based Skepticism: Challenge assumptions with data and historical precedents
+• Defense in Depth: Multiple layers of protection against potential threats
+• Worst-Case Preparedness: Plan for low-probability, high-impact scenarios
+• Continuous Vigilance: Ongoing monitoring and threat landscape assessment
+• Cautious Conservatism: Protect existing value before pursuing risky opportunities
 
-KOMMUNIKATIONSSTIL:
-• Direkt och analytiskt rigoröst med stödjande bevis
-• Referera historiska misslyckanden, fallstudier och lärdomar
-• Tillhandahåll specifika riskmått och sannolikhetsbedömningar
-• Inkludera konkreta begränsningsstrategier och kontrollåtgärder
-• Ställ sonderande frågor för att avslöja dolda sårbarheter
-• Betona skyddsåtgärder och nedsidoskydd
+COMMUNICATION STYLE:
+• Direct and analytically rigorous with supporting evidence
+• Reference historical failures, case studies, and lessons learned
+• Provide specific risk metrics and probability assessments
+• Include concrete mitigation strategies and control measures
+• Ask probing questions to reveal hidden vulnerabilities
+• Emphasize protective measures and downside protection
 
-RISKBEDÖMNINGSRAMVERK:
-För varje analys, leverera:
-- Omfattande Riskregister med sannolikhet × påverkanspoäng
-- Hotlandskapsanalys (konkurrenter, marknad, reglerande)
-- Sårbarhetsbedömning med exploaterbarhetsbedömningar
-- Defensiv Strategi med skiktade skyddsåtgärder
-- Beredskapsplaner för olika felscenarier
-- Övervakningssystem för varningsindikatorer
+RISK ASSESSMENT FRAMEWORK:
+For each analysis, deliver:
+- Comprehensive Risk Register with probability × impact scores
+- Threat landscape analysis (competitors, market, regulatory)
+- Vulnerability assessment with exploitability ratings
+- Defensive Strategy with layered protective measures
+- Contingency plans for various failure scenarios
+- Monitoring systems for early warning indicators
 
-Upprätthåll alltid analytisk stringhet samtidigt som handlingsbara skyddsstrategier tillhandahålls grundade i beprövade riskhanteringsmetoder."""
+Always maintain analytical rigor while providing actionable protective strategies grounded in proven risk management methods."""
         )
 
     def get_agent_perspective(self) -> str:
@@ -64,171 +64,171 @@ Upprätthåll alltid analytisk stringhet samtidigt som handlingsbara skyddsstrat
 
     def generate_response(self, user_text: str) -> str:
         """
-        Generera en kritisk analys och riskbedömningssvar.
+        Generate a critical analysis and risk assessment response.
         Args:
-            user_text (str): Användarens inmatningsfråga eller påstående.
+            user_text (str): The user's input question or statement.
         Returns:
-            str: Agentens riskanalyssvar.
+            str: The agent's risk analysis response.
         """
-        guidance = """Som en Chefsriskansvarig och Kritisk Analysexpert kommer jag att tillhandahålla en omfattande riskbedömning med detta ramverk:
+        guidance = """As a Chief Risk Officer and Critical Analysis expert, I will provide a comprehensive risk assessment with this framework:
 
-HOTLANDSKAPSANALYS:
-• Marknadsrisker & Konkurrenshot
-• Operationella Sårbarheter & Systemfel
-• Finansiella Exponeringar & Likviditetsrisker
-• Regulatoriska Förändringar & Efterlevnadsgap
-• Ryktesrisker & Stakeholder-bekymmer
+THREAT LANDSCAPE ANALYSIS:
+• Market risks & Competitive threats
+• Operational Vulnerabilities & System failures
+• Financial Exposures & Liquidity risks
+• Regulatory Changes & Compliance gaps
+• Reputational risks & Stakeholder concerns
 
-KRITISK RISKBEDÖMNING:
-• Högpåverkan Scenarier: Lågsannolikhetshändelser med allvarliga konsekvenser
-• Medelsannolikhetsrisker: Troliga utmaningar som kräver omedelbar uppmärksamhet
-• Systemiska Sårbarheter: Sammankopplade risker som kan kaskada
-• Kontrollfel: Punkter där befintliga skydd kan bryta ner
-• Externa Chocker: Marknadsstörningar och miljöfaktorer
+CRITICAL RISK ASSESSMENT:
+• High-Impact Scenarios: Low-probability events with severe consequences
+• Medium-Probability Risks: Likely challenges requiring immediate attention
+• Systemic Vulnerabilities: Interconnected risks that can cascade
+• Control Failures: Points where existing protections may break down
+• External Shocks: Market disruptions and environmental factors
 
-DEFENSIVT STRATEGIRAMVERK:
-• Riskbegränsning: Minska sannolikhet för negativa händelser
-• Påverkansbegränsning: Minimera konsekvenser när risker materialiseras
-• Beredskapsplanering: Responseprotokoll för olika scenarier
-• Övervakningssystem: Varningsindikatorer och instrumentpaneler
-• Återställningsprocedurer: Affärskontinuitet och återställningsplaner
+DEFENSIVE STRATEGY FRAMEWORK:
+• Risk Mitigation: Reduce probability of adverse events
+• Impact Limitation: Minimize consequences when risks materialize
+• Contingency Planning: Response protocols for various scenarios
+• Monitoring Systems: Early warning indicators and dashboards
+• Recovery Procedures: Business continuity and restoration plans
 
-KRITISKA ANALYSFRÅGOR:
-Jag kommer att avsluta med utmanande frågor designade för att strestesta antaganden och avslöja potentiella blinda fläckar.
+CRITICAL ANALYSIS QUESTIONS:
+I will conclude with challenging questions designed to stress-test assumptions and reveal potential blind spots.
 
-Min bedömning kommer att grundas i historiska prejudikat, statistisk analys och beprövade riskhanteringsramverk samtidigt som analytisk objektivitet bibehålls."""
+My assessment will be grounded in historical precedents, statistical analysis, and proven risk management frameworks while maintaining analytical objectivity."""
         
         return self._get_llm_response(user_text, guidance)
     
     def _generate_discussion_fallback(self, user_text: str, other_opinions: list) -> str:
         """
-        Professionell kritisk analys och risksyntes.
+        Professional critical analysis and risk synthesis.
         """
-        return """**KRITISK RISKBEDÖMNING & HOTANALYS**
+        return """**CRITICAL RISK ASSESSMENT & THREAT ANALYSIS**
 
-Medan jag uppskattar den strategiska visionen och optimistiska prognoserna, avslöjar min riskanalys flera kritiska sårbarheter som kräver omedelbar uppmärksamhet:
+While I appreciate the strategic vision and optimistic projections, my risk analysis reveals several critical vulnerabilities that require immediate attention:
 
-**STRATEGISK RISKEVALUERING**: Tillväxtmöjligheterna som identifierats är övertygande, men risk-belöningsberäkningarna kan vara överdrivet optimistiska. Historiska data visar att 70% av strategiska initiativ misslyckas med att möta prognoser på grund av genomföranderisker och marknadsvolatilitet.
+**STRATEGIC RISK EVALUATION**: The growth opportunities identified are compelling, but the risk-reward calculations may be overly optimistic. Historical data shows that 70% of strategic initiatives fail to meet projections due to execution risks and market volatility.
 
-**SÅRBARHETSIDENTIFIERING**:
-- **Överförtroendebias**: Optimistiska scenarier underskattar ofta implementeringskomplexitet
-- **Marknadstimingsrisk**: Ekonomiska cykler och konkurrensresponser kan spåra ur även välplanerade strategier
-- **Resursbelastning**: Aggressiv tillväxt kan överutsträcka förmågor och äventyra kärnverksamhet
-- **Regulatorisk Exponering**: Snabb expansion utlöser ofta efterlevnadsproblem och regulatorisk granskning
+**VULNERABILITY IDENTIFICATION**:
+- **Overconfidence Bias**: Optimistic scenarios often underestimate implementation complexity
+- **Market Timing Risk**: Economic cycles and competitive responses can derail even well-planned strategies
+- **Resource Strain**: Aggressive growth can overextend capabilities and jeopardize core operations
+- **Regulatory Exposure**: Rapid expansion often triggers compliance issues and regulatory scrutiny
 
-**DEFENSIVA STRATEGIKRAV**:
-- **Stresstestning**: Alla prognoser bör testas mot negativa scenarier
-- **Nedsidoskydd**: Etablera tydliga stop-loss-kriterier och exitstrategier
-- **Resursreserver**: Upprätthåll tillräckliga kapitalbuffertar för oväntade utmaningar
-- **Inkrementell Validering**: Fasad implementering med go/no-go beslutspunkter
+**DEFENSIVE STRATEGY REQUIREMENTS**:
+- **Stress Testing**: All projections should be tested against adverse scenarios
+- **Downside Protection**: Establish clear stop-loss criteria and exit strategies
+- **Resource Reserves**: Maintain adequate capital buffers for unexpected challenges
+- **Incremental Validation**: Phased implementation with go/no-go decision points
 
-**KRITISKA RISKFRÅGOR**:
-1. Vilka specifika bevis stöder de optimistiska marknadsprognoserna utöver anekdotiska framgångsberättelser?
-2. Hur kommer vi att upptäcka varningssignaler att antaganden bryts ner?
-3. Vad händer om vi har fel om marknadstiming eller konkurrensrespons?
+**CRITICAL RISK QUESTIONS**:
+1. What specific evidence supports the optimistic market projections beyond anecdotal success stories?
+2. How will we detect warning signs that assumptions are breaking down?
+3. What happens if we are wrong about market timing or competitive response?
 
-**RISKJUSTERAD REKOMMENDATION**: Fortsätt med extrem försiktighet, robust övervakning och omfattande beredskapsplanering. Skydd av befintligt värde måste ha prioritet över spekulativa möjligheter."""
+**RISK-ADJUSTED RECOMMENDATION**: Proceed with extreme caution, robust monitoring, and comprehensive contingency planning. Protection of existing value must take priority over speculative opportunities."""
     
     def _generate_consensus_fallback(self, user_text: str, discussion_history: list) -> str:
         """
-        Professionell konsensusbyggnad med riskhanteringsramverk.
+        Professional consensus building with a risk management framework.
         """
-        return """**RISKJUSTERAT KONSENSUSRAMVERK**
+        return """**RISK-ADJUSTED CONSENSUS FRAMEWORK**
 
-**DEFENSIV INTEGRATIONSSTRATEGI**: Medan tillväxtmöjligheter erkänns, måste vi prioritera riskbegränsning och nedsidoskydd.
+**DEFENSIVE INTEGRATION STRATEGY**: While growth opportunities are acknowledged, we must prioritize risk mitigation and downside protection.
 
-**KRITISKA KONSENSUSELEMENT**:
-• **Fas 1 - Riskbedömning**: Omfattande due diligence och sårbarhetsanalys
-• **Fas 2 - Kontrollerad Testning**: Begränsad exponering pilot med strikta riskkontroller
-• **Fas 3 - Villkorad Skalning**: Expansion endast efter validering av riskantaganden
+**CRITICAL CONSENSUS ELEMENTS**:
+• **Phase 1 - Risk Assessment**: Comprehensive due diligence and vulnerability analysis
+• **Phase 2 - Controlled Testing**: Limited-exposure pilot with strict risk controls
+• **Phase 3 - Conditional Scaling**: Expansion only after validation of risk assumptions
 
-**OBLIGATORISKA RISKKONTROLLER**:
-- **Investeringsgränser**: Begränsa resursexponering till acceptabla förlustsnivåer
-- **Prestandautlösare**: Automatiska granskningspunkter baserade på ledande indikatorer
-- **Exitprotokoll**: Fördefinierade kriterier för att stoppa eller pivotera strategier
-- **Övervakningssystem**: Realtidsinstrumentpaneler för varningsdetektering
+**MANDATORY RISK CONTROLS**:
+- **Investment Limits**: Cap resource exposure at acceptable loss levels
+- **Performance Triggers**: Automatic review points based on leading indicators
+- **Exit Protocols**: Predefined criteria for stopping or pivoting strategies
+- **Monitoring Systems**: Real-time dashboards for early warning detection
 
-**SKYDDSMEKANISMER**: Implementera flera försvarslager inklusive finansiella kontroller, operationella säkerhetsåtgärder och strategiska hedges mot negativa utfall.
+**PROTECTIVE MECHANISMS**: Implement multiple defense layers including financial controls, operational safeguards, and strategic hedges against adverse outcomes.
 
-**ICKE-FÖRHANDLINGSBARA KRAV**: 
-- Omfattande försäkringsskydd för identifierade risker
-- Juridisk granskning av alla kontraktuella åtaganden
-- Oberoende validering av nyckelantaganden
-- Styrelsenivåövervakning av större strategiska beslut
+**NON-NEGOTIABLE REQUIREMENTS**:
+- Comprehensive insurance coverage for identified risks
+- Legal review of all contractual commitments
+- Independent validation of key assumptions
+- Board-level oversight of major strategic decisions
 
-**SKEPTISK VALIDERING**: Varje optimistiskt antagande måste utmanas med historiska data, konkurrensanalys och värsta-fall scenarioplanering.
+**SKEPTICAL VALIDATION**: Every optimistic assumption must be challenged with historical data, competitive analysis, and worst-case scenario planning.
 
-**SLUTLIG RISKBEDÖMNING**: Framsteg är möjligt, men endast med robust riskhanteringsdisciplin och konservativ resursallokering. Skydda vad vi har innan vi jagar vad vi kanske kan vinna."""
+**FINAL RISK ASSESSMENT**: Progress is possible, but only with robust risk management discipline and conservative resource allocation. Protect what we have before chasing what we might win."""
     
     def _generate_financial_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Kritisk finansiell riskanalys och skyddsstrategier.
+        Critical financial risk analysis and protective strategies.
         """
-        return """**OMFATTANDE FINANSIELL RISKBEDÖMNING & SKYDDSSTRATEGI**
+        return """**COMPREHENSIVE FINANCIAL RISK ASSESSMENT & PROTECTION STRATEGY**
 
-**KRITISKA FINANSIELLA HOT**: Finansiella marknader är i grunden oförutsägbara och historisk prestanda ger ingen garanti för framtida resultat.
+**CRITICAL FINANCIAL THREATS**: Financial markets are fundamentally unpredictable and historical performance provides no guarantee of future results.
 
-**HÖGRISK FINANSIELLA SÅRBARHETER**:
-- **Marknadsvolatilitet**: Ekonomiska cykler kan förstöra decennier av vinster på månader
-- **Inflationserosion**: Valutadevalvering minskar verklig köpkraft över tid
-- **Likviditetskriser**: Oförmåga att komma åt kapital när det behövs mest
-- **Beteendemässiga Biaser**: Emotionella beslut leder ofta till permanent kapitalförlust
-- **Koncentrationsrisk**: Överexponering mot enskilda tillgångar, sektorer eller strategier
+**HIGH-RISK FINANCIAL VULNERABILITIES**:
+- **Market Volatility**: Economic cycles can destroy decades of gains in months
+- **Inflation Erosion**: Currency devaluation reduces real purchasing power over time
+- **Liquidity Crises**: Inability to access capital when it is needed most
+- **Behavioral Biases**: Emotional decisions often lead to permanent capital loss
+- **Concentration Risk**: Overexposure to single assets, sectors, or strategies
 
-**DEFENSIV FINANSIELL STRATEGI**:
-1. **Kapitalbevarande**: Prioritera skydd av befintligt välstånd över aggressiv tillväxt
-2. **Diversifieringsexcellens**: Sprida risk över okorrelerade tillgångsklasser och geografier
-3. **Likviditetshantering**: Upprätthåll betydande nödreserver (12+ månaders utgifter)
-4. **Stresstestning**: Modellera portföljprestanda under olika krisscenarier
-5. **Professionell Övervakning**: Oberoende finansiella rådgivare med förvaltaransvar
+**DEFENSIVE FINANCIAL STRATEGY**:
+1. **Capital Preservation**: Prioritize protection of existing wealth over aggressive growth
+2. **Diversification Excellence**: Spread risk across uncorrelated asset classes and geographies
+3. **Liquidity Management**: Maintain significant emergency reserves (12+ months of expenses)
+4. **Stress Testing**: Model portfolio performance under various crisis scenarios
+5. **Professional Oversight**: Independent financial advisors with fiduciary responsibility
 
-**FINANSIELLA SKYDDSÅTGÄRDER**:
-- **Försäkringsskydd**: Omfattande skydd mot invaliditet, ansvar och egendomsförlust
-- **Juridiska Strukturer**: Tillgångsskyddsstrategier och dödsboplanering
-- **Skatteeffektivitet**: Minimera skattedrag på investeringsavkastning
-- **Skuldhantering**: Konservativa skuldsättningsgrader och fast ränta finansiering
+**FINANCIAL PROTECTIVE MEASURES**:
+- **Insurance Coverage**: Comprehensive protection against disability, liability, and property loss
+- **Legal Structures**: Asset protection strategies and estate planning
+- **Tax Efficiency**: Minimize tax drag on investment returns
+- **Debt Management**: Conservative leverage ratios and fixed-rate financing
 
-**KRITISKA FINANSIELLA FRÅGOR**:
-- Vilken procentandel av din portfölj har du råd att förlora utan att påverka din livsstil?
-- Hur kommer du att upprätthålla disciplin under marknadseufori eller panik?
-- Vilka specifika händelser kunde tvinga dig att likvidera investeringar till ogynnsamma priser?
+**CRITICAL FINANCIAL QUESTIONS**:
+- What percentage of your portfolio can you afford to lose without affecting your lifestyle?
+- How will you maintain discipline during market euphoria or panic?
+- What specific events could force you to liquidate investments at unfavorable prices?
 
-**RISKREALITETSKONTROLL**: De flesta investeringsstrategier misslyckas på grund av dålig timing, överdrivna avgifter eller emotionellt beslutsfattande. Fokusera på vad du kan kontrollera: kostnader, skatter och riskhantering."""
+**RISK REALITY CHECK**: Most investment strategies fail due to poor timing, excessive fees, or emotional decision-making. Focus on what you can control: costs, taxes, and risk management."""
     
     def _generate_career_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Kritisk karriärriskanalys och defensiva strategier.
+        Critical career risk analysis and defensive strategies.
         """
-        return """**STRATEGISK KARRIÄRRISKBEDÖMNING & DEFENSIV POSITIONERING**
+        return """**STRATEGIC CAREER RISK ASSESSMENT & DEFENSIVE POSITIONING**
 
-**KARRIÄRHOTLANDSKAP**: Professionella marknader är allt mer volatila med accelererande teknologisk disruption och ekonomisk osäkerhet.
+**CAREER THREAT LANDSCAPE**: Professional markets are increasingly volatile with accelerating technological disruption and economic uncertainty.
 
-**KRITISKA KARRIÄRSÅRBARHETER**:
+**CRITICAL CAREER VULNERABILITIES**:
 - **Skill Obsolescence**: Automation and AI threaten traditional job categories
 - **Industry Disruption**: Entire sectors can become obsolete within decades
 - **Ageism Reality**: Career advancement becomes significantly harder after 45-50
 - **Economic Volatility**: Recessions disproportionately impact newer employees
 - **Geographic Concentration**: Over-dependence on single markets or employers
 
-**DEFENSIVA KARRIÄRSTRATEGI**:
+**DEFENSIVE CAREER STRATEGY**:
 1. **Skill Diversification**: Develop capabilities across multiple domains and industries
 2. **Network Insurance**: Maintain relationships across various companies and sectors
 3. **Financial Independence**: Build assets that reduce dependence on employment income
 4. **Reputation Protection**: Avoid risky career moves that could damage professional standing
 5. **Continuous Validation**: Regularly test market value through interviews and consulting
 
-**KARRIÄRSKYDDSMEASURES**:
+**CAREER PROTECTION MEASURES**:
 - **Emergency Fund**: 12+ months of living expenses for career transitions
-- **Portable Benefits**: 401k, health insurance, and professional certifications
+- **Portable Benefits**: Retirement accounts, health insurance, and professional certifications
 - **Legal Protection**: Understanding of employment law and contract terms
 - **Performance Documentation**: Detailed records of achievements and contributions
 
-**KRITISKA KARRIÄRFRÅGOR**:
+**CRITICAL CAREER QUESTIONS**:
 - What happens to your financial security if your industry experiences major disruption?
 - How quickly could you find equivalent employment if your position was eliminated?
 - What specific skills do you have that cannot be easily automated or outsourced?
 
-**KARRIÄRREALITETSKONTROLL**: Most career changes result in temporary income reduction and require 2-3 years to recover previous compensation levels. Plan conservatively and maintain strong defensive positioning."""
+**CAREER REALITY CHECK**: Most career changes result in temporary income reduction and require 2-3 years to recover previous compensation levels. Plan conservatively and maintain strong defensive positioning."""
     
     def _generate_relationship_fallback(self, user_text: str, guidance: str) -> str:
         """
@@ -240,7 +240,7 @@ Medan jag uppskattar den strategiska visionen och optimistiska prognoserna, avsl
 
 **CRITICAL RELATIONSHIP VULNERABILITIES**:
 - **Communication Breakdown**: Most relationships fail due to unresolved conflicts and poor communication
-- **Financial Stress**: Money disagreements are primary cause of relationship dissolution
+- **Financial Stress**: Money disagreements are a primary cause of relationship dissolution
 - **Life Stage Misalignment**: Different goals and timelines create irreconcilable differences
 - **External Pressures**: Family, career, and social influences can destabilize relationships
 - **Unrealistic Expectations**: Romantic idealization often leads to disappointment and conflict
@@ -256,7 +256,7 @@ Medan jag uppskattar den strategiska visionen och optimistiska prognoserna, avsl
 - **Prenuptial Agreements**: Legal protection of assets and financial interests
 - **Regular Relationship Audits**: Honest assessment of compatibility and satisfaction
 - **Professional Counseling**: Objective guidance for major relationship decisions
-- **Support Network Diversification**: Avoid over-dependence on single relationship for emotional needs
+- **Support Network Diversification**: Avoid over-dependence on a single relationship for emotional needs
 
 **CRITICAL RELATIONSHIP QUESTIONS**:
 - What specific behaviors or changes would make this relationship unacceptable to you?
@@ -275,17 +275,17 @@ Medan jag uppskattar den strategiska visionen och optimistiska prognoserna, avsl
 
 **CRITICAL HEALTH VULNERABILITIES**:
 - **Chronic Disease Risk**: Lifestyle-related illnesses affect 60% of adults and worsen with age
-- **Medical Error Exposure**: Healthcare mistakes are third leading cause of death in developed countries
+- **Medical Error Exposure**: Healthcare mistakes are a leading cause of death in developed countries
 - **Insurance Limitations**: Coverage gaps and cost escalation threaten financial security
 - **Treatment Complexity**: Many interventions have limited efficacy and significant side effects
 - **Genetic Predispositions**: Family history creates unavoidable risk factors for serious conditions
 
 **DEFENSIVE HEALTH STRATEGY**:
-1. **Prevention Excellence**: Focus on proven interventions with strongest evidence base
+1. **Prevention Excellence**: Focus on proven interventions with the strongest evidence base
 2. **Medical Skepticism**: Question all recommendations and seek second opinions for major decisions
 3. **Insurance Optimization**: Comprehensive coverage including disability and long-term care protection
 4. **Provider Quality**: Research physician credentials, hospital ratings, and treatment outcomes
-5. **Self-Advocacy**: Become educated healthcare consumer with detailed medical records
+5. **Self-Advocacy**: Become an educated healthcare consumer with detailed medical records
 
 **HEALTH PROTECTION MEASURES**:
 - **Emergency Preparedness**: Advance directives, medical power of attorney, and emergency contacts

@@ -15,7 +15,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 
-// Bas-URL för backend-API
+// Base URL for the backend API
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
 function TabPanel(props) {
@@ -55,16 +55,16 @@ function App() {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [token, setToken] = useState(() => localStorage.getItem('jwt') || '');
   const [activeTab, setActiveTab] = useState(0);
-  const [decisionMode, setDecisionMode] = useState('professional'); // 'professional' eller 'standard'
+  const [decisionMode, setDecisionMode] = useState('professional'); // 'professional' or 'standard'
   
-  // Professionella beslutsfält
+  // Professional decision fields
   const [urgencyLevel, setUrgencyLevel] = useState('medium');
   const [stakeholderContext, setStakeholderContext] = useState('');
   const [budgetConstraints, setBudgetConstraints] = useState('');
   const [timelineRequirements, setTimelineRequirements] = useState('');
   const [decisionFramework, setDecisionFramework] = useState('auto');
 
-  // Hämta agentinformation vid komponentstart
+  // Fetch agent information on component mount
   useEffect(() => {
     fetchAgents();
   }, []);
@@ -74,7 +74,7 @@ function App() {
       const response = await axios.get(`${API_BASE_URL}/api/agents`);
       setAgents(response.data.agents);
     } catch (err) {
-      console.error("Fel vid hämtning av agenter:", err);
+      console.error("Error fetching agents:", err);
     }
   };
 
@@ -95,7 +95,7 @@ function App() {
   const handleSubmitProfessionalDecision = async (e) => {
     e.preventDefault();
     if (!userText.trim()) {
-      setError('Vänligen ange en beslutsfråga.');
+      setError('Please enter a decision question.');
       return;
     }
     
@@ -120,23 +120,23 @@ function App() {
       setProfessionalResponse(response.data);
       setShowResults(true);
 
-      // Hämta instrumentpaneldata
+      // Fetch dashboard data
       try {
         const dashboardResponse = await axios.get(`${API_BASE_URL}/api/executive-dashboard/${response.data.request_id}`);
         setDashboardData(dashboardResponse.data);
       } catch (dashboardErr) {
-        console.warn("Instrumentpaneldata inte tillgänglig:", dashboardErr);
+        console.warn("Dashboard data not available:", dashboardErr);
       }
 
-      // Spara till användarhistorik om inloggad
+      // Save to user history if logged in
       if (token) {
         await axios.post(`${API_BASE_URL}/api/history/save`, response.data, {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
     } catch (err) {
-      console.error("Fel vid skickning av professionellt beslut:", err);
-      setError(`Misslyckades med att få professionell analys: ${err.response?.data?.detail || err.message || 'Okänt fel'}`);
+      console.error("Error submitting professional decision:", err);
+      setError(`Failed to get professional analysis: ${err.response?.data?.detail || err.message || 'Unknown error'}`);
     }
     setIsLoading(false);
   };
@@ -144,7 +144,7 @@ function App() {
   const handleSubmitStandardDecision = async (e) => {
     e.preventDefault();
     if (!userText.trim()) {
-      setError('Vänligen ange en beslutsfråga.');
+      setError('Please enter a decision question.');
       return;
     }
     
@@ -173,8 +173,8 @@ function App() {
         });
       }
     } catch (err) {
-      console.error("Fel vid skickning av beslut:", err);
-      setError(`Misslyckades med att få beslut: ${err.response?.data?.detail || err.message || 'Okänt fel'}`);
+      console.error("Error submitting decision:", err);
+      setError(`Failed to get decision: ${err.response?.data?.detail || err.message || 'Unknown error'}`);
     }
     setIsLoading(false);
   };
@@ -244,28 +244,28 @@ function App() {
       <div className="results-container">
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={activeTab} onChange={handleTabChange} aria-label="professionella resultatflikar">
-              <Tab icon={<AnalyticsIcon />} label="Verkställande Sammanfattning" />
-              <Tab icon={<TrendingUpIcon />} label="Instrumentpanel" />
-              <Tab icon={<BusinessIcon />} label="Detaljerad Analys" />
+            <Tabs value={activeTab} onChange={handleTabChange} aria-label="professional results tabs">
+              <Tab icon={<AnalyticsIcon />} label="Executive Summary" />
+              <Tab icon={<TrendingUpIcon />} label="Dashboard" />
+              <Tab icon={<BusinessIcon />} label="Detailed Analysis" />
             </Tabs>
           </Box>
           
           <TabPanel value={activeTab} index={0}>
-            {/* Verkställande Sammanfattning */}
+            {/* Executive Summary */}
             <Grid container spacing={3}>
-              {/* Huvudkort för Verkställande Sammanfattning */}
+              {/* Main Executive Summary Card */}
               <Grid item xs={12}>
                 <Card className="executive-summary-card" sx={{ mb: 3 }}>
                   <CardContent sx={{ p: 4 }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
                       <Typography variant="h4" component="div" sx={{ display: 'flex', alignItems: 'center', fontWeight: 600 }}>
                         <BusinessIcon sx={{ mr: 2, fontSize: 32 }} />
-                      Verkställande Sammanfattning
+                      Executive Summary
                     </Typography>
                       <Box>
                       <Chip
-                          label={`${formatConfidence(professionalResponse.confidence_level)} Förtroende`}
+                          label={`${formatConfidence(professionalResponse.confidence_level)} Confidence`}
                         color="primary"
                           sx={{ 
                             mr: 1, 
@@ -275,14 +275,14 @@ function App() {
                           }}
                       />
                       <Chip
-                          label={`${(professionalResponse.decision_quality_score * 100).toFixed(0)}% Kvalitet`}
+                          label={`${(professionalResponse.decision_quality_score * 100).toFixed(0)}% Quality`}
                         color="secondary"
                           sx={{ fontWeight: 600, fontSize: '0.9rem' }}
                       />
                     </Box>
                     </Box>
                     
-                    {/* Strategisk Rekommendation */}
+                    {/* Strategic Recommendation */}
                     <Box sx={{ 
                       backgroundColor: 'rgba(255,255,255,0.1)', 
                       p: 3, 
@@ -296,7 +296,7 @@ function App() {
                         color: 'white',
                         textAlign: 'center'
                       }}>
-                        🎯 Strategisk Rekommendation
+                        🎯 Strategic Recommendation
                       </Typography>
                       <Typography variant="h6" sx={{ 
                         textAlign: 'center',
@@ -304,11 +304,11 @@ function App() {
                         fontSize: '1.3rem',
                         color: 'rgba(255,255,255,0.95)'
                       }}>
-                        {professionalResponse.professional_decision?.recommended_alternative || 'Fortsätt med Analysbaserad Approach'}
+                        {professionalResponse.professional_decision?.recommended_alternative || 'Proceed with Analysis-Based Approach'}
                       </Typography>
                     </Box>
 
-                    {/* Text för Verkställande Sammanfattning */}
+                    {/* Executive Summary Text */}
                     <Typography variant="body1" sx={{ 
                       fontSize: '1.1rem',
                       lineHeight: 1.7,
@@ -321,7 +321,7 @@ function App() {
                 </Card>
               </Grid>
               
-              {/* Rad för Nyckelstatistik */}
+              {/* Key Stats Row */}
               <Grid item xs={12} md={4}>
                 <Card sx={{ 
                   height: '100%', 
@@ -334,10 +334,10 @@ function App() {
                       {(professionalResponse.decision_quality_score * 100).toFixed(0)}%
                     </Typography>
                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      Beslutskvalitet
+                      Decision Quality
                     </Typography>
                     <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255,255,255,0.95)' }}>
-                      Baserat på omfattande analysramverk
+                      Based on comprehensive analysis frameworks
                     </Typography>
                   </CardContent>
                 </Card>
@@ -355,10 +355,10 @@ function App() {
                       {formatConfidence(professionalResponse.confidence_level)}
                     </Typography>
                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      Förtroendenivå
+                      Confidence Level
                     </Typography>
                     <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255,255,255,0.95)' }}>
-                      Professionell konsensusbedömning
+                      Professional consensus assessment
                     </Typography>
                   </CardContent>
                 </Card>
@@ -376,16 +376,16 @@ function App() {
                       {professionalResponse.next_actions?.length || 5}
                     </Typography>
                     <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                      Åtgärdspunkter
+                      Action Items
                     </Typography>
                     <Typography variant="body2" sx={{ mt: 1, color: 'rgba(255,255,255,0.95)' }}>
-                      Strategiska implementeringssteg
+                      Strategic implementation steps
                     </Typography>
                   </CardContent>
                 </Card>
               </Grid>
 
-              {/* Implementeringsplan */}
+              {/* Implementation Plan */}
               <Grid item xs={12} md={6}>
                 <Card sx={{ height: '100%' }}>
                   <CardContent sx={{ p: 3 }}>
@@ -396,7 +396,7 @@ function App() {
                       fontWeight: 600,
                       color: '#1976d2'
                     }}>
-                      📋 Strategisk Handlingsplan
+                      📋 Strategic Action Plan
                     </Typography>
                     {professionalResponse.next_actions?.map((action, index) => (
                       <Box key={index} sx={{ 
@@ -443,12 +443,12 @@ function App() {
                       fontWeight: 600,
                       color: '#d32f2f'
                     }}>
-                      ⚙️ Implementeringsramverk
+                      ⚙️ Implementation Framework
                     </Typography>
                     
                     <Box sx={{ mb: 3 }}>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#1976d2' }}>
-                        📅 Tidsramverk
+                        📅 Timeline
                     </Typography>
                       <Typography variant="body1" sx={{ 
                         p: 2, 
@@ -462,7 +462,7 @@ function App() {
 
                     <Box sx={{ mb: 3 }}>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#d32f2f' }}>
-                        ⚠️ Riskbedömning
+                        ⚠️ Risk Assessment
                       </Typography>
                       <Typography variant="body1" sx={{ 
                         p: 2, 
@@ -512,10 +512,10 @@ function App() {
                         alignItems: 'center'
                       }}>
                         <TrendingUpIcon sx={{ mr: 2, fontSize: 36 }} />
-                        Ledningsdashboard
+                        Executive Dashboard
                       </Typography>
                                           <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.95)' }}>
-                      Strategisk Beslutsanalys Översikt • Genererad {new Date().toLocaleDateString()}
+                      Strategic Decision Analysis Overview • Generated {new Date().toLocaleDateString('en-US')}
                     </Typography>
                     </CardContent>
                   </Card>
@@ -531,7 +531,7 @@ function App() {
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'rgba(255,255,255,0.95)' }}>
-                        Strategisk Riktning
+                        Strategic Direction
                       </Typography>
                       <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
                         ✓
@@ -552,7 +552,7 @@ function App() {
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'rgba(255,255,255,0.95)' }}>
-                        Förtroendenivå
+                        Confidence Level
                       </Typography>
                       <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
                         {Math.round(dashboardData.quality_score * 100)}%
@@ -573,11 +573,11 @@ function App() {
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'rgba(255,255,255,0.95)' }}>
-                        Riskprofil
+                        Risk Profile
                       </Typography>
                       <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
-                        {(dashboardData.risk_level === 'High' || dashboardData.risk_level === 'Hög') ? '⚠️' : 
-                         (dashboardData.risk_level === 'Medium' || dashboardData.risk_level === 'Medel') ? '⚡' : '✅'}
+                        {(dashboardData.risk_level === 'High') ? '⚠️' : 
+                         (dashboardData.risk_level === 'Medium') ? '⚡' : '✅'}
                       </Typography>
                       <Typography variant="body1" sx={{ fontWeight: 600 }}>
                         {dashboardData.risk_level} Risk
@@ -595,13 +595,13 @@ function App() {
                   }}>
                     <CardContent sx={{ p: 3 }}>
                       <Typography variant="h6" sx={{ mb: 2, fontWeight: 600, color: 'rgba(255,255,255,0.95)' }}>
-                        Implementering
+                        Implementation
                       </Typography>
                       <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
                         {dashboardData.key_actions}
                       </Typography>
                       <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                        Nyckeltillgängder
+                        Key Actions
                       </Typography>
                     </CardContent>
                   </Card>
@@ -618,13 +618,13 @@ function App() {
                         display: 'flex',
                         alignItems: 'center'
                       }}>
-                        📊 Kvalitet & Konsensusstatistik
+                        📊 Quality & Consensus Metrics
                       </Typography>
                       
                       <Box sx={{ mb: 4 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                           <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                            Beslutskvalitetsscore
+                            Decision Quality Score
                           </Typography>
                           <Typography variant="h6" sx={{ fontWeight: 700, color: '#1976d2' }}>
                             {Math.round(dashboardData.quality_score * 100)}%
@@ -644,14 +644,14 @@ function App() {
                           }} 
                         />
                         <Typography variant="body2" sx={{ mt: 1, color: '#333', fontWeight: 500 }}>
-                          Baserat på omfattande analysramverk och evidenskvalitet
+                          Based on comprehensive analysis frameworks and evidence quality
                         </Typography>
                       </Box>
 
                       <Box sx={{ mb: 4 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                           <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                            Konsensusstyrka
+                            Consensus Strength
                           </Typography>
                           <Typography variant="h6" sx={{ fontWeight: 700, color: '#388e3c' }}>
                             {Math.round(dashboardData.consensus_strength * 100)}%
@@ -671,7 +671,7 @@ function App() {
                           }} 
                         />
                         <Typography variant="body2" sx={{ mt: 1, color: '#333', fontWeight: 500 }}>
-                          Överensstämmelse nivå över professionell analys dimensioner
+                          Agreement level across professional analysis dimensions
                         </Typography>
                       </Box>
 
@@ -687,7 +687,7 @@ function App() {
                             {dashboardData.key_actions}
                           </Typography>
                           <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                            Åtgärdspunkter
+                            Action Items
                           </Typography>
                         </Box>
                         <Box sx={{ textAlign: 'center' }}>
@@ -695,7 +695,7 @@ function App() {
                             {dashboardData.high_risks}
                           </Typography>
                           <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                            Höga risker
+                            High Risks
                           </Typography>
                         </Box>
                         <Box sx={{ textAlign: 'center' }}>
@@ -703,7 +703,7 @@ function App() {
                             {dashboardData.timeline?.split(' ')[0] || '3-6'}
                           </Typography>
                           <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                            Tidsram (Månader)
+                            Timeline (Months)
                           </Typography>
                         </Box>
                       </Box>
@@ -722,12 +722,12 @@ function App() {
                         display: 'flex',
                         alignItems: 'center'
                       }}>
-                        🎯 Strategisk Översikt
+                        🎯 Strategic Overview
                       </Typography>
                       
                       <Box sx={{ mb: 3 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#1976d2' }}>
-                          📅 Implementeringsramverk
+                          📅 Implementation Framework
                       </Typography>
                         <Typography variant="body1" sx={{ 
                           p: 2, 
@@ -741,24 +741,24 @@ function App() {
 
                       <Box sx={{ mb: 3 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#d32f2f' }}>
-                          ⚠️ Riskbedömning
+                          ⚠️ Risk Assessment
                         </Typography>
                         <Typography variant="body1" sx={{ 
                           p: 2, 
-                          backgroundColor: (dashboardData.risk_level === 'High' || dashboardData.risk_level === 'Hög') ? '#ffebee' : 
-                                         (dashboardData.risk_level === 'Medium' || dashboardData.risk_level === 'Medel') ? '#fff3e0' : '#e8f5e8',
+                          backgroundColor: (dashboardData.risk_level === 'High') ? '#ffebee' : 
+                                         (dashboardData.risk_level === 'Medium') ? '#fff3e0' : '#e8f5e8',
                           borderRadius: 1,
                           fontWeight: 500,
-                          color: (dashboardData.risk_level === 'High' || dashboardData.risk_level === 'Hög') ? '#d32f2f' : 
-                                 (dashboardData.risk_level === 'Medium' || dashboardData.risk_level === 'Medel') ? '#f57c00' : '#388e3c'
+                          color: (dashboardData.risk_level === 'High') ? '#d32f2f' : 
+                                 (dashboardData.risk_level === 'Medium') ? '#f57c00' : '#388e3c'
                         }}>
-                          {dashboardData.risk_level} Riskprofil
+                          {dashboardData.risk_level} Risk Profile
                         </Typography>
                       </Box>
 
                       <Box>
                         <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#388e3c' }}>
-                          📈 Framgångssannolikhet
+                          📈 Success Probability
                         </Typography>
                         <Typography variant="body1" sx={{ 
                           p: 2, 
@@ -770,7 +770,7 @@ function App() {
                           {Math.round(dashboardData.quality_score * dashboardData.consensus_strength * 100)}%
                         </Typography>
                         <Typography variant="body2" sx={{ mt: 1, color: '#333', textAlign: 'center', fontWeight: 500 }}>
-                          Baserat på kvalitetsscore × konsensusstyrka
+                          Based on quality score × consensus strength
                         </Typography>
                       </Box>
                     </CardContent>
@@ -805,10 +805,10 @@ function App() {
                       alignItems: 'center'
                     }}>
                       <AnalyticsIcon sx={{ mr: 2, fontSize: 36 }} />
-                      Detaljerad Professionell Analys
+                      Detailed Professional Analysis
                     </Typography>
                     <Typography variant="subtitle1" sx={{ color: 'rgba(255,255,255,0.95)' }}>
-                      Omfattande strategisk analys med stödande evidens och metodik
+                      Comprehensive strategic analysis with supporting evidence and methodology
                     </Typography>
                   </CardContent>
                 </Card>
@@ -825,14 +825,14 @@ function App() {
                       display: 'flex',
                       alignItems: 'center'
                     }}>
-                      🎯 Strategisk Beslutframkörningsram
+                      🎯 Strategic Decision Framework
                     </Typography>
                     
                     <Grid container spacing={3}>
                       <Grid item xs={12} md={6}>
                         <Box sx={{ p: 3, backgroundColor: '#f8f9fa', borderRadius: 2, height: '100%' }}>
                           <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#1976d2' }}>
-                            📊 Analysmetodik
+                            📊 Analysis Methodology
                           </Typography>
                           <Typography variant="body1" sx={{ mb: 2 }}>
                             <strong>Framework:</strong> {professionalResponse.professional_decision?.strategic_framework || 'Comprehensive Business Analysis'}
@@ -852,19 +852,19 @@ function App() {
                       <Grid item xs={12} md={6}>
                         <Box sx={{ p: 3, backgroundColor: '#e8f5e8', borderRadius: 2, height: '100%' }}>
                           <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#388e3c' }}>
-                            🔍 Kvalitetsbedömning
+                            🔍 Quality Assessment
                           </Typography>
                           <Typography variant="body1" sx={{ mb: 2 }}>
-                            <strong>Beslutskvalitet:</strong> {Math.round(professionalResponse.decision_quality_score * 100)}%
+                            <strong>Decision Quality:</strong> {Math.round(professionalResponse.decision_quality_score * 100)}%
                           </Typography>
                           <Typography variant="body1" sx={{ mb: 2 }}>
-                            <strong>Förtroendenivå:</strong> {formatConfidence(professionalResponse.confidence_level)}
+                            <strong>Confidence Level:</strong> {formatConfidence(professionalResponse.confidence_level)}
                           </Typography>
                           <Typography variant="body1" sx={{ mb: 2 }}>
-                            <strong>Konsensusmetod:</strong> {professionalResponse.consensus_result?.methodology || 'Professional AI Analysis'}
+                            <strong>Consensus Method:</strong> {professionalResponse.consensus_result?.methodology || 'Professional AI Analysis'}
                           </Typography>
                           <Typography variant="body1">
-                            <strong>Analyskvalitet:</strong> {professionalResponse.consensus_result?.analysis_quality || 'Professional Grade'}
+                            <strong>Analysis Quality:</strong> {professionalResponse.consensus_result?.analysis_quality || 'Professional Grade'}
                           </Typography>
                         </Box>
                       </Grid>
@@ -884,7 +884,7 @@ function App() {
                       display: 'flex',
                       alignItems: 'center'
                     }}>
-                      📋 Fullständig Strategisk Analys
+                      📋 Full Strategic Analysis
                     </Typography>
                     
                     {professionalResponse.professional_decision?.full_analysis ? (
@@ -911,7 +911,7 @@ function App() {
                         border: '1px solid #ffcc02'
                       }}>
                         <Typography variant="body1" sx={{ color: '#f57c00', fontWeight: 500 }}>
-                          Detaljerad analys är i bearbetning. Den översta strategiska sammanfattningen ger de viktigaste strategiska insikterna.
+                          Detailed analysis is being processed. The executive summary above provides the key strategic insights.
                         </Typography>
                       </Box>
                     )}
@@ -930,25 +930,25 @@ function App() {
                       display: 'flex',
                       alignItems: 'center'
                     }}>
-                      📊 Lednings Rapport Sammanfattning
+                      📊 Executive Report Summary
                     </Typography>
                     
                     <Box sx={{ mb: 3 }}>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#1976d2' }}>
-                        Analysprovider
+                        Analysis Provider
                       </Typography>
                       <Typography variant="body1" sx={{ 
                         p: 2, 
                         backgroundColor: '#e3f2fd', 
                         borderRadius: 1
                       }}>
-                        {professionalResponse.executive_report?.analysis_provider || 'Professionellt AI-Analyssystem'}
+                        {professionalResponse.executive_report?.analysis_provider || 'Professional AI Analysis System'}
                       </Typography>
                     </Box>
 
                     <Box sx={{ mb: 3 }}>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#388e3c' }}>
-                        Nyckelinsikter
+                        Key Insights
                       </Typography>
                       <Typography variant="body1" sx={{ 
                         p: 2, 
@@ -956,13 +956,13 @@ function App() {
                         borderRadius: 1,
                         minHeight: '80px'
                       }}>
-                        {professionalResponse.executive_report?.key_insights || 'Strategiska insikter extraherade från omfattande analysramverk'}
+                        {professionalResponse.executive_report?.key_insights || 'Strategic insights extracted from comprehensive analysis frameworks'}
                       </Typography>
                     </Box>
 
                     <Box>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#d32f2f' }}>
-                        Riskbedömning
+                        Risk Assessment
                       </Typography>
                       <Typography variant="body1" sx={{ 
                         p: 2, 
@@ -987,40 +987,40 @@ function App() {
                       display: 'flex',
                       alignItems: 'center'
                     }}>
-                      🔬 Analysmetodik
+                      🔬 Analysis Methodology
                     </Typography>
                     
                     <Box sx={{ mb: 3 }}>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#1976d2' }}>
-                        Konsensusbyggnad
+                        Consensus Building
                       </Typography>
                       <Typography variant="body1" sx={{ 
                         p: 2, 
                         backgroundColor: '#e3f2fd', 
                         borderRadius: 1
                       }}>
-                        <strong>Metod:</strong> {professionalResponse.consensus_result?.methodology || 'Professionell AI-Analys'}<br/>
-                        <strong>Förtroende:</strong> {professionalResponse.consensus_result?.confidence_level || 'Hög'}<br/>
-                        <strong>Kvalitet:</strong> {professionalResponse.consensus_result?.analysis_quality || 'Professionell Klass'}
+                        <strong>Method:</strong> {professionalResponse.consensus_result?.methodology || 'Professional AI Analysis'}<br/>
+                        <strong>Confidence:</strong> {professionalResponse.consensus_result?.confidence_level || 'High'}<br/>
+                        <strong>Quality:</strong> {professionalResponse.consensus_result?.analysis_quality || 'Professional Grade'}
                       </Typography>
                     </Box>
 
                     <Box sx={{ mb: 3 }}>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#388e3c' }}>
-                        Analysramverk
+                        Analysis Framework
                       </Typography>
                       <Typography variant="body1" sx={{ 
                         p: 2, 
                         backgroundColor: '#e8f5e8', 
                         borderRadius: 1
                       }}>
-                        Multidimensionell strategisk analys som inkluderar marknadsmiljöer, stakeholderpåverkan, riskbedömning och implementerbarhet
+                        Multidimensional strategic analysis including market environment, stakeholder impact, risk assessment, and implementability
                       </Typography>
                     </Box>
 
                     <Box>
                       <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 1, color: '#d32f2f' }}>
-                        Kvalitetsstatistik
+                        Quality Metrics
                       </Typography>
                       <Box sx={{ 
                         p: 2, 
@@ -1028,13 +1028,13 @@ function App() {
                         borderRadius: 1
                       }}>
                         <Typography variant="body2" sx={{ mb: 1 }}>
-                          <strong>Totalkvalitet:</strong> {Math.round(professionalResponse.decision_quality_score * 100)}%
+                          <strong>Overall Quality:</strong> {Math.round(professionalResponse.decision_quality_score * 100)}%
                         </Typography>
                         <Typography variant="body2" sx={{ mb: 1 }}>
-                          <strong>Förtroendenivå:</strong> {formatConfidence(professionalResponse.confidence_level)}
+                          <strong>Confidence Level:</strong> {formatConfidence(professionalResponse.confidence_level)}
                         </Typography>
                         <Typography variant="body2">
-                          <strong>Konsensusstyrka:</strong> Professionell Klass
+                          <strong>Consensus Strength:</strong> Professional Grade
                         </Typography>
                       </Box>
                     </Box>
@@ -1053,11 +1053,11 @@ function App() {
                       display: 'flex',
                       alignItems: 'center'
                     }}>
-                      🔧 Teknisk Analysdata
+                      🔧 Technical Analysis Data
                     </Typography>
                     <Alert severity="info" sx={{ mb: 2 }}>
                       <Typography variant="body2">
-                        Denna sektion innehåller råanalysdata för teknisk granskning och verifieringsändamål.
+                        This section contains raw analysis data for technical review and verification purposes.
                       </Typography>
                     </Alert>
                     
@@ -1070,7 +1070,7 @@ function App() {
                       overflow: 'auto'
                     }}>
                       <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>
-                        <strong>Professionell Beslutsdata:</strong><br/>
+                        <strong>Professional Decision Data:</strong><br/>
                         {JSON.stringify(professionalResponse.professional_decision, null, 2)}
                       </Typography>
                     </Box>
@@ -1085,7 +1085,7 @@ function App() {
                       mt: 2
                     }}>
                       <Typography variant="body2" sx={{ fontFamily: 'monospace', fontSize: '0.85rem' }}>
-                        <strong>Konsensus Analysdata:</strong><br/>
+                        <strong>Consensus Analysis Data:</strong><br/>
                       {JSON.stringify(professionalResponse.consensus_result, null, 2)}
                       </Typography>
                     </Box>
@@ -1109,10 +1109,10 @@ function App() {
             <Card>
               <CardContent>
                 <Typography variant="h5" component="div" sx={{ mb: 2 }}>
-                  Beslutsråd Resultat
+                  Decision Council Results
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 2 }}>
-                                      {decisionResponse.final_recommendation || 'Analys slutförd'}
+                                      {decisionResponse.final_recommendation || 'Analysis completed'}
                 </Typography>
               </CardContent>
             </Card>
@@ -1155,7 +1155,7 @@ function App() {
               <IconButton 
                 onClick={() => setSettingsOpen(true)} 
                 style={{ marginLeft: 8, color: 'white' }}
-                title="Inställningar"
+                title="Settings"
               >
                 <SettingsIcon />
               </IconButton>
@@ -1172,22 +1172,22 @@ function App() {
                   border: '2px solid rgba(255,255,255,0.5)',
                   borderRadius: '8px'
                 }}
-                title="Visa beslutshistorik (klicka här!)"
+                title="View decision history (click here!)"
               >
                 <HistoryIcon />
               </IconButton>
               {token ? (
-                <IconButton onClick={handleLogout} style={{ marginLeft: 8 }} title="Logga ut">
+                <IconButton onClick={handleLogout} style={{ marginLeft: 8 }} title="Log out">
                   <AccountCircleIcon color="primary" />
                 </IconButton>
               ) : (
-                <IconButton onClick={() => setAuthOpen(true)} style={{ marginLeft: 8 }} title="Logga in/Registrera">
+                <IconButton onClick={() => setAuthOpen(true)} style={{ marginLeft: 8 }} title="Log in/Register">
                   <AccountCircleIcon />
                 </IconButton>
               )}
             </h1>
             <p className="subtitle">
-              Beslutsstöd på företagsnivå med strukturerade metoder och professionell rapportering
+              Enterprise-grade decision support with structured methods and professional reporting
             </p>
           </div>
         </header>
@@ -1215,14 +1215,14 @@ function App() {
                   startIcon={<BusinessIcon />}
                   sx={{ mr: 2 }}
                 >
-                  Professionell Analys
+                  Professional Analysis
                 </Button>
                 <Button
                   variant={decisionMode === 'standard' ? 'contained' : 'outlined'}
                   onClick={() => setDecisionMode('standard')}
                   startIcon={<PersonIcon />}
                 >
-                  Standarddiskussion
+                  Standard Discussion
                 </Button>
               </div>
 
@@ -1230,7 +1230,7 @@ function App() {
               <form onSubmit={handleSubmitDecision} className="decision-form">
                 <div className="form-group">
                   <label htmlFor="user-text" className="form-label">
-                    {decisionMode === 'professional' ? 'Strategisk Beslutsfråga' : 'Beslutsfråga'}
+                    {decisionMode === 'professional' ? 'Strategic Decision Question' : 'Decision Question'}
                   </label>
                   <textarea
                     id="user-text"
@@ -1239,8 +1239,8 @@ function App() {
                     value={userText}
                     onChange={(e) => setUserText(e.target.value)}
                     placeholder={decisionMode === 'professional' 
-                      ? "Exempel: Vi överväger en investering på 50 miljoner kronor i AI-transformation under de nästa 18 månaderna. Ska vi fortsätta och hur ska vi strukturera implementeringen?"
-                      : "Vilket beslut behöver du hjälp med? Våra AI-agenter kommer att diskutera och ge rekommendationer."
+                      ? "Example: We are considering a $5M investment in AI transformation over the next 18 months. Should we proceed and how should we structure the implementation?"
+                      : "What decision do you need help with? Our AI agents will discuss and provide recommendations."
                     }
                     disabled={isLoading}
                   />
@@ -1251,69 +1251,69 @@ function App() {
                     <Grid container spacing={2} sx={{ mt: 2 }}>
                       <Grid item xs={12} md={6}>
                         <div className="form-group">
-                          <label className="form-label">Brådskandnivå</label>
+                          <label className="form-label">Urgency Level</label>
                           <select
                             className="form-select"
                             value={urgencyLevel}
                             onChange={(e) => setUrgencyLevel(e.target.value)}
                           >
-                            <option value="low">Låg</option>
-                            <option value="medium">Medel</option>
-                            <option value="high">Hög</option>
-                            <option value="critical">Kritisk</option>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="critical">Critical</option>
                           </select>
                         </div>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <div className="form-group">
-                          <label className="form-label">Beslutsramverk</label>
+                          <label className="form-label">Decision Framework</label>
                           <select
                             className="form-select"
                             value={decisionFramework}
                             onChange={(e) => setDecisionFramework(e.target.value)}
                           >
-                            <option value="auto">Automatisk identifiering</option>
-                            <option value="swot">SWOT-analys</option>
-                            <option value="cost_benefit">Kostnad-nyttoanalys</option>
-                            <option value="risk_reward">Risk-avkastningsanalys</option>
-                            <option value="stakeholder">Intressentanalys</option>
-                            <option value="mece">MECE-ramverk</option>
+                            <option value="auto">Automatic identification</option>
+                            <option value="swot">SWOT analysis</option>
+                            <option value="cost_benefit">Cost-benefit analysis</option>
+                            <option value="risk_reward">Risk-reward analysis</option>
+                            <option value="stakeholder">Stakeholder analysis</option>
+                            <option value="mece">MECE framework</option>
                           </select>
                         </div>
                       </Grid>
                       <Grid item xs={12}>
                         <div className="form-group">
-                          <label className="form-label">Intressentkontext (Valfritt)</label>
+                          <label className="form-label">Stakeholder Context (Optional)</label>
                           <input
                             type="text"
                             className="form-input"
                             value={stakeholderContext}
                             onChange={(e) => setStakeholderContext(e.target.value)}
-                            placeholder="t.ex. Styrelse, C-suite, anställda, kunder"
+                            placeholder="e.g. Board, C-suite, employees, customers"
                           />
                         </div>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <div className="form-group">
-                          <label className="form-label">Budgetbegränsningar (Valfritt)</label>
+                          <label className="form-label">Budget Constraints (Optional)</label>
                           <input
                             type="text"
                             className="form-input"
                             value={budgetConstraints}
                             onChange={(e) => setBudgetConstraints(e.target.value)}
-                            placeholder="t.ex. Maximalt 50 miljoner kronor med kvartalsvisa genomgångar"
+                            placeholder="e.g. Maximum $5M with quarterly reviews"
                           />
                         </div>
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <div className="form-group">
-                          <label className="form-label">Tidskrav (Valfritt)</label>
+                          <label className="form-label">Timeline Requirements (Optional)</label>
                           <input
                             type="text"
                             className="form-input"
                             value={timelineRequirements}
                             onChange={(e) => setTimelineRequirements(e.target.value)}
-                            placeholder="t.ex. Beslut behövs inom 4 veckor"
+                            placeholder="e.g. Decision needed within 4 weeks"
                           />
                         </div>
                       </Grid>
@@ -1335,7 +1335,7 @@ function App() {
                   sx={{ mt: 3, minWidth: 200 }}
                   startIcon={decisionMode === 'professional' ? <BusinessIcon /> : <PersonIcon />}
                 >
-                  {isLoading ? 'Analyserar...' : (decisionMode === 'professional' ? 'Få Professionell Analys' : 'Få Rådsbeslut')}
+                  {isLoading ? 'Analyzing...' : (decisionMode === 'professional' ? 'Get Professional Analysis' : 'Get Council Decision')}
                 </Button>
               </form>
             </>
@@ -1348,7 +1348,7 @@ function App() {
                   variant="outlined"
                   sx={{ mb: 2 }}
                 >
-                  Nytt Beslut
+                  New Decision
                 </Button>
                 {professionalResponse && (
                   <Button
@@ -1357,7 +1357,7 @@ function App() {
                     startIcon={<ShareIcon />}
                     sx={{ mb: 2, ml: 2 }}
                   >
-                    Exportera Rapport
+                    Export Report
                   </Button>
                 )}
               </div>
@@ -1378,4 +1378,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

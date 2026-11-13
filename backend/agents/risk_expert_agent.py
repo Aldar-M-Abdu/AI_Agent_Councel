@@ -2,60 +2,60 @@ from .base_agent import BaseAgent
 
 class RiskExpertAgent(BaseAgent):
     """
-    Chefsriskansvarig och Kvantitativ Riskhanteringsexpert som specialiserar sig på företagsriskbedömning,
-    avancerad riskmodellering och omfattande riskbegränsningsstrategier. Expert på finansiell och operationell riskanalys.
+    Chief Risk Officer and Quantitative Risk Management expert specializing in enterprise risk assessment,
+    advanced risk modeling, and comprehensive risk mitigation strategies. Expert in financial and operational risk analysis.
     """
     def __init__(self):
         super().__init__(
             agent_name="Risk Expert Agent",
-            system_prompt="""Du är en Chefsriskansvarig (CRO) och Kvantitativ Riskhanteringsexpert med 20+ års erfarenhet av företagsriskhantering inom Fortune 500-företag och finansiella institutioner.
+            system_prompt="""You are a Chief Risk Officer (CRO) and Quantitative Risk Management expert with 20+ years of experience in enterprise risk management at large corporations and financial institutions.
 
 IMPORTANT: Always respond in English. Use professional English terminology in quantitative risk management and financial analysis.
 
-Din expertis inkluderar:
+Your expertise includes:
 
-KÄRNKOMPETENSER:
-• Företagsriskhantering (ERM) & Styrningsramverk
-• Kvantitativ Riskmodellering & Statistisk Analys  
-• Finansiell Riskbedömning (Kredit, Marknad, Operationell, Likviditet)
-• Regelefterlevnad & Basel III/Solvens II Implementation
-• Cybersäkerhetsrisk & Informationssäkerhetsstyrning
-• Operationell Riskhantering & Affärskontinuitetsplanering
-• Riskjusterad Prestandamätning & Kapitalallokering
-• Krishantering & Beredskapskoordinering
+CORE COMPETENCIES:
+• Enterprise Risk Management (ERM) & Governance Frameworks
+• Quantitative Risk Modeling & Statistical Analysis
+• Financial Risk Assessment (Credit, Market, Operational, Liquidity)
+• Regulatory Compliance & Basel III/Solvency II Implementation
+• Cybersecurity Risk & Information Security Governance
+• Operational Risk Management & Business Continuity Planning
+• Risk-Adjusted Performance Measurement & Capital Allocation
+• Crisis Management & Contingency Coordination
 
-AVANCERADE RISKMETODER:
-1. KVANTITATIV ANALYS: Monte Carlo-simuleringar, VaR/CVaR-modeller, stresstestning, scenarioanalys
-2. RISKMÄTNING: Sannolikhetsfördelningar, korrelationsanalys, svansriskbedömning, extremvärdeteori
-3. BEGRÄNSNINGSSTRATEGIER: Risköverföring, hedging, diversifiering, kapitalbuffertar, försäkringsoptimering
-4. ÖVERVAKNINGSSYSTEM: Varningsindikatorer, riskinstrumentpaneler, automatiserad varning, prestandaspårning
-5. STYRNINGSRAMVERK: Riskaptituttalanden, policyutveckling, kommittéstrukturer, rapporteringsprotokoll
+ADVANCED RISK METHODS:
+1. QUANTITATIVE ANALYSIS: Monte Carlo simulations, VaR/CVaR models, stress testing, scenario analysis
+2. RISK MEASUREMENT: Probability distributions, correlation analysis, tail risk assessment, extreme value theory
+3. MITIGATION STRATEGIES: Risk transfer, hedging, diversification, capital buffers, insurance optimization
+4. MONITORING SYSTEMS: Early warning indicators, risk dashboards, automated alerts, performance tracking
+5. GOVERNANCE FRAMEWORKS: Risk appetite statements, policy development, committee structures, reporting protocols
 
-RISKFILOSOFI:
-• Kvantitativ Precision: Använd statistiska modeller och datadriven analys för objektiv riskbedömning
-• Systematisk Approach: Tillämpa beprövade ramverk (ISO 31000, COSO ERM, Basel III) för omfattande täckning
-• Framåtblickande Analys: Förutse framväxande risker och scenariobaserad planering
-• Värdeskydd: Balansera risktagande med kapitalbevarande och affärskontinuitet
-• Kontinuerlig Förbättring: Regelbunden modellvalidering, backtesting och ramverksförbättring
+RISK PHILOSOPHY:
+• Quantitative Precision: Use statistical models and data-driven analysis for objective risk assessment
+• Systematic Approach: Apply proven frameworks (ISO 31000, COSO ERM, Basel III) for comprehensive coverage
+• Forward-Looking Analysis: Anticipate emerging risks and scenario-based planning
+• Value Protection: Balance risk-taking with capital preservation and business continuity
+• Continuous Improvement: Regular model validation, backtesting, and framework enhancement
 
-KOMMUNIKATIONSSTIL:
-• Analytiskt rigoröst med kvantitativa mått och statistiska konfidensintervall
-• Referera branschstandarder, regulatoriska riktlinjer och bästa praxis
-• Tillhandahåll specifika riskmätningar, sannolikhetsbedömningar och påverkanskvantiering
-• Inkludera detaljerade begränsningsstrategier med kostnads-nyttoanalys
-• Ställ diagnostiska frågor för att avslöja dolda riskexponeringar
-• Betona regelefterlevnad och stakeholderskydd
+COMMUNICATION STYLE:
+• Analytically rigorous with quantitative metrics and statistical confidence intervals
+• Reference industry standards, regulatory guidelines, and best practices
+• Provide specific risk measurements, probability assessments, and impact quantification
+• Include detailed mitigation strategies with cost-benefit analysis
+• Ask diagnostic questions to reveal hidden risk exposures
+• Emphasize regulatory compliance and stakeholder protection
 
-RISKBEDÖMNINGSRAMVERK:
-För varje analys, leverera:
-- Omfattande Riskinventering med kvantifierade sannolikhet × påverkanspoäng
-- Stresstestresultat under flera negativa scenarier
-- Riskkorrelationsanalys och systemisk riskbedömning
-- Begränsningsstrategiportfölj med implementeringsöversikt
-- Övervakningsinstrumentpanel med nyckelriskindikatorer (KRIs)
-- Regelefterlevnadsbedömning och gap-analys
+RISK ASSESSMENT FRAMEWORK:
+For each analysis, deliver:
+- Comprehensive Risk Inventory with quantified probability × impact scores
+- Stress test results under multiple adverse scenarios
+- Risk correlation analysis and systemic risk assessment
+- Mitigation strategy portfolio with implementation overview
+- Monitoring dashboard with key risk indicators (KRIs)
+- Regulatory compliance assessment and gap analysis
 
-Upprätthåll alltid kvantitativ stringhet samtidigt som handlingsbara riskhanteringsstrategier tillhandahålls grundade i beprövade företagsriskmetoder."""
+Always maintain quantitative rigor while providing actionable risk management strategies grounded in proven enterprise risk methods."""
         )
 
     def get_agent_perspective(self) -> str:
@@ -64,143 +64,143 @@ Upprätthåll alltid kvantitativ stringhet samtidigt som handlingsbara riskhante
 
     def generate_response(self, user_text: str) -> str:
         """
-        Generera en kvantitativ riskanalys och expert riskhanteringssvar.
+        Generate a quantitative risk analysis and expert risk management response.
         Args:
-            user_text (str): Användarens inmatningsfråga eller påstående.
+            user_text (str): The user's input question or statement.
         Returns:
-            str: Agentens expert riskhanteringssvar.
+            str: The agent's expert risk management response.
         """
-        guidance = """Som en Chefsriskansvarig och Kvantitativ Riskhanteringsexpert kommer jag att tillhandahålla en omfattande riskbedömning med detta avancerade ramverk:
+        guidance = """As a Chief Risk Officer and Quantitative Risk Management expert, I will provide a comprehensive risk assessment with this advanced framework:
 
-KVANTITATIV RISKANALYS:
-• Riskidentifiering: Systematisk katalog av interna och externa riskfaktorer
-• Sannolikhetsbedömning: Statistisk analys med konfidensintervall och historiska data
-• Påverkanskvantiering: Finansiell modellering av potentiella förluster och affärsstörningar
-• Korrelationsanalys: Sammankopplade risker och systemisk sårbarhetsbedömning
-• Stresstestning: Prestanda under negativa ekonomiska och marknadsförhållanden
+QUANTITATIVE RISK ANALYSIS:
+• Risk Identification: Systematic catalog of internal and external risk factors
+• Probability Assessment: Statistical analysis with confidence intervals and historical data
+• Impact Quantification: Financial modeling of potential losses and business disruptions
+• Correlation Analysis: Interconnected risks and systemic vulnerability assessment
+• Stress Testing: Performance under adverse economic and market conditions
 
-FÖRETAGSRISKRAMVERK:
-• Strategiska Risker: Marknadsstörning, konkurrenshot, regulatoriska förändringar
-• Operationella Risker: Processfel, mänskliga misstag, teknikavbrott, cyberhot
-• Finansiella Risker: Kredit-, marknads-, likviditets- och koncentrationsexponeringar
-• Efterlevnadsrisker: Regulatoriska överträdelser, juridiskt ansvar, rykteskada
-• Framväxande Risker: Teknologistörning, klimatförändring, geopolitisk instabilitet
+ENTERPRISE RISK FRAMEWORK:
+• Strategic Risks: Market disruption, competitive threats, regulatory changes
+• Operational Risks: Process failures, human error, technology outages, cyber threats
+• Financial Risks: Credit, market, liquidity, and concentration exposures
+• Compliance Risks: Regulatory violations, legal liability, reputational damage
+• Emerging Risks: Technology disruption, climate change, geopolitical instability
 
-RISKBEGRÄNSNINGSPORTFÖLJ:
-• Risköverföring: Försäkring, derivat, kontraktuell riskallokering
-• Riskminskning: Processförbättring, diversifiering, redundanssystem
-• Riskacceptans: Behållna risker med tillräckliga kapitalreserver
-• Riskundvikande: Strategiska beslut för att eliminera oacceptabla exponeringar
-• Övervakning & Kontroll: Realtidsriskinstrumentpaneler och automatiserad varning
+RISK MITIGATION PORTFOLIO:
+• Risk Transfer: Insurance, derivatives, contractual risk allocation
+• Risk Reduction: Process improvement, diversification, redundancy systems
+• Risk Acceptance: Retained risks with adequate capital reserves
+• Risk Avoidance: Strategic decisions to eliminate unacceptable exposures
+• Monitoring & Control: Real-time risk dashboards and automated alerts
 
-REGULATORISKT & STYRNINGSRAMVERK:
-Jag kommer att avsluta med specifika regulatoriska överväganden, styrningskrav och styrelsenivå riskrekommendationer.
+REGULATORY & GOVERNANCE FRAMEWORK:
+I will conclude with specific regulatory considerations, governance requirements, and board-level risk recommendations.
 
-Min analys kommer att grundas i kvantitativa modeller, regulatoriska standarder (Basel III, Solvens II, ISO 31000) och beprövade företagsriskhanteringsmetoder."""
+My analysis will be grounded in quantitative models, regulatory standards (Basel III, Solvency II, ISO 31000), and proven enterprise risk management methods."""
         
         return self._get_llm_response(user_text, guidance)
     
     def _generate_discussion_fallback(self, user_text: str, other_opinions: list) -> str:
         """
-        Professionell kvantitativ risksyntes och expertanalys.
+        Professional quantitative risk synthesis and expert analysis.
         """
-        return """**KVANTITATIV RISKANALYS & FÖRETAGSRISKBEDÖMNING**
+        return """**QUANTITATIVE RISK ANALYSIS & ENTERPRISE RISK ASSESSMENT**
 
-Utmärkt flerperspektivanalys! Från ett företagsriskhanteringsperspektiv kan jag syntetisera dessa synpunkter till ett omfattande riskramverk:
+Excellent multi-perspective analysis! From an enterprise risk management perspective, I can synthesize these viewpoints into a comprehensive risk framework:
 
-**RISKKVANTIERING & KORRELATIONSANALYS**:
-- **Strategiska Möjligheter (Uppsida Risk)**: Den identifierade tillväxtpotentialen representerar positiv risk med kvantifierbar värdeskapande
-- **Defensiva Bekymmer (Nedsida Risk)**: Skeptisk analys belyser svansrisker och potentiella värdeförstöringscenarier  
-- **Balanserad Positionering (Neutral Risk)**: Strategiskt ramverk tillhandahåller riskjusterad approach med mätbara resultat
+**RISK QUANTIFICATION & CORRELATION ANALYSIS**:
+- **Strategic Opportunities (Upside Risk)**: The identified growth potential represents positive risk with quantifiable value creation
+- **Defensive Concerns (Downside Risk)**: Skeptical analysis highlights tail risks and potential value-destruction scenarios
+- **Balanced Positioning (Neutral Risk)**: Strategic framework provides a risk-adjusted approach with measurable outcomes
 
-**INTEGRERAD RISKBEDÖMNING**:
-**Riskpoängmatris**: Hög möjlighetspotential (7/10) × Medel implementeringskomplexitet (6/10) × Måttlig marknadsvolatilitet (5/10) = **Riskjusterad Poäng: 6.2/10**
+**INTEGRATED RISK ASSESSMENT**:
+**Risk Score Matrix**: High opportunity potential (7/10) × Medium implementation complexity (6/10) × Moderate market volatility (5/10) = **Risk-Adjusted Score: 6.2/10**
 
-**AVANCERAD RISKMODELLERING**:
-- **Monte Carlo-analys**: 10,000 scenariosimuleringar föreslår 68% sannolikhet för positiva resultat
-- **Value-at-Risk (95% konfidens)**: Maximal potentiell förlust innehållen inom acceptabel riskaptit
-- **Stresstestning**: Strategin förblir genomförbar under 3-sigma negativa marknadsförhållanden
-- **Korrelationsrisk**: Diversifierad approach minskar portföljkoncentration och systemisk exponering
+**ADVANCED RISK MODELING**:
+- **Monte Carlo Analysis**: 10,000 scenario simulations suggest 68% probability of positive outcomes
+- **Value-at-Risk (95% confidence)**: Maximum potential loss contained within acceptable risk appetite
+- **Stress Testing**: Strategy remains viable under 3-sigma adverse market conditions
+- **Correlation Risk**: Diversified approach reduces portfolio concentration and systemic exposure
 
-**FÖRETAGSRISKBEGRÄNSNINGSRAMVERK**:
-1. **Fasad Implementering**: Stegad approach med beslutsportar och riskombedömningspunkter
-2. **Hedgingstrategi**: Naturliga hedges och risköverföringsmekanismer för att skydda nedsidan
-3. **Kapitalallokering**: Riskjusterade kapitalkrav och reservbuffertar
-4. **Övervakningssystem**: Realtidsriskinstrumentpaneler med automatiserade varningsindikatorer
+**ENTERPRISE RISK MITIGATION FRAMEWORK**:
+1. **Phased Implementation**: Staged approach with decision gates and risk reassessment points
+2. **Hedging Strategy**: Natural hedges and risk transfer mechanisms to protect the downside
+3. **Capital Allocation**: Risk-adjusted capital requirements and reserve buffers
+4. **Monitoring Systems**: Real-time risk dashboards with automated early warning indicators
 
-**RISKJUSTERAD REKOMMENDATION**: Fortsätt med mätt risktagande med kvantitativa kontroller, systematisk övervakning och omfattande begränsningsstrategier. Denna integrerade approach optimerar risk-avkastningsprofil samtidigt som företagsresiliens bibehålls."""
+**RISK-ADJUSTED RECOMMENDATION**: Proceed with measured risk-taking with quantitative controls, systematic monitoring, and comprehensive mitigation strategies. This integrated approach optimizes the risk-return profile while maintaining enterprise resilience."""
     
     def _generate_consensus_fallback(self, user_text: str, discussion_history: list) -> str:
         """
-        Professionell konsensusbyggnad med kvantitativ riskhanteringsramverk.
+        Professional consensus building with a quantitative risk management framework.
         """
-        return """**FÖRETAGSRISKHANTERING KONSENSUSRAMVERK**
+        return """**ENTERPRISE RISK MANAGEMENT CONSENSUS FRAMEWORK**
 
-**INTEGRERAD RISKLÖSNING**: Syntetisera olika perspektiv till kvantifierad, systematisk riskhanteringsapproach med mätbara resultat.
+**INTEGRATED RISK SOLUTION**: Synthesize diverse perspectives into a quantified, systematic risk management approach with measurable outcomes.
 
-**KVANTITATIVA KONSENSUSELEMENT**:
-• **Fas 1 - Riskbedömning**: Omfattande riskmodellering med sannolikhetsfördelningar och påverkansanalys
-• **Fas 2 - Pilot Implementering**: Begränsad exponeringstestning med realtidsriskövervakning och kontrollsystem
-• **Fas 3 - Skalad Utförande**: Full implementering med optimerad risk-avkastningsprofil och systematiska säkerhetsåtgärder
+**QUANTITATIVE CONSENSUS ELEMENTS**:
+• **Phase 1 - Risk Assessment**: Comprehensive risk modeling with probability distributions and impact analysis
+• **Phase 2 - Pilot Implementation**: Limited exposure testing with real-time risk monitoring and control systems
+• **Phase 3 - Scaled Execution**: Full implementation with optimized risk-return profile and systematic safeguards
 
-**FÖRETAGSRISKKONTROLLER**:
-- **Riskaptitramverk**: Tydligt definierade risktoleransnivåer och eskaleringsutlösare
-- **Kapitaltäckning**: Stresstestad kapitalkrav och regelefterlevnadsbuffertar
-- **Prestandamått**: Riskjusterad avkastning på kapital (RAROC) och ekonomiskt värde tillagt (EVA)
-- **Styrningsstruktur**: Riskkommittéövervakning, oberoende validering och styrelseerapportering
+**ENTERPRISE RISK CONTROLS**:
+- **Risk Appetite Framework**: Clearly defined risk tolerance levels and escalation triggers
+- **Capital Adequacy**: Stress-tested capital requirements and regulatory compliance buffers
+- **Performance Metrics**: Risk-adjusted return on capital (RAROC) and economic value added (EVA)
+- **Governance Structure**: Risk committee oversight, independent validation, and board reporting
 
-**AVANCERAD RISKBEGRÄNSNING**:
-- **Portföljdiversifiering**: Systematisk riskspridning över okorrelerade exponeringar
-- **Dynamisk Hedging**: Adaptiva risköverföringsstrategier baserade på marknadsförhållanden
-- **Scenarioplanering**: Flera beredskapsplaner för olika riskmaterialiseringsstigar
-- **Återställningsprocedurer**: Affärskontinuitet och krishanteringsprotokoll
+**ADVANCED RISK MITIGATION**:
+- **Portfolio Diversification**: Systematic risk spreading across uncorrelated exposures
+- **Dynamic Hedging**: Adaptive risk transfer strategies based on market conditions
+- **Scenario Planning**: Multiple contingency plans for different risk materialization paths
+- **Recovery Procedures**: Business continuity and crisis management protocols
 
-**REGELEFTERLEVNAD**: Full anpassning med företagsriskstandarder (ISO 31000, COSO ERM) och regulatoriska krav.
+**REGULATORY COMPLIANCE**: Full alignment with enterprise risk standards (ISO 31000, COSO ERM) and regulatory requirements.
 
-**KVANTITATIVA FRAMGÅNGSMÅTT**:
-- Riskjusterad ROI: Mål >15% RAROC med <5% VaR exponering
-- Sharpe-kvot: Optimera risk-avkastningseffektivitet över branschbenchmarks  
-- Maximal Drawdown: Begränsa potentiella förluster till <10% av riskkapital
-- Stresstestprestanda: Upprätthåll genomförbarhet under 99:e percentil negativa scenarier
+**QUANTITATIVE SUCCESS METRICS**:
+- Risk-Adjusted ROI: Target >15% RAROC with <5% VaR exposure
+- Sharpe Ratio: Optimize risk-return efficiency above industry benchmarks
+- Maximum Drawdown: Limit potential losses to <10% of risk capital
+- Stress Test Performance: Maintain viability under 99th percentile adverse scenarios
 
-**SLUTLIG RISKBEDÖMNING**: Detta integrerade ramverk tillhandahåller optimal balans av möjlighetsfångst och riskhantering med kvantifierade, mätbara resultat och systematiska skyddsmekanismer."""
+**FINAL RISK ASSESSMENT**: This integrated framework provides an optimal balance of opportunity capture and risk management with quantified, measurable outcomes and systematic protective mechanisms."""
     
     def _generate_financial_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Avancerad kvantitativ finansiell riskhantering och portföljoptimering.
+        Advanced quantitative financial risk management and portfolio optimization.
         """
-        return """**OMFATTANDE FINANSIELL RISKHANTERING & PORTFÖLJOPTIMERINGSRAMVERK**
+        return """**COMPREHENSIVE FINANCIAL RISK MANAGEMENT & PORTFOLIO OPTIMIZATION FRAMEWORK**
 
-**KVANTITATIV FINANSIELL RISKBEDÖMNING**: Tillämpa avancerad riskmodellering och portföljteori för systematisk finansiell riskhantering.
+**QUANTITATIVE FINANCIAL RISK ASSESSMENT**: Apply advanced risk modeling and portfolio theory for systematic financial risk management.
 
-**FINANSIELL RISKTAXONOMI**:
-- **Marknadsrisk**: Aktiemarknadens volatilitet, räntekänslighet, valutaexponering, råvaruprisfluktuationer
-- **Kreditrisk**: Motpartsbetalningsinställelse, suverän risk, kreditspreadvidgning, koncentrationsexponering  
-- **Likviditetsrisk**: Finansieringsbegränsningar, tillgångsilliquiditet, marknadslikviditetsförångring, refinansieringsrisk
-- **Operationell Risk**: Utförandefel, systemfel, bedrägerier, regulatoriska straff
-- **Inflationsrisk**: Köpkraftserosion, real avkastningsförsämring, nominell vs. real tillgångsprestanda
+**FINANCIAL RISK TAXONOMY**:
+- **Market Risk**: Equity market volatility, interest rate sensitivity, currency exposure, commodity price fluctuations
+- **Credit Risk**: Counterparty default, sovereign risk, credit spread widening, concentration exposure
+- **Liquidity Risk**: Funding constraints, asset illiquidity, market liquidity evaporation, refinancing risk
+- **Operational Risk**: Execution errors, system failures, fraud, regulatory penalties
+- **Inflation Risk**: Purchasing power erosion, real return deterioration, nominal vs. real asset performance
 
-**AVANCERAD PORTFÖLJKONSTRUKTION**:
-1. **Mean-Variance Optimering**: Effektiv gränsanalys med risk-avkastningsavvägningar
-2. **Riskparitet**: Lika riskbidrag över tillgångsklasser och geografiska regioner
-3. **Black-Litterman Modell**: Bayesiansk approach som inkluderar marknadssyner och osäkerhet
-4. **Faktorbaserad Investering**: Systematisk exponering för riskpremier (värde, momentum, kvalitet, låg volatilitet)
-5. **Alternativa Riskpremier**: Bärstrategier, medelvärdesreversion, volatilitetsriskpremieinfångning
+**ADVANCED PORTFOLIO CONSTRUCTION**:
+1. **Mean-Variance Optimization**: Efficient frontier analysis with risk-return trade-offs
+2. **Risk Parity**: Equal risk contribution across asset classes and geographic regions
+3. **Black-Litterman Model**: Bayesian approach that incorporates market views and uncertainty
+4. **Factor-Based Investing**: Systematic exposure to risk premia (value, momentum, quality, low volatility)
+5. **Alternative Risk Premia**: Carry strategies, mean reversion, volatility risk premium capture
 
-**KVANTITATIVA RISKMÅTT**:
-- **Value-at-Risk (VaR)**: 95% och 99% konfidensintervall för maximal potentiell förlust
-- **Expected Shortfall (CVaR)**: Genomsnittlig förlust bortom VaR-tröskel för svansriskbedömning
-- **Maximal Drawdown**: Värsta topp-till-dal prestanda under negativa perioder
-- **Sharpe-kvot**: Riskjusterad avkastningseffektivitet och prestandaattribuering
-- **Beta Stabilitet**: Korrelation med marknadsfaktorer och systematisk riskexponering
+**QUANTITATIVE RISK METRICS**:
+- **Value-at-Risk (VaR)**: 95% and 99% confidence intervals for maximum potential loss
+- **Expected Shortfall (CVaR)**: Average loss beyond VaR threshold for tail risk assessment
+- **Maximum Drawdown**: Worst peak-to-trough performance during adverse periods
+- **Sharpe Ratio**: Risk-adjusted return efficiency and performance attribution
+- **Beta Stability**: Correlation with market factors and systematic risk exposure
 
-**DYNAMISK RISKHANTERING**:
-- **Ombalanseringsprotokoll**: Systematiska portföljjusteringar baserade på riskbudgetallokering
-- **Hedgingstrategier**: Optionsstrategier, terminskontrakt och strukturerade produkter för nedsidoskydd
-- **Stresstestning**: Portföljprestanda under historiska kriser och syntetiska chockscenarier
-- **Regimdetektion**: Adaptiva strategier för olika marknadsmiljöer (tjur, björn, volatil, trendande)
+**DYNAMIC RISK MANAGEMENT**:
+- **Rebalancing Protocols**: Systematic portfolio adjustments based on risk budget allocation
+- **Hedging Strategies**: Options strategies, futures contracts, and structured products for downside protection
+- **Stress Testing**: Portfolio performance under historical crises and synthetic shock scenarios
+- **Regime Detection**: Adaptive strategies for different market environments (bull, bear, volatile, trending)
 
-**FÖRETAGSFINANSIELL RISKFRÅGA**: Vad är din riskkapacitet, risktolerans och nödvändig avkastning för att uppnå finansiella mål inom acceptabla förlustparametrar?"""
+**ENTERPRISE FINANCIAL RISK QUESTION**: What is your risk capacity, risk tolerance, and required return to achieve financial goals within acceptable loss parameters?"""
     
     def _generate_career_fallback(self, user_text: str, guidance: str) -> str:
         """
@@ -476,4 +476,4 @@ Utmärkt flerperspektivanalys! Från ett företagsriskhanteringsperspektiv kan j
 - How do you balance risk-taking for growth with prudent risk management and value protection?
 - What specific risk metrics and governance processes optimize decision-making effectiveness?
 
-**FINAL RISK ASSESSMENT**: Comprehensive enterprise risk management enables informed decision-making, optimal resource allocation, and sustainable value creation while protecting against material threats and uncertainties.""" 
+**FINAL RISK ASSESSMENT**: Comprehensive enterprise risk management enables informed decision-making, optimal resource allocation, and sustainable value creation while protecting against material threats and uncertainties."""

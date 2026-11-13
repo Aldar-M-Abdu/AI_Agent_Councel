@@ -27,10 +27,10 @@ import RestoreIcon from '@mui/icons-material/Restore';
 import config from '../config';
 
 const agentOptions = [
-  { name: 'Neutral Agent', label: 'Neutral (Strategisk Affärsanalytiker)' },
-  { name: 'Positive Agent', label: 'Positiv (Chefsinnovationsdirektör)' },
-  { name: 'Skeptic Agent', label: 'Skeptiker (Chefsriskansvarig)' },
-  { name: 'Risk Expert Agent', label: 'Riskexpert (Kvantitativ Riskhanterare)' },
+  { name: 'Neutral Agent', label: 'Neutral (Strategic Business Analyst)' },
+  { name: 'Positive Agent', label: 'Positive (Chief Innovation Officer)' },
+  { name: 'Skeptic Agent', label: 'Skeptic (Chief Risk Officer)' },
+  { name: 'Risk Expert Agent', label: 'Risk Expert (Quantitative Risk Manager)' },
 ];
 
 export default function SettingsPanel({ 
@@ -48,7 +48,7 @@ export default function SettingsPanel({
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  // Ladda inställningar när panelen öppnas
+  // Load settings when the panel opens
   useEffect(() => {
     if (open) {
       loadSettings();
@@ -62,13 +62,13 @@ export default function SettingsPanel({
     try {
       const response = await fetch(`${config.apiUrl}/api/settings`);
       if (!response.ok) {
-        throw new Error(`Misslyckades med att ladda inställningar: ${response.statusText}`);
+        throw new Error(`Failed to load settings: ${response.statusText}`);
       }
       const data = await response.json();
       setSettings(data);
     } catch (err) {
-      setError(`Fel vid laddning av inställningar: ${err.message}`);
-      console.error('Inställningsladdningsfel:', err);
+      setError(`Error loading settings: ${err.message}`);
+      console.error('Settings load error:', err);
     } finally {
       setLoading(false);
     }
@@ -78,12 +78,12 @@ export default function SettingsPanel({
     try {
       const response = await fetch(`${config.apiUrl}/api/settings/models`);
       if (!response.ok) {
-        throw new Error(`Misslyckades med att ladda modeller: ${response.statusText}`);
+        throw new Error(`Failed to load models: ${response.statusText}`);
       }
       const data = await response.json();
       setAvailableModels(data);
     } catch (err) {
-      console.error('Modelladdningsfel:', err);
+      console.error('Model load error:', err);
     }
   };
 
@@ -104,18 +104,18 @@ export default function SettingsPanel({
       });
       
       if (!response.ok) {
-        throw new Error(`Misslyckades med att spara inställningar: ${response.statusText}`);
+        throw new Error(`Failed to save settings: ${response.statusText}`);
       }
       
       const data = await response.json();
       setSettings(data.updated_settings);
       setSuccess(data.message);
       
-      // Rensa framgångsmeddelande efter 3 sekunder
+      // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      setError(`Fel vid sparning av inställningar: ${err.message}`);
-      console.error('Inställningssparningsfel:', err);
+      setError(`Error saving settings: ${err.message}`);
+      console.error('Settings save error:', err);
     } finally {
       setSaving(false);
     }
@@ -132,18 +132,18 @@ export default function SettingsPanel({
       });
       
       if (!response.ok) {
-        throw new Error(`Misslyckades med att återställa inställningar: ${response.statusText}`);
+        throw new Error(`Failed to reset settings: ${response.statusText}`);
       }
       
       const data = await response.json();
       setSettings(data.updated_settings);
       setSuccess(data.message);
       
-      // Rensa framgångsmeddelande efter 3 sekunder
+      // Clear success message after 3 seconds
       setTimeout(() => setSuccess(null), 3000);
     } catch (err) {
-      setError(`Fel vid återställning av inställningar: ${err.message}`);
-      console.error('Inställningsåterställningsfel:', err);
+      setError(`Error resetting settings: ${err.message}`);
+      console.error('Settings reset error:', err);
     } finally {
       setSaving(false);
     }
@@ -170,7 +170,7 @@ export default function SettingsPanel({
     <Drawer anchor="right" open={open} onClose={onClose}>
       <Box sx={{ width: 400, p: 3 }}>
         <Typography variant="h5" gutterBottom>
-          Systeminställningar
+          System Settings
         </Typography>
 
         {error && (
@@ -187,10 +187,10 @@ export default function SettingsPanel({
 
         {settings && (
           <>
-            {/* Agentval */}
+            {/* Agent selection */}
             <Accordion defaultExpanded>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h6">Agentval</Typography>
+                <Typography variant="h6">Agent Selection</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <FormGroup>
@@ -209,7 +209,7 @@ export default function SettingsPanel({
                 </FormGroup>
                 
                 <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
-                  Diskussionsdjup: {discussionDepth}
+                  Discussion Depth: {discussionDepth}
                 </Typography>
                 <Slider
                   value={discussionDepth}
@@ -223,18 +223,18 @@ export default function SettingsPanel({
               </AccordionDetails>
             </Accordion>
 
-            {/* Modellkonfiguration */}
+            {/* Model configuration */}
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h6">Modellkonfiguration</Typography>
+                <Typography variant="h6">Model Configuration</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <FormControl fullWidth sx={{ mb: 2 }}>
-                  <InputLabel>Modelltyp</InputLabel>
+                  <InputLabel>Model Type</InputLabel>
                   <Select
                     value={settings.model_type}
                     onChange={(e) => handleSettingChange('model_type', e.target.value)}
-                    label="Modelltyp"
+                    label="Model Type"
                   >
                     {availableModels?.model_types?.map((model) => (
                       <MenuItem key={model.value} value={model.value}>
@@ -246,11 +246,11 @@ export default function SettingsPanel({
 
                 {settings.model_type === 'direct_hf' && (
                   <FormControl fullWidth sx={{ mb: 2 }}>
-                    <InputLabel>OpenRouter-modell</InputLabel>
+                    <InputLabel>OpenRouter Model</InputLabel>
                     <Select
                       value={settings.openrouter_model}
                       onChange={(e) => handleSettingChange('openrouter_model', e.target.value)}
-                      label="OpenRouter-modell"
+                      label="OpenRouter Model"
                     >
                       {availableModels?.openrouter_models?.map((model) => (
                         <MenuItem key={model.value} value={model.value}>
@@ -324,7 +324,7 @@ export default function SettingsPanel({
                       onChange={(e) => handleSettingChange('enable_professional_mode', e.target.checked)}
                     />
                   }
-                  label="Professionellt läge"
+                  label="Professional Mode"
                 />
 
                 <FormControlLabel
@@ -334,7 +334,7 @@ export default function SettingsPanel({
                       onChange={(e) => handleSettingChange('enable_discussion_mode', e.target.checked)}
                     />
                   }
-                  label="Diskussionsläge"
+                  label="Discussion Mode"
                 />
 
                 <FormControlLabel
@@ -344,11 +344,11 @@ export default function SettingsPanel({
                       onChange={(e) => handleSettingChange('enable_reasoning_mode', e.target.checked)}
                     />
                   }
-                  label="Resonemangsläge"
+                  label="Reasoning Mode"
                 />
 
                 <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
-                  Kvalitetströskel: {settings.quality_threshold}
+                  Quality Threshold: {settings.quality_threshold}
                 </Typography>
                 <Slider
                   value={settings.quality_threshold}
@@ -361,7 +361,7 @@ export default function SettingsPanel({
                 />
 
                 <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
-                  Konsensuströskel: {settings.consensus_threshold}
+                  Consensus Threshold: {settings.consensus_threshold}
                 </Typography>
                 <Slider
                   value={settings.consensus_threshold}
@@ -374,7 +374,7 @@ export default function SettingsPanel({
                 />
 
                 <Typography variant="subtitle2" sx={{ mt: 2, mb: 1 }}>
-                  Max diskussionsrundor: {settings.max_discussion_rounds}
+                  Max Discussion Rounds: {settings.max_discussion_rounds}
                 </Typography>
                 <Slider
                   value={settings.max_discussion_rounds}
@@ -390,7 +390,7 @@ export default function SettingsPanel({
 
             <Divider sx={{ my: 3 }} />
 
-            {/* Åtgärdsknappar */}
+            {/* Action buttons */}
             <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
               <Button
                 variant="contained"
@@ -400,7 +400,7 @@ export default function SettingsPanel({
                 startIcon={saving ? <CircularProgress size={20} /> : <SaveIcon />}
                 fullWidth
               >
-                {saving ? 'Sparar...' : 'Spara inställningar'}
+                {saving ? 'Saving...' : 'Save Settings'}
               </Button>
               
               <Button
@@ -411,7 +411,7 @@ export default function SettingsPanel({
                 startIcon={<RestoreIcon />}
                 fullWidth
               >
-                Återställ till standard
+                Reset to Defaults
               </Button>
             </Box>
 
@@ -421,11 +421,11 @@ export default function SettingsPanel({
               fullWidth
               sx={{ mt: 1 }}
             >
-              Stäng
+              Close
             </Button>
           </>
         )}
       </Box>
     </Drawer>
   );
-} 
+}

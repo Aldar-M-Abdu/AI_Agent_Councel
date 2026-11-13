@@ -2,60 +2,60 @@ from .base_agent import BaseAgent
 
 class PositiveAgent(BaseAgent):
     """
-    Chefsinnovationsdirektör och Tillväxtstrategi-expert som specialiserar sig på möjlighetsidentifiering, 
-    marknadsexpansion och transformationsledarskap. Fokuserar på värdeskapande och konkurrensfördelar.
+    Chief Innovation Officer and Growth Strategy expert specializing in opportunity identification,
+    market expansion, and transformational leadership. Focuses on value creation and competitive advantage.
     """
     def __init__(self):
         super().__init__(
             agent_name="Positive Agent", 
-            system_prompt="""Du är en Chefsinnovationsdirektör (CIO) och Tillväxtstrategi-expert med 20+ års erfarenhet av att skala startups till Fortune 500-företag. 
+            system_prompt="""You are a Chief Innovation Officer (CIO) and Growth Strategy expert with 20+ years of experience scaling startups into large enterprises.
 
 IMPORTANT: Always respond in English. Use professional English terminology in business and strategy areas.
 
-Din expertis inkluderar:
+Your expertise includes:
 
-KÄRNKOMPETENSER:
-• Innovationsstrategi & Digital Transformation
-• Marknadsmöjlighetsbedömning & Expansion
-• Growth Hacking & Intäktsoptimering  
-• Förändringsledarskap & Organisationsutveckling
-• Strategiska Partnerskap & Affärsutveckling
-• Riskkapital & Investeringsstrategi
-• Teknikadoption & Konkurrensfördelar
-• Prestandaoptimering & Operationell Excellens
+CORE COMPETENCIES:
+• Innovation Strategy & Digital Transformation
+• Market Opportunity Assessment & Expansion
+• Growth Hacking & Revenue Optimization
+• Change Leadership & Organizational Development
+• Strategic Partnerships & Business Development
+• Venture Capital & Investment Strategy
+• Technology Adoption & Competitive Advantage
+• Performance Optimization & Operational Excellence
 
-INNOVATIONSMETODIK:
-1. MÖJLIGHETSKARTLÄGGNING: Identifiera marknadsgap, framväxande trender och konkurrensfördelar
-2. VÄRDEPROPOSITIONSDESIGN: Skapa övertygande kundvärdepropositioner med Jobs-to-be-Done ramverk
-3. TILLVÄXTSTRATEGI: Utveckla skalbara affärsmodeller med nätverkseffekter och virala koefficienter
-4. GENOMFÖRANDEEXCELLENS: Implementera agila metoder med snabb iteration och kontinuerlig förbättring
-5. PRESTANDAMÅTT: Etablera KPI:er för tillväxtspårning och optimering
+INNOVATION METHODOLOGY:
+1. OPPORTUNITY MAPPING: Identify market gaps, emerging trends, and competitive advantages
+2. VALUE PROPOSITION DESIGN: Create compelling customer value propositions with Jobs-to-be-Done frameworks
+3. GROWTH STRATEGY: Develop scalable business models with network effects and viral coefficients
+4. EXECUTION EXCELLENCE: Implement agile methods with rapid iteration and continuous improvement
+5. PERFORMANCE METRICS: Establish KPIs for growth tracking and optimization
 
-LEDARSKAPSFILOSOFI:
-• Tillväxttänk: Varje utmaning är en lärandemöjlighet
-• Datadriven Optimism: Basera entusiasm på marknadsbevis och kundvalidering
-• Hållbar Innovation: Fokusera på långsiktig värdeskapande över kortsiktiga vinster
-• Teamstärkande: Möjliggör för andra att uppnå genombryttsprestanda
-• Strategisk Vision: Koppla nuvarande handlingar till framtida marknadsmöjligheter
+LEADERSHIP PHILOSOPHY:
+• Growth Mindset: Every challenge is a learning opportunity
+• Data-Driven Optimism: Base enthusiasm on market evidence and customer validation
+• Sustainable Innovation: Focus on long-term value creation over short-term gains
+• Team Empowerment: Enable others to achieve breakthrough performance
+• Strategic Vision: Connect current actions to future market opportunities
 
-KOMMUNIKATIONSSTIL:
-• Inspirerande och handlingsorienterad med konkreta nästa steg
-• Referera framgångsrika fallstudier och beprövade tillväxtstrategier
-• Tillhandahåll specifika ramverk och metoder
-• Inkludera kvantitativa mål och framgångsmått
-• Ställ visionexpanderande frågor om potential och möjligheter
-• Betona konkurrensfördelar och marknadsdifferentiering
+COMMUNICATION STYLE:
+• Inspiring and action-oriented with concrete next steps
+• Reference successful case studies and proven growth strategies
+• Provide specific frameworks and methods
+• Include quantitative goals and success metrics
+• Ask vision-expanding questions about potential and opportunities
+• Emphasize competitive advantages and market differentiation
 
-TILLVÄXTRAMVERK:
-För varje möjlighet, leverera:
-- Marknadsmöjlighetsanalys (TAM, SAM, SOM)
-- Konkurrensfördelbedömning  
-- Intäktstillväxtprognoser
-- Implementeringsöversikt med Snabba Vinster
-- Framgångsmått & Tillväxt KPI:er
-- Skalningsstrategi & Resurskrav
+GROWTH FRAMEWORK:
+For each opportunity, deliver:
+- Market opportunity analysis (TAM, SAM, SOM)
+- Competitive advantage assessment
+- Revenue growth projections
+- Implementation overview with Quick Wins
+- Success metrics & Growth KPIs
+- Scaling strategy & Resource requirements
 
-Upprätthåll alltid strategisk optimism samtidigt som rekommendationer grundas i marknadsrealiteter och beprövade tillväxtmetoder."""
+Always maintain strategic optimism while grounding recommendations in market realities and proven growth methods."""
         )
 
     def get_agent_perspective(self) -> str:
@@ -64,148 +64,148 @@ Upprätthåll alltid strategisk optimism samtidigt som rekommendationer grundas 
 
     def generate_response(self, user_text: str) -> str:
         """
-        Generera ett innovations- och tillväxtfokuserat strategiskt svar.
+        Generate an innovation- and growth-focused strategic response.
         Args:
-            user_text (str): Användarens inmatningsfråga eller påstående.
+            user_text (str): The user's input question or statement.
         Returns:
-            str: Agentens tillväxtstrategisvar.
+            str: The agent's growth strategy response.
         """
-        guidance = """Som en Chefsinnovationsdirektör och Tillväxtstrategi-expert kommer jag att tillhandahålla en möjlighetsfokuserad analys med detta ramverk:
+        guidance = """As a Chief Innovation Officer and Growth Strategy expert, I will provide an opportunity-focused analysis with this framework:
 
-MARKNADSMÖJLIGHETSBEDÖMNING:
-• Tillväxtpotential & Marknadsstorleksanalys
-• Konkurrenslandskap & Differentieringsmöjligheter  
-• Kundvärdeproposition & Marknadspassform
-• Intäktsmodeller & Monetiseringsstrategier
-• Teknikaktivering & Innovationsmöjligheter
+MARKET OPPORTUNITY ASSESSMENT:
+• Growth potential & Market size analysis
+• Competitive landscape & Differentiation opportunities
+• Customer value proposition & Market fit
+• Revenue models & Monetization strategies
+• Technology enablement & Innovation opportunities
 
-STRATEGISKT TILLVÄXTRAMVERK:
-• Snabba Vinster: Omedelbara värdeskapande handlingar (0-3 månader)
-• Tillväxtdrivare: Skalbara initiativ för expansion (3-12 månader)  
-• Transformation: Långsiktig konkurrensfördel (1-3 år)
-• Framgångsmått: KPI:er för att spåra framsteg och optimering
-• Resursstrategi: Investeringskrav och ROI-prognoser
+STRATEGIC GROWTH FRAMEWORK:
+• Quick Wins: Immediate value-creation actions (0-3 months)
+• Growth Drivers: Scalable initiatives for expansion (3-12 months)
+• Transformation: Long-term competitive advantage (1-3 years)
+• Success Metrics: KPIs to track progress and optimization
+• Resource Strategy: Investment requirements and ROI projections
 
-INNOVATIONSKATALYSATORFRÅGOR:
-Jag kommer att avsluta med strategiska frågor designade för att låsa upp ytterligare tillväxtmöjligheter och expandera tänkandet om marknadspotential.
+INNOVATION CATALYST QUESTIONS:
+I will conclude with strategic questions designed to unlock further growth opportunities and expand thinking about market potential.
 
-Mina rekommendationer kommer att grundas i beprövade tillväxtmetoder, framgångsrika fallstudier och kvantitativ marknadsanalys samtidigt som strategisk optimism om uppnåeliga resultat bibehålls."""
+My recommendations will be grounded in proven growth methods, successful case studies, and quantitative market analysis while maintaining strategic optimism about achievable outcomes."""
         
         return self._get_llm_response(user_text, guidance)
     
     def _generate_discussion_fallback(self, user_text: str, other_opinions: list) -> str:
         """
-        Professionell tillväxtstrategisyntes och möjlighetsförstärkning.
+        Professional growth strategy synthesis and opportunity amplification.
         """
-        return """**STRATEGISK TILLVÄXTMÖJLIGHETSSYNTES**
+        return """**STRATEGIC GROWTH OPPORTUNITY SYNTHESIS**
 
-Jag är energieffektiv av de olika perspektiven som delats! Denna flerdimensionella analys avslöjar betydande tillväxtpotential när vi kombinerar strategiskt tänkande:
+I'm energized by the diverse perspectives shared! This multidimensional analysis reveals significant growth potential when we combine strategic thinking:
 
-**INNOVATIONSKONVERGENS**: Den balanserade bedömningen tillhandahåller utmärkt riskmedvetenhet som kommer att stärka vårt genomförande, medan den skeptiska analysen hjälper oss att bygga anti-fragila strategier. Dessa input är ovärderliga för att skapa robusta tillväxtsystem.
+**INNOVATION CONVERGENCE**: The balanced assessment provides excellent risk awareness that will strengthen our execution, while the skeptical analysis helps us build anti-fragile strategies. These inputs are invaluable for creating robust growth systems.
 
-**MARKNADSMÖJLIGHETSFÖRSTÄRKNING**: Istället för att se bekymmer som begränsningar, låt oss omrankka dem som konkurrensintelligens. Varje identifierad utmaning representerar ett marknadsbehov som väntar på en innovativ lösning. Detta skapar blå ocean-möjligheter för första-mover-fördel.
+**MARKET OPPORTUNITY AMPLIFICATION**: Instead of seeing concerns as limitations, let's reframe them as competitive intelligence. Every identified challenge represents a market need waiting for an innovative solution. This creates blue-ocean opportunities for first-mover advantage.
 
-**STRATEGISK FÖRDELSSKAPANDE**:
-- **Riskbegränsning som Konkurrensvallar**: Hantera bekymmer proaktivt för att bygga hållbara konkurrensfördelar
-- **Stakeholdervärdesskapande**: Förvandla skeptisk feedback till kundinsikter och produktförbättringar  
-- **Innovationsacceleration**: Använd olika perspektiv för att identifiera genombrytsmöjligheter andra missar
+**STRATEGIC ADVANTAGE CREATION**:
+- **Risk Mitigation as Competitive Moats**: Address concerns proactively to build sustainable competitive advantages
+- **Stakeholder Value Creation**: Transform skeptical feedback into customer insights and product improvements
+- **Innovation Acceleration**: Use diverse perspectives to identify breakthrough opportunities others miss
 
-**TILLVÄXTKATALYSATORRAMVERK**: Kombinera den strategiska stringheten av balanserad analys med den skyddande planeringen av riskhantering för att skapa en ostoppbar tillväxtmotor.
+**GROWTH CATALYST FRAMEWORK**: Combine the strategic rigor of balanced analysis with the protective planning of risk management to create an unstoppable growth engine.
 
-**EXPONENTIELLA MÖJLIGHETSFRÅGOR**:
-1. Hur kan vi förvandla de identifierade utmaningarna till våra största konkurrensfördelar?
-2. Vad händer om riskerna blir grunden för innovativa lösningar som fångar marknadsandelar?
-3. Hur kan vi utnyttja denna olika intelligens för att skapa genombrytande värdepropositioner?
+**EXPONENTIAL OPPORTUNITY QUESTIONS**:
+1. How can we turn the identified challenges into our greatest competitive advantages?
+2. What if the risks become the foundation for innovative solutions that capture market share?
+3. How can we leverage this diverse intelligence to create breakthrough value propositions?
 
-Detta är den perfekta grunden för genombrytsinnovation och marknadsledarskap! 🚀"""
+This is the perfect foundation for breakthrough innovation and market leadership!"""
     
     def _generate_consensus_fallback(self, user_text: str, discussion_history: list) -> str:
         """
-        Professionell konsensusbyggnad med tillväxtaccelerationsramverk.
+        Professional consensus building with a growth acceleration framework.
         """
-        return """**STRATEGISKT TILLVÄXTKONSENSUSRAMVERK** 
+        return """**STRATEGIC GROWTH CONSENSUS FRAMEWORK**
 
-**INNOVATIONSINTEGRATIONSSTRATEGI**: Förvandla olika perspektiv till konkurrensfördelar genom systematisk innovation.
+**INNOVATION INTEGRATION STRATEGY**: Transform diverse perspectives into competitive advantages through systematic innovation.
 
-**TILLVÄXTACCELERATIONSELEMENT**:
-• **Fas 1 - Marknadsvalidering**: Snabb prototyping med kundfeedbackloopar
-• **Fas 2 - Tillväxtoptimering**: Skala validerade lösningar med prestandamått
-• **Fas 3 - Marknadsledarskap**: Expandera till angränsande marknader med beprövade metoder
+**GROWTH ACCELERATION ELEMENTS**:
+• **Phase 1 - Market Validation**: Rapid prototyping with customer feedback loops
+• **Phase 2 - Growth Optimization**: Scale validated solutions with performance metrics
+• **Phase 3 - Market Leadership**: Expand into adjacent markets with proven methods
 
-**KONKURRENSFÖRDELSKAPANDE**:
-- **Intelligensintegration**: Använd skeptiska insikter som produktutvecklingsintelligens
-- **Riskjusterad Innovation**: Bygg robusta lösningar som konkurrenter inte enkelt kan replikera
-- **Stakeholdervärdoptimering**: Skapa win-win scenarier som accelererar adoption
-- **Prestandaexcellens**: Etablera branschledande standarder och benchmarks
+**COMPETITIVE ADVANTAGE CREATION**:
+- **Intelligence Integration**: Use skeptical insights as product development intelligence
+- **Risk-Adjusted Innovation**: Build robust solutions competitors cannot easily replicate
+- **Stakeholder Value Optimization**: Create win-win scenarios that accelerate adoption
+- **Performance Excellence**: Establish industry-leading standards and benchmarks
 
-**EXPONENTIELLA TILLVÄXTAKTIVERING**: Utnyttja beprövade metoder (Lean Startup, Design Thinking, OKRs) för att skapa hållbara konkurrensfördelar samtidigt som smidighet och innovationshastighet bibehålls.
+**EXPONENTIAL GROWTH ACTIVATION**: Leverage proven methods (Lean Startup, Design Thinking, OKRs) to create sustainable competitive advantages while maintaining agility and innovation speed.
 
-**FRAMGÅNGSFÖRSTÄRKNING**: Denna integrerade approach positionerar oss för marknadsledarskap genom att kombinera strategisk stringhet med innovationexcellens och genomförandedisciplin.
+**SUCCESS AMPLIFICATION**: This integrated approach positions us for market leadership by combining strategic rigor with innovation excellence and execution discipline.
 
-**GENOMBRYTPOTENTIAL**: Vi löser inte bara ett problem - vi skapar en ny marknadskategori med hållbara konkurrensvallar! 
+**BREAKTHROUGH POTENTIAL**: We are not just solving a problem — we are creating a new market category with sustainable competitive moats!
 
-Syntesen av dessa perspektiv skapar exponentiell möjlighet för värdeskapande och marknadspåverkan! 💡"""
+The synthesis of these perspectives creates exponential opportunity for value creation and market impact!"""
     
     def _generate_financial_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Tillväxtorienterad finansiell strategi med innovationsramverk.
+        Growth-oriented financial strategy with innovation frameworks.
         """
-        return """**STRATEGISK VÄLSTÅNDSSKAPANDE & INVESTERINGSEXCELLENS**
+        return """**STRATEGIC WEALTH CREATION & INVESTMENT EXCELLENCE**
 
-**EXPONENTIELLT TILLVÄXTRAMVERK**: Förvandla finansiella beslut till välståndsbyggande motorer med beprövade metoder:
+**EXPONENTIAL GROWTH FRAMEWORK**: Transform financial decisions into wealth-building engines with proven methods:
 
-**INVESTERINGSINNOVATIONSSTRATEGI**:
-- **Marknadsledapositionering**: Fokusera på tillväxtsektorer med stark grund (teknologi, hälsovård, hållbarhet)
-- **Diversifierad Tillväxtportfölj**: Balansera högtillväxtmöjligheter med stabila inkomstgeneratorer
-- **Sammansatt Tillväxtoptimering**: Utnyttja tid och återinvestering för exponentiell välståndsskapande
-- **Innovationsinvestering**: Allokera del till framväxande teknologier och disruptiva affärsmodeller
+**INVESTMENT INNOVATION STRATEGY**:
+- **Market Leadership Positioning**: Focus on growth sectors with strong fundamentals (technology, healthcare, sustainability)
+- **Diversified Growth Portfolio**: Balance high-growth opportunities with stable income generators
+- **Compound Growth Optimization**: Leverage time and reinvestment for exponential wealth creation
+- **Innovation Investment**: Allocate a portion to emerging technologies and disruptive business models
 
-**VÄLSTÅNDSBYGGANDEEXCELLENS**:
-1. **Strategisk Tillgångsallokering**: Modern Portföljteori med tillväxtorienterad viktning
-2. **Prestandaoptimering**: Regelbunden ombalansering och skatteeffektiva strategier
-3. **Riskjusterad Avkastning**: Maximera avkastning samtidigt som lämplig riskhantering bibehålls
-4. **Marknadsintelligens**: Utnyttja forskning, trendanalys och professionella nätverk
+**WEALTH-BUILDING EXCELLENCE**:
+1. **Strategic Asset Allocation**: Modern Portfolio Theory with growth-oriented weighting
+2. **Performance Optimization**: Regular rebalancing and tax-efficient strategies
+3. **Risk-Adjusted Returns**: Maximize returns while maintaining appropriate risk management
+4. **Market Intelligence**: Leverage research, trend analysis, and professional networks
 
-**FINANSIELLA FRAMGÅNGSACCELERATORER**:
-- **Automatiserat Välståndsbyggande**: Systematisk investering och sammansatt tillväxtstrategier
-- **Skatteoptimering**: Maximera efterskatteavkastning genom strategisk planering
-- **Professionell Utveckling ROI**: Investera i färdigheter som ökar intjäningspotential
+**FINANCIAL SUCCESS ACCELERATORS**:
+- **Automated Wealth Building**: Systematic investing and compound growth strategies
+- **Tax Optimization**: Maximize after-tax returns through strategic planning
+- **Professional Development ROI**: Invest in skills that increase earning potential
 
-**GENOMBRYTSMÖJLIGHET**: Din finansiella framtid har obegränsad potential när du kombinerar strategiskt tänkande med disciplinerat genomförande och långsiktig vision!
+**BREAKTHROUGH OPPORTUNITY**: Your financial future has unlimited potential when you combine strategic thinking with disciplined execution and long-term vision!
 
-**TILLVÄXTKATALYSATORFRÅGA**: Vad händer om din investeringsstrategi inte bara kunde bygga välstånd utan också positionera dig som en tankeleadare inom framväxande marknadsmöjligheter?"""
+**GROWTH CATALYST QUESTION**: What if your investment strategy could not only build wealth but also position you as a thought leader in emerging market opportunities?"""
     
     def _generate_career_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Karriäracceleration och professionell utvecklingsexcellens.
+        Career acceleration and professional development excellence.
         """
-        return """**STRATEGISK KARRIÄRACCELERATION & LEDARSKAPSUTVEKLING**
+        return """**STRATEGIC CAREER ACCELERATION & LEADERSHIP DEVELOPMENT**
 
-**EXPONENTIELLT KARRIÄRTILLVÄXTRAMVERK**: Förvandla karriärbeslut till ledarskpsmöjligheter och marknadsinflytande:
+**EXPONENTIAL CAREER GROWTH FRAMEWORK**: Transform career decisions into leadership opportunities and market influence:
 
-**KARRIÄRINNOVATIONSSTRATEGI**:
-- **Marknadspositioneringsexcellens**: Bygg unik värdeproposition som gör dig oumbärlig
-- **Färdighetsframtidssäkring**: Bemästra framväxande teknologier och tvärfunktionella förmågor
-- **Nätverk Strategisk Utveckling**: Odla relationer med branschledare och beslutsfattare
-- **Tankeledarskapskapande**: Etablera expertis och inflytande inom ditt område
+**CAREER INNOVATION STRATEGY**:
+- **Market Positioning Excellence**: Build a unique value proposition that makes you indispensable
+- **Skill Future-Proofing**: Master emerging technologies and cross-functional capabilities
+- **Strategic Network Development**: Cultivate relationships with industry leaders and decision-makers
+- **Thought Leadership Creation**: Establish expertise and influence within your field
 
-**PROFESSIONELL EXCELLENSÖVERSIKT**:
-1. **Förmågebedömning**: Kartlägg nuvarande färdigheter till marknadsmöjligheter och framtida trender
-2. **Strategisk Lärande**: Rikta in dig på högpåverkansfärdigheter med omedelbara tillämpningsmöjligheter  
-3. **Erfarenhetsacceleration**: Sök sträckuppdrag och ledarskapsansvar
-4. **Varumärkesbyggnad**: Utveckla professionell rykte och branscherkännande
-5. **Värdeskapande**: Fokusera på att leverera mätbar affärspåverkan och innovation
+**PROFESSIONAL EXCELLENCE OVERVIEW**:
+1. **Capability Assessment**: Map current skills to market opportunities and future trends
+2. **Strategic Learning**: Target high-impact skills with immediate application opportunities
+3. **Experience Acceleration**: Seek stretch assignments and leadership responsibilities
+4. **Brand Building**: Develop professional reputation and industry recognition
+5. **Value Creation**: Focus on delivering measurable business impact and innovation
 
-**KARRIÄRFRAMGÅNGSMULTIPLIKATORER**:
-- **Tvärbranchintelligens**: Tillämpa bästa praxis från flera sektorer
-- **Innovationsledarskap**: Driva förändring och transformationsinitiativ
-- **Mentorskapsexcellens**: Både lära av ledare och utveckla andra
+**CAREER SUCCESS MULTIPLIERS**:
+- **Cross-Industry Intelligence**: Apply best practices from multiple sectors
+- **Innovation Leadership**: Drive change and transformation initiatives
+- **Mentorship Excellence**: Both learn from leaders and develop others
 
-**GENOMBRYTPOTENTIAL**: Din karriärbana kan bli en modell för andra samtidigt som den skapar extraordinärt värde för organisationer och stakeholders.
+**BREAKTHROUGH POTENTIAL**: Your career trajectory can become a model for others while creating extraordinary value for organizations and stakeholders.
 
-**EXPONENTIELLA OPPORTUNITSFRÅGOR**:
-- Hur kan du bli den ledande experten inom ett framväxande område som är kritiskt för företagsframgång?
-- Vad händer om din karriärspåg kan influera branschstandarder och bästa praxis?"""
+**EXPONENTIAL OPPORTUNITY QUESTIONS**:
+- How can you become the leading expert in an emerging area that is critical to business success?
+- What if your career path could influence industry standards and best practices?"""
     
     def _generate_relationship_fallback(self, user_text: str, guidance: str) -> str:
         """
@@ -313,7 +313,7 @@ Syntesen av dessa perspektiv skapar exponentiell möjlighet för värdeskapande 
 
 **TRAVEL INNOVATION STRATEGY**:
 - **Global Market Intelligence**: Gain insights into emerging markets and business opportunities
-- **Cultural Competency Development**: Build cross-cultural leadership and communication skills  
+- **Cultural Competency Development**: Build cross-cultural leadership and communication skills
 - **Network Expansion**: Connect with international leaders and potential collaborators
 - **Innovation Inspiration**: Expose yourself to different approaches and breakthrough thinking
 
@@ -398,4 +398,4 @@ Syntesen av dessa perspektiv skapar exponentiell möjlighet för värdeskapande 
 **EXPONENTIAL OPPORTUNITY QUESTIONS**:
 - How can this situation become a catalyst for breakthrough success beyond your current vision?
 - What if your approach to this challenge could create new best practices for your entire industry?
-- How might you leverage this opportunity to achieve 10x results instead of incremental improvement?""" 
+- How might you leverage this opportunity to achieve 10x results instead of incremental improvement?"""

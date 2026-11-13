@@ -22,7 +22,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
-# Graciös återgång för saknad fastapi-limiter (hastighetsbegränsning inaktiverad i lokalt läge)
+# Graceful fallback for missing fastapi-limiter (rate limiting disabled in local mode)
 class DummyLimiter:  # dummy placeholder
     def __init__(self, *args, **kwargs):
         pass
@@ -34,9 +34,9 @@ try:
     limiter_available = True
 except ImportError:
     limiter_available = False
-    Limiter = DummyLimiter  # Använd dummy-klass när den inte är tillgänglig
+    Limiter = DummyLimiter  # Use dummy class when unavailable
 
-# Lokala importer
+# Local imports
 from backend.config import settings
 from backend.agents.neutral_agent import NeutralAgent
 from backend.agents.positive_agent import PositiveAgent
@@ -44,7 +44,7 @@ from backend.agents.skeptic_agent import SkepticAgent
 from backend.agents.risk_expert_agent import RiskExpertAgent
 from backend.agents.base_agent import BaseAgent
 
-# Avancerade funktionsimporter med bättre felhantering
+# Advanced feature imports with better error handling
 ADVANCED_FEATURES_AVAILABLE = False
 LangGraphOrchestrator = None
 WorkflowConfig = None
@@ -86,7 +86,7 @@ except ImportError as e:
     PerformanceBenchmarker = None
     WebSearchIntegration = None
 
-# Kontrollera om alla avancerade funktioner är tillgängliga
+# Check whether all advanced features are available
 if LangGraphOrchestrator and MetaEvaluator and PerformanceBenchmarker:
     ADVANCED_FEATURES_AVAILABLE = True
     logger.info("Advanced features available")
@@ -98,45 +98,45 @@ _BACKEND_DIR = Path(__file__).resolve().parent
 os.makedirs(_BACKEND_DIR / "discussions", exist_ok=True)
 os.makedirs(_BACKEND_DIR / "reports", exist_ok=True)
 
-# Globala instanser för avancerade funktioner
+# Global instances for advanced features
 meta_evaluator_instance = None
 performance_benchmarker_instance = None
 web_search_instance = None
 orchestrator_instance = None
 
-# In-memory lagring för enkelhet
-# I en produktionsmiljö, använd mer beständig lagring som Redis eller en databas
+# In-memory storage for simplicity
+# In production, use more persistent storage such as Redis or a database
 request_store = {}
 vote_store = {}
 enhanced_request_store = {}
 discussion_store = {}
 professional_request_store = {}
 
-# Användarautentiseringslagring (beständig)
-users_db = {}  # {användarnamn: {password_hash: str, created_at: datetime}}
-user_sessions = {}  # {token: {användarnamn: str, expires_at: datetime}}
+# User authentication storage (persistent)
+users_db = {}  # {username: {password_hash: str, created_at: datetime}}
+user_sessions = {}  # {token: {username: str, expires_at: datetime}}
 
-# Hastighetsbegränsning (inaktiverad om fastapi-limiter inte är tillgänglig)
-# Obs: get_remote_address verktyg tillhandahålls av starlette, men vi undviker att importera
+# Rate limiting (disabled if fastapi-limiter is unavailable)
+# Note: get_remote_address helper is provided by starlette, but we avoid importing
 if limiter_available:
     from starlette.requests import Request
     from starlette.middleware.base import BaseHTTPMiddleware
     from fastapi_limiter.depends import RateLimiter
     from fastapi_limiter import FastAPILimiter, get_remote_address  # type: ignore
 
-    # Initiera FastAPI Limiter i lifespan startup om önskat
+    # Initialize FastAPI Limiter in lifespan startup if desired
     limiter = Limiter(key_func=get_remote_address)
 else:
-    limiter = Limiter()  # dummy instance för kompatibilitet
+    limiter = Limiter()  # dummy instance for compatibility
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Hantera applikationens livscykel - uppstart och avstängning"""
+    """Handle application lifecycle - startup and shutdown"""
     global meta_evaluator_instance, performance_benchmarker_instance, web_search_instance, orchestrator_instance
     
-    logger.info("Initierar AI Decision Council systemet...")
+    logger.info("Initializing AI Decision Council system...")
     
-    # Initiera grundläggande funktionalitet först
+    # Initialize basic functionality first
     meta_evaluator_instance = None
     performance_benchmarker_instance = None
     web_search_instance = None
@@ -144,53 +144,53 @@ async def lifespan(app: FastAPI):
     
     if ADVANCED_FEATURES_AVAILABLE:
         try:
-            logger.info("Försöker initiera avancerade funktioner...")
-            # Initiera komponenter en i taget med felhantering
+            logger.info("Attempting to initialize advanced features...")
+            # Initialize components one at a time with error handling
             try:
                 meta_evaluator_instance = MetaEvaluator()
-                logger.info("MetaEvaluator initierad")
+                logger.info("MetaEvaluator initialized")
             except Exception as e:
-                logger.warning(f"Kunde inte initiera MetaEvaluator: {e}")
+                logger.warning(f"Could not initialize MetaEvaluator: {e}")
                 
             try:
                 performance_benchmarker_instance = PerformanceBenchmarker()
-                logger.info("PerformanceBenchmarker initierad")
+                logger.info("PerformanceBenchmarker initialized")
             except Exception as e:
-                logger.warning(f"Kunde inte initiera PerformanceBenchmarker: {e}")
+                logger.warning(f"Could not initialize PerformanceBenchmarker: {e}")
                 
-            # web_search_instance = WebSearchIntegration()  # Inaktiverad - TAVILY borttagen
+            # web_search_instance = WebSearchIntegration()  # Disabled - TAVILY removed
             web_search_instance = None
             
             try:
-                # Initiera agenter med timeout-skydd
-                logger.info("Initierar agenter...")
+                # Initialize agents with timeout protection
+                logger.info("Initializing agents...")
                 agents = [NeutralAgent(), PositiveAgent(), SkepticAgent(), RiskExpertAgent()]
-                # FIX: Standardisera agentnamn för konsistens
+                # FIX: Standardize agent names for consistency
                 agents[1].agent_name = "Positive Agent"
                 agents[2].agent_name = "Skeptic Agent"
                 agents[3].agent_name = "Risk Expert Agent"
                 orchestrator_instance = LangGraphOrchestrator(agents)
-                logger.info("LangGraphOrchestrator initierad")
+                logger.info("LangGraphOrchestrator initialized")
             except Exception as e:
-                logger.warning(f"Kunde inte initiera orchestrator: {e}")
+                logger.warning(f"Could not initialize orchestrator: {e}")
                 orchestrator_instance = None
                 
-            logger.info("Avancerade funktioner initierade (med eventuella varningar)")
+            logger.info("Advanced features initialized (with possible warnings)")
         except Exception as e:
-            logger.error(f"Allmänt fel vid initiering av avancerade funktioner: {e}")
-            # Fortsätt ändå med grundläggande funktionalitet
+            logger.error(f"General error initializing advanced features: {e}")
+            # Continue with basic functionality anyway
             meta_evaluator_instance = None
             performance_benchmarker_instance = None
             web_search_instance = None
             orchestrator_instance = None
     else:
-        logger.info("Avancerade funktioner inte tillgängliga - kör i grundläge")
+        logger.info("Advanced features unavailable - running in basic mode")
     
-    logger.info("AI Decision Council systemet startat och redo!")
+    logger.info("AI Decision Council system started and ready!")
     
     yield
     
-    logger.info("Stänger ner AI Decision Council systemet...")
+    logger.info("Shutting down AI Decision Council system...")
 
 app = FastAPI(
     title="AI Decision Council API",
@@ -208,10 +208,10 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS-konfiguration
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # I produktion, specificera tillåtna domäner
+    allow_origins=["*"],  # In production, specify allowed domains
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -297,14 +297,14 @@ class DocumentUploadResponse(BaseModel):
     documents_processed: int
 
 class EnhancedDecisionRequest(BaseModel):
-    user_text: str = Field(..., description="Frågan eller scenariot att diskutera")
-    config: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Avancerade konfigurationsalternativ")
-    enable_web_search: bool = Field(default=True, description="Aktivera realtids webbsökning")
+    user_text: str = Field(..., description="The question or scenario to discuss")
+    config: Optional[Dict[str, Any]] = Field(default_factory=dict, description="Advanced configuration options")
+    enable_web_search: bool = Field(default=True, description="Enable real-time web search")
     enable_context_retrieval: bool = Field(default=False, description="Context retrieval disabled")
-    enable_performance_monitoring: bool = Field(default=False, description="Aktivera prestandaövervakning")
-    quality_threshold: float = Field(default=0.7, ge=0.0, le=1.0, description="Minsta kvalitetströskel")
-    consensus_threshold: float = Field(default=0.8, ge=0.0, le=1.0, description="Konsensuströskel")
-    max_discussion_rounds: int = Field(default=3, ge=1, le=5, description="Maximalt antal diskussionsrundor")
+    enable_performance_monitoring: bool = Field(default=False, description="Enable performance monitoring")
+    quality_threshold: float = Field(default=0.7, ge=0.0, le=1.0, description="Minimum quality threshold")
+    consensus_threshold: float = Field(default=0.8, ge=0.0, le=1.0, description="Consensus threshold")
+    max_discussion_rounds: int = Field(default=3, ge=1, le=5, description="Maximum number of discussion rounds")
 
 class AgentEvaluation(BaseModel):
     agent_name: str
@@ -459,53 +459,53 @@ def verify_token(token: str) -> Optional[str]:
     
     return session["username"]
 
-# --- Agentkonfiguration & Lagring ---
+# --- Agent configuration & storage ---
 AGENT_CONFIGS = {
-    "Neutral Agent": {"type": "Balanserad Rådgivare"},
-    "Positiv Agent": {"type": "Optimistisk Rådgivare"},
-    "Skeptisk Agent": {"type": "Kritisk Rådgivare"},
-    "Riskexpert Agent": {"type": "Riskanalytiker"},
+    "Neutral Agent": {"type": "Balanced Advisor"},
+    "Positive Agent": {"type": "Optimistic Advisor"},
+    "Skeptic Agent": {"type": "Critical Advisor"},
+    "Risk Expert Agent": {"type": "Risk Analyst"},
 }
 request_store: Dict[str, DecisionResponse] = {}
 discussion_store: Dict[str, FullDiscussionResponse] = {}
 enhanced_request_store: Dict[str, EnhancedDecisionResponse] = {}
 
-# Globala agentinstanser (initieras en gång för att återanvända modellhanterare)
+# Global agent instances (initialized once to reuse model handlers)
 _global_agents: Optional[List[BaseAgent]] = None
 
-# --- Beroendeinjection ---
+# --- Dependency injection ---
 def get_agents() -> List[BaseAgent]:
     global _global_agents
     if _global_agents is None:
         try:
-            # Initiera agenter en gång och återanvänd dem
+            # Initialize agents once and reuse them
             _global_agents = [NeutralAgent(), PositiveAgent(), SkepticAgent(), RiskExpertAgent()]
             # FIX: Standardize agent names for consistency
             _global_agents[1].agent_name = "Positive Agent"
             _global_agents[2].agent_name = "Skeptic Agent"
             _global_agents[3].agent_name = "Risk Expert Agent"
-            logger.info("Initierade global agentpool med delad modellhanterare")
+            logger.info("Initialized global agent pool with shared model handler")
         except Exception as e:
-            logger.error(f"Kunde inte initiera agenter: {e}")
+            logger.error(f"Could not initialize agents: {e}")
             # Return empty list or raise exception based on preference
-            raise HTTPException(status_code=503, detail="Agenter inte tillgängliga för tillfället")
+            raise HTTPException(status_code=503, detail="Agents currently unavailable")
     return _global_agents
 
 def get_meta_evaluator() -> "MetaEvaluator":
     if not ADVANCED_FEATURES_AVAILABLE:
-        raise HTTPException(status_code=503, detail="Avancerade funktioner inte tillgängliga")
+        raise HTTPException(status_code=503, detail="Advanced features unavailable")
     if not meta_evaluator_instance:
-        raise HTTPException(status_code=503, detail="Meta-utvärderare inte tillgänglig")
+        raise HTTPException(status_code=503, detail="Meta-evaluator unavailable")
     return meta_evaluator_instance
 
 def get_orchestrator() -> "LangGraphOrchestrator":
     if not ADVANCED_FEATURES_AVAILABLE:
-        raise HTTPException(status_code=503, detail="Avancerade funktioner inte tillgängliga")
+        raise HTTPException(status_code=503, detail="Advanced features unavailable")
     if not orchestrator_instance:
-        raise HTTPException(status_code=503, detail="Orkestrerare inte tillgänglig")
+        raise HTTPException(status_code=503, detail="Orchestrator unavailable")
     return orchestrator_instance
 
-# --- API-endpoints ---
+# --- API endpoints ---
 
 @app.get("/", response_model=RootResponse)
 async def root():
@@ -526,15 +526,15 @@ async def register_user(user_data: UserRegister):
     """Register a new user"""
     # Check if username already exists
     if user_data.username in users_db:
-        raise HTTPException(status_code=400, detail="Användarnamnet är redan upptaget")
+        raise HTTPException(status_code=400, detail="Username is already taken")
     
     # Validate username
     if len(user_data.username.strip()) < 3:
-        raise HTTPException(status_code=400, detail="Användarnamnet måste vara minst 3 tecken")
+        raise HTTPException(status_code=400, detail="Username must be at least 3 characters")
     
     # Validate password
     if len(user_data.password) < 6:
-        raise HTTPException(status_code=400, detail="Lösenordet måste vara minst 6 tecken")
+        raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
     
     # Hash password and store user
     password_hash = hash_password(user_data.password)
@@ -564,12 +564,12 @@ async def login_user(user_data: UserLogin):
     """Login an existing user"""
     # Check if user exists
     if user_data.username not in users_db:
-        raise HTTPException(status_code=401, detail="Ogiltigt användarnamn eller lösenord")
+        raise HTTPException(status_code=401, detail="Invalid username or password")
     
     # Verify password
     stored_user = users_db[user_data.username]
     if not verify_password(user_data.password, stored_user["password_hash"]):
-        raise HTTPException(status_code=401, detail="Ogiltigt användarnamn eller lösenord")
+        raise HTTPException(status_code=401, detail="Invalid username or password")
     
     # Create access token
     access_token = create_access_token(user_data.username)
@@ -602,9 +602,9 @@ async def logout_user(authorization: str = Header(None, alias="Authorization")):
         save_user_sessions(user_sessions)
         
         logger.info(f"User logged out: {username}")
-        return {"success": True, "message": "Utloggning lyckades"}
+        return {"success": True, "message": "Logout successful"}
     else:
-        return {"success": False, "message": "Token ej funnet eller redan utgånget"}
+        return {"success": False, "message": "Token not found or already expired"}
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat_with_agent(request: ChatRequest, agents: List[BaseAgent] = Depends(get_agents)):
@@ -653,9 +653,9 @@ async def chat_with_agent(request: ChatRequest, agents: List[BaseAgent] = Depend
 
 @app.get("/favicon.ico")
 async def favicon():
-    """Returnera en enkel favicon för att förhindra 404-fel."""
+    """Return a simple favicon to prevent 404 errors."""
     from fastapi.responses import Response
-    # Returnera en enkel 1x1 transparent PNG som favicon
+    # Return a simple 1x1 transparent PNG as favicon
     favicon_data = bytes([
         0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D,
         0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
@@ -833,7 +833,7 @@ async def get_user_history(authorization: str = Header(None, alias="Authorizatio
                 }
             ],
             "demo": True,
-            "message": "Demo-data visas. Logga in för att se din personliga historik."
+            "message": "Showing demo data. Log in to see your personal history."
         }
     
     # Extract token from Authorization header
@@ -847,14 +847,14 @@ async def get_user_history(authorization: str = Header(None, alias="Authorizatio
     return {
         "history": user_history,
         "demo": False,
-                    "message": f"Visar {len(user_history)} sparade beslut för {username}"
+                    "message": f"Showing {len(user_history)} saved decisions for {username}"
     }
 
 @app.post("/api/history/save")
 async def save_to_history(request: dict, authorization: str = Header(None, alias="Authorization")):
     """Save decision to user's history"""
     if not authorization:
-        return {"success": False, "message": "Autentisering krävs"}
+        return {"success": False, "message": "Authentication required"}
     
     # Extract token from Authorization header
     token = authorization.replace("Bearer ", "") if authorization.startswith("Bearer ") else authorization
@@ -1426,11 +1426,11 @@ async def get_executive_dashboard(request_id: str):
     # In production, this would retrieve from database based on request_id
     
     return ExecutiveDashboardResponse(
-        title="Strategisk Beslutsanalys",
-        recommendation="Fortsätt med Rekommenderad Metod",
-        confidence="Hög",
-        risk_level="Medel",
-        timeline="3-6 månaders implementering",
+        title="Strategic Decision Analysis",
+        recommendation="Proceed with Recommended Approach",
+        confidence="High",
+        risk_level="Medium",
+        timeline="3-6 months implementation",
         key_actions=5,
         high_risks=1,
         quality_score=0.85,
@@ -1575,12 +1575,12 @@ async def export_professional_report(request_id: str, format: str = "html"):
                 
                 # Title
                 if report_type == "professional_decision":
-                    title = "Professionell Beslutsanalys Rapport"
-                    user_query = report_data.user_query if hasattr(report_data, 'user_query') else "Professionell Analys"
+                    title = "Professional Decision Analysis Report"
+                    user_query = report_data.user_query if hasattr(report_data, 'user_query') else "Professional Analysis"
                     final_recommendation = report_data.executive_summary if hasattr(report_data, 'executive_summary') else "No recommendation available"
                     quality_score = report_data.decision_quality_score if hasattr(report_data, 'decision_quality_score') else 0.0
                 else:
-                    title = "Beslutsanalys Rapport"
+                    title = "Decision Analysis Report"
                     user_query = getattr(report_data, 'user_query', getattr(report_data, 'question', 'Decision Analysis'))
                     final_recommendation = getattr(report_data, 'final_recommendation', 'No recommendation available')
                     quality_score = getattr(report_data, 'quality_score', 0.75)
@@ -1628,8 +1628,8 @@ async def export_professional_report(request_id: str, format: str = "html"):
                 
                 # Agent Analysis (if available)
                 if hasattr(report_data, 'professional_decision') and report_data.professional_decision:
-                    story.append(Paragraph("Professionell Analys", heading_style))
-                    analysis = report_data.professional_decision.get('full_analysis', 'Analys slutförd')
+                    story.append(Paragraph("Professional Analysis", heading_style))
+                    analysis = report_data.professional_decision.get('full_analysis', 'Analysis completed')
                     # Truncate very long analysis for PDF
                     if len(analysis) > 2000:
                         analysis = analysis[:2000] + "... [Analysis truncated for PDF format]"
@@ -1694,7 +1694,7 @@ def generate_beautiful_html_report(report_data, report_type: str, request_id: st
     # Extract data based on report type
     if report_type == "professional_decision":
         title = "Professional Decision Analysis Report"
-        user_query = report_data.user_query if hasattr(report_data, 'user_query') else "Professionell Analys"
+        user_query = report_data.user_query if hasattr(report_data, 'user_query') else "Professional Analysis"
         final_recommendation = report_data.executive_summary if hasattr(report_data, 'executive_summary') else "No recommendation available"
         quality_score = report_data.decision_quality_score if hasattr(report_data, 'decision_quality_score') else 0.0
         consensus_level = 0.90  # Default high consensus for professional

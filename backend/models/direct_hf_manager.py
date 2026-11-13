@@ -278,33 +278,33 @@ class DirectHFManager:
         """Generate intelligent fallback when API is not available"""
         prompt_lower = prompt.lower()
         
-        # Arabic language support
+        # Swedish keywords kept as aliases so Swedish user input still categorizes
         if any(word in prompt_lower for word in ['code', 'program', 'function', 'python', 'javascript', 'programming', 'kod', 'programmering', 'funktion']):
             responses = [
-                "För att lösa denna programmeringsutmaning rekommenderar jag att dela upp den i mindre komponenter. Börja med att identifiera grundkraven och implementera sedan varje del systematiskt. Vilket specifikt programmeringsspråk eller ramverk arbetar du med?",
-                "Kodutveckling kräver noggrann planering och testning. Överväg att skriva enhetstester, använda tydliga variabelnamn och följa bästa praxis för ditt valda språk. Vilken särskild aspekt av implementeringen behöver uppmärksamhet?",
-                "Programmeringslösningar drar ofta nytta av iterativ utveckling. Börja med en grundläggande fungerande version, optimera sedan och lägg till funktioner. Vad är huvudfunktionaliteten du försöker uppnå?"
+                "To solve this programming challenge, I recommend breaking it into smaller components. Start by identifying the core requirements, then implement each part systematically. Which specific programming language or framework are you working with?",
+                "Code development requires careful planning and testing. Consider writing unit tests, using clear variable names, and following best practices for your chosen language. Which particular aspect of the implementation needs attention?",
+                "Programming solutions often benefit from iterative development. Start with a basic working version, then optimize and add features. What is the main functionality you are trying to achieve?"
             ]
         
         elif any(word in prompt_lower for word in ['explain', 'what is', 'how does', 'why', 'förklara', 'vad är', 'hur fungerar', 'varför']):
             responses = [
-                "Detta är en utmärkt fråga som förtjänar en omfattande förklaring. Ämnet involverar flera sammankopplade koncept som bygger på varandra. Låt mig dela upp detta i nyckelkomponenter för att hjälpa till att klargöra relationerna mellan olika aspekter.",
-                "För att ge en grundlig förklaring skulle jag behöva överväga flera perspektiv och faktorer. Detta ämne har både teoretiska grunder och praktiska tillämpningar som är värda att utforska. Vilken specifik aspekt skulle du vilja att jag fokuserar på först?",
-                "Att förstå detta koncept kräver att man undersöker det från olika vinklar. Det finns grundläggande principer i arbete här, tillsammans med olika verkliga tillämpningar och konsekvenser. Skulle du vilja att jag börjar med grundprinciperna eller hoppar in på specifika exempel?"
+                "This is an excellent question that deserves a comprehensive explanation. The topic involves several interconnected concepts that build on each other. Let me break this down into key components to help clarify the relationships between different aspects.",
+                "To provide a thorough explanation, I would need to consider several perspectives and factors. This topic has both theoretical foundations and practical applications worth exploring. Which specific aspect would you like me to focus on first?",
+                "Understanding this concept requires examining it from different angles. There are fundamental principles at work here, along with various real-world applications and implications. Would you like me to start with the core principles or jump into specific examples?"
             ]
         
-        elif any(word in prompt_lower for word in ['help', 'problem', 'issue', 'stuck', 'error', 'hjälp', 'problem', 'fel', 'fastnat']):
+        elif any(word in prompt_lower for word in ['help', 'problem', 'issue', 'stuck', 'error', 'hjälp', 'fel', 'fastnat']):
             responses = [
-                "Jag förstår att du står inför en utmaning, och jag är här för att hjälpa dig att arbeta igenom den. Ofta kan det att dela upp komplexa problem i mindre, hanterbara delar göra dem mycket lättare att lösa. Vad är det specifika området där du upplever svårigheter?",
-                "Problemlösning är ofta mest effektivt när vi närmar oss det systematiskt. Låt oss identifiera kärnproblemet och sedan utforska potentiella lösningar steg för steg. Kan du beskriva vad du redan har provat och var du fastnade?",
-                "Varje utmaning är en möjlighet att lära sig och växa. Jag skulle gärna hjälpa dig att arbeta igenom detta metodiskt. Vad skulle vara mest hjälpsamt - ska vi börja med att klargöra kraven, eller skulle du föredra att dyka in i potentiella lösningar?"
+                "I understand you are facing a challenge, and I am here to help you work through it. Often, breaking complex problems into smaller, manageable parts makes them much easier to solve. What is the specific area where you are experiencing difficulties?",
+                "Problem-solving is often most effective when we approach it systematically. Let us identify the core problem and then explore potential solutions step by step. Can you describe what you have already tried and where you got stuck?",
+                "Every challenge is an opportunity to learn and grow. I would be glad to help you work through this methodically. What would be most helpful — should we start by clarifying the requirements, or would you prefer to dive into potential solutions?"
             ]
         
         else:
             responses = [
-                "Tack för din fråga. Detta är definitivt värt att utforska i detalj. Det finns flera viktiga aspekter att överväga, och jag skulle vilja försäkra mig om att jag tar upp det som är mest relevant för din specifika situation. Kan du ge lite mer sammanhang om vad du letar efter?",
-                "Det är en genomtänkt förfrågan som berör några viktiga koncept. För att ge dig det mest hjälpsamma svaret skulle jag ha nytta av att förstå din bakgrund och vad du hoppas att uppnå. Vad är det bredare sammanhanget för denna fråga?",
-                "Jag uppskattar att du tar upp detta. Det finns flera sätt att närma sig detta ämne, var och en med sina egna fördelar. För att skräddarsy mitt svar så att det blir mest användbart för dig, kan du berätta mer om dina specifika intressen eller mål relaterade till detta ämne?"
+                "Thank you for your question. This is definitely worth exploring in detail. There are several important aspects to consider, and I want to make sure I address what is most relevant to your specific situation. Can you give a bit more context about what you are looking for?",
+                "That is a thoughtful request that touches on some important concepts. To give you the most helpful answer, I would benefit from understanding your background and what you hope to achieve. What is the broader context for this question?",
+                "I appreciate you raising this. There are several ways to approach this topic, each with its own advantages. To tailor my response so it is most useful for you, can you tell me more about your specific interests or goals related to this topic?"
             ]
         
         return random.choice(responses)

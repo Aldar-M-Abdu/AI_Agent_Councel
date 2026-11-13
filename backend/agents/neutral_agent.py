@@ -8,7 +8,7 @@ class NeutralAgent(BaseAgent):
     def __init__(self):
         super().__init__(
             agent_name="Neutral Agent", 
-            system_prompt="""You are a Senior Strategic Business Analyst with 15+ years of consulting experience from Fortune 500 companies.
+            system_prompt="""You are a Senior Strategic Business Analyst with 15+ years of consulting experience advising large organizations.
 
 IMPORTANT: Always respond in English. Use professional English terminology in strategic business analysis and consulting.
 
@@ -88,132 +88,132 @@ My analysis will be evidence-based, referencing relevant frameworks, industry be
         return self._get_llm_response(user_text, guidance)
     
     def _is_arabic(self, text: str) -> bool:
-        """Kontrollera om text innehåller arabiska tecken"""
+        """Check if text contains Arabic characters"""
         arabic_chars = set('ابتثجحخدذرزسشصضطظعغفقكلمنهويىء')
         return any(char in arabic_chars for char in text)
     
     def _generate_discussion_fallback(self, user_text: str, other_opinions: list) -> str:
         """
-        Professionell strategisk syntes av flera perspektiv.
+        Professional strategic synthesis of multiple perspectives.
         """
-        return """**STRATEGISK SYNTES & BALANSERAD BEDÖMNING**
+        return """**STRATEGIC SYNTHESIS & BALANCED ASSESSMENT**
 
-Efter att ha analyserat de olika perspektiven som presenterats, har jag identifierat flera viktiga strategiska teman:
+After analyzing the different perspectives presented, I have identified several important strategic themes:
 
-**MÖJLIGHETSKONVERGENS**: Det optimistiska synsättet belyser marknadspotential och tillväxtmöjligheter som stämmer överens med nuvarande branschtrender. Dessa positiva scenarier förtjänar seriös uppmärksamhet givet deras potentiella ROI.
+**OPPORTUNITY CONVERGENCE**: The optimistic viewpoint highlights market potential and growth opportunities aligned with current industry trends. These positive scenarios deserve serious attention given their potential ROI.
 
-**RISKBEGRÄNSNINGSIMPERATIV**: Den skeptiska analysen väcker kritiska bekymmer om implementeringsutmaningar, marknadsvolatilitet och resursbegränsningar. Dessa riskfaktorer kräver strukturerade begränsningsstrategier.
+**RISK MITIGATION IMPERATIVE**: The skeptical analysis raises critical concerns about implementation challenges, market volatility, and resource constraints. These risk factors require structured mitigation strategies.
 
-**EVIDENSBASERAD INTEGRATION**: Att kombinera dessa perspektiv föreslår en balanserad approach som maximerar möjligheter samtidigt som legitima bekymmer hanteras genom:
-- Fasad implementering med stage-gates
-- Robust riskövervaknings- och varningssystem
-- Stakeholderanpassnings- och kommunikationsprotokoll
-- Resursoptimering och beredskapsplanering
+**EVIDENCE-BASED INTEGRATION**: Combining these perspectives suggests a balanced approach that maximizes opportunities while addressing legitimate concerns through:
+- Phased implementation with stage-gates
+- Robust risk monitoring and early warning systems
+- Stakeholder alignment and communication protocols
+- Resource optimization and contingency planning
 
-**STRATEGISK REKOMMENDATION**: En riskjusterad approach som eftersträvar högt värde möjligheter samtidigt som defensiv positionering upprätthålls. Denna balanserade strategi möjliggör opportunistisk tillväxt samtidigt som strategisk flexibilitet bevaras.
+**STRATEGIC RECOMMENDATION**: A risk-adjusted approach that pursues high-value opportunities while maintaining defensive positioning. This balanced strategy enables opportunistic growth while preserving strategic flexibility.
 
-**VIKTIGA STRATEGISKA FRÅGOR**:
-1. Vilka är de mest kritiska framgångsfaktorerna som kan göra eller förstöra detta initiativ?
-2. Hur kan vi strukturera detta för att maximera lärande samtidigt som nedsidans exponering minimeras?
-3. Vilken stakeholderanpassning krävs för framgångsrik genomförande?"""
+**KEY STRATEGIC QUESTIONS**:
+1. What are the most critical success factors that could make or break this initiative?
+2. How can we structure this to maximize learning while minimizing downside exposure?
+3. What stakeholder alignment is required for successful execution?"""
     
     def _generate_consensus_fallback(self, user_text: str, discussion_history: list) -> str:
         """
-        Professionell konsensusbyggnad med strategiskt ramverk.
+        Professional consensus building with a strategic framework.
         """
-        return """**STRATEGISKT KONSENSUSRAMVERK**
+        return """**STRATEGIC CONSENSUS FRAMEWORK**
 
-**INTEGRERAD APPROACH**: Balansera möjlighetssträvan med riskhantering genom en strukturerad, fasad implementeringsstrategi.
+**INTEGRATED APPROACH**: Balance opportunity pursuit with risk management through a structured, phased implementation strategy.
 
-**KONSENSUSELEMENT**:
-• **Fas 1 - Validering**: Pilottestning med begränsat resursåtagande
-• **Fas 2 - Optimering**: Skala baserat på validerade lärdomar och marknadsfeedback  
-• **Fas 3 - Expansion**: Full implementering med etablerade framgångsmått
+**CONSENSUS ELEMENTS**:
+• **Phase 1 - Validation**: Pilot testing with limited resource commitment
+• **Phase 2 - Optimization**: Scale based on validated lessons and market feedback
+• **Phase 3 - Expansion**: Full implementation with established success metrics
 
-**STYRNINGSSTRUKTUR**:
-- Tydlig beslutsmyndighet och eskaleringsstigar
-- Regelbundna granskningscykler med go/no-go beslutspunkter
-- Stakeholderkommunikations- och anpassningsprotokoll
-- Framgångsmått och prestandainstrumentpaneler
+**GOVERNANCE STRUCTURE**:
+- Clear decision authority and escalation paths
+- Regular review cycles with go/no-go decision points
+- Stakeholder communication and alignment protocols
+- Success metrics and performance dashboards
 
-**RISKBEGRÄNSNING**: Implementera robusta övervakningssystem, beredskapsplaner och exitstrategier samtidigt som strategisk flexibilitet upprätthålls.
+**RISK MITIGATION**: Implement robust monitoring systems, contingency plans, and exit strategies while maintaining strategic flexibility.
 
-**FRAMGÅNGSFAKTORER**: Stakeholderanpassning, resurstillräcklighet, marknadstiming, genomförandeexcellens och adaptiva hanteringsförmågor.
+**SUCCESS FACTORS**: Stakeholder alignment, resource adequacy, market timing, execution excellence, and adaptive management capabilities.
 
-Denna balanserade approach hanterar varje perspektiv samtidigt som den tillhandahåller en praktisk väg framåt som maximerar värdeskapandepotential."""
+This balanced approach addresses each perspective while providing a practical path forward that maximizes value creation potential."""
     
     def _generate_financial_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Professionell finansiell strategi med affärsramverk.
+        Professional financial strategy with business frameworks.
         """
-        return """**STRATEGISK FINANSIELL ANALYS**
+        return """**STRATEGIC FINANCIAL ANALYSIS**
 
-**INVESTERINGS​RAMVERK**: Tillämpa Modern Portföljteori med strategisk tillgångsallokering över riskkategorier. Implementera systematisk approach med:
-- **Due Diligence**: Omfattande finansiell rapportanalys, marknadsundersökning och konkurrenspositionering
-- **Riskbedömning**: Value-at-Risk (VaR) modellering, stresstestning och scenarioanalys
-- **Portföljkonstruktion**: Diversifiering över tillgångsklasser, sektorer och geografiska regioner
+**INVESTMENT FRAMEWORK**: Apply Modern Portfolio Theory with strategic asset allocation across risk categories. Implement a systematic approach with:
+- **Due Diligence**: Comprehensive financial statement analysis, market research, and competitive positioning
+- **Risk Assessment**: Value-at-Risk (VaR) modeling, stress testing, and scenario analysis
+- **Portfolio Construction**: Diversification across asset classes, sectors, and geographic regions
 
-**STRATEGISK METODIK**:
-1. **Finansiella Mål**: Definiera tydliga ROI-mål, risktolerans och investeringstidslag
-2. **Marknadsanalys**: Genomför grundlig marknadsundersökning med branschrapporter och konkurrensintelligens
-3. **Implementeringsstrategi**: Fasad approach med regelbunden portföljbalansering och prestandaövervakning
+**STRATEGIC METHODOLOGY**:
+1. **Financial Goals**: Define clear ROI targets, risk tolerance, and investment time horizon
+2. **Market Analysis**: Conduct thorough market research with industry reports and competitive intelligence
+3. **Implementation Strategy**: Phased approach with regular portfolio rebalancing and performance monitoring
 
-**PROFESSIONELLA RESURSER**: Referera CFA Institute riktlinjer, institutionell forskning och peer-reviewed finansiell litteratur för evidensbaserat beslutsfattande.
+**PROFESSIONAL RESOURCES**: Reference CFA Institute guidelines, institutional research, and peer-reviewed financial literature for evidence-based decision-making.
 
-**FRAMGÅNGSMÅTT**: Spåra prestanda mot benchmarks, övervaka riskjusterad avkastning och upprätthåll detaljerad dokumentation för kontinuerlig förbättring.
+**SUCCESS METRICS**: Track performance against benchmarks, monitor risk-adjusted returns, and maintain detailed documentation for continuous improvement.
 
-**STRATEGISK FRÅGA**: Hur stämmer denna investering överens med din övergripande finansiella strategi och riskhanteringsramverk?"""
+**STRATEGIC QUESTION**: How does this investment align with your overall financial strategy and risk management framework?"""
     
     def _generate_career_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Professionell karriärstrategi med utvecklingsramverk.
+        Professional career strategy with development frameworks.
         """
-        return """**STRATEGISKT KARRIÄRUTVECKLINGSRAMVERK**
+        return """**STRATEGIC CAREER DEVELOPMENT FRAMEWORK**
 
-**KARRIÄRSTRATEGI​ANALYS**: Tillämpa beprövade metoder för karriärframsteg och professionell utveckling:
+**CAREER STRATEGY ANALYSIS**: Apply proven methods for career advancement and professional development:
 
-**STRATEGISK BEDÖMNING**:
-- **Kompetensgrapsanalys**: Kartlägg nuvarande förmågor mot målrollskrav
-- **Marknadsintelligens**: Analysera branschtrender, lönebenchmarks och tillväxtprognoser med LinkedIn Insights, Bureau of Labor Statistics och branschrapporter
-- **Konkurrenspositionering**: Bedöm unikt värdeförslag och differentieringsstrategier
+**STRATEGIC ASSESSMENT**:
+- **Competency Gap Analysis**: Map current capabilities against target role requirements
+- **Market Intelligence**: Analyze industry trends, salary benchmarks, and growth forecasts with LinkedIn Insights, Bureau of Labor Statistics, and industry reports
+- **Competitive Positioning**: Assess unique value proposition and differentiation strategies
 
-**UTVECKLINGSÖVERSIKT**:
-1. **Kompetensutveckling**: Riktad lärplan med mätbara milstolpar
-2. **Nätverksbyggnad**: Strategisk relationsuppbyggnad med branschledare
-3. **Varumärkesbyggnad**: Professionell reputationshantering och tankeledarskap
-4. **Erfarenhetsförvärv**: Strukturerad approach för att få relevant erfarenhet
+**DEVELOPMENT OVERVIEW**:
+1. **Competency Development**: Targeted learning plan with measurable milestones
+2. **Network Building**: Strategic relationship building with industry leaders
+3. **Brand Building**: Professional reputation management and thought leadership
+4. **Experience Acquisition**: Structured approach to gaining relevant experience
 
-**FRAMGÅNGSRAMVERK**: Använd SMART-mål med regelbundna framstegsöversyner och adaptiv planering baserat på marknadsfeedback och möjligheter.
+**SUCCESS FRAMEWORK**: Use SMART goals with regular progress reviews and adaptive planning based on market feedback and opportunities.
 
-**STRATEGISKA FRÅGOR**:
-- Vilka specifika färdigheter eller erfarenheter skulle göra dig oumbärlig i din målroll?
-- Hur kan du bygga strategiska relationer som accelererar din karriärprogression?
-- Vilka marknadstrender bör påverka din karriärutvecklingsstrategi?"""
+**STRATEGIC QUESTIONS**:
+- What specific skills or experiences would make you indispensable in your target role?
+- How can you build strategic relationships that accelerate your career progression?
+- What market trends should influence your career development strategy?"""
     
     def _generate_relationship_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Professionell relationshantering med evidensbaserade ramverk.
+        Professional relationship management with evidence-based frameworks.
         """
-        return """**STRATEGISKT RELATIONSRAMVERK**
+        return """**STRATEGIC RELATIONSHIP FRAMEWORK**
 
-**EVIDENSBASERAD APPROACH**: Tillämpa forskningsbaserade metoder från relationspsykologi och organisatoriskt beteende:
+**EVIDENCE-BASED APPROACH**: Apply research-based methods from relationship psychology and organizational behavior:
 
-**RELATIONSBEDÖMNING**:
-- **Kompatibilitetsanalys**: Värdeanpassning, kommunikationsstilar och livskompatibilitet
-- **Relationsdynamik**: Tillämpa Gottman Institutes forskning om relationsprediktorer
-- **Stakeholderpåverkan**: Överväg effekter på familj, karriär och sociala nätverk
+**RELATIONSHIP ASSESSMENT**:
+- **Compatibility Analysis**: Values alignment, communication styles, and life compatibility
+- **Relationship Dynamics**: Apply Gottman Institute research on relationship predictors
+- **Stakeholder Impact**: Consider effects on family, career, and social networks
 
-**STRATEGISK UTVECKLING**:
-1. **Kommunikationsprotokoll**: Upprätta tydliga förväntningar och feedbackmekanismer
-2. **Konflikthantering**: Tillämpa strukturerade metoder för att hantera konflikter
-3. **Delade mål**: Alignera på gemensamma objektiv och framgångsmått
-4. **Kontinuerlig förbättring**: Regelbunden relationsöversyn och justeringsstrategier
+**STRATEGIC DEVELOPMENT**:
+1. **Communication Protocols**: Establish clear expectations and feedback mechanisms
+2. **Conflict Management**: Apply structured methods for handling conflicts
+3. **Shared Goals**: Align on common objectives and success metrics
+4. **Continuous Improvement**: Regular relationship reviews and adjustment strategies
 
-**FRAMGÅNGSMÅTT**: Spåra relationstillfredsställelse, kommunikationseffektivitet och framgångsprocent progress.
+**SUCCESS METRICS**: Track relationship satisfaction, communication effectiveness, and progress toward shared goals.
 
-**PROFESSIONELLA RESURSER**: Referera peer-reviewed forskning i relationspsykologi och evidensbaserad praxis för relationell utveckling.
+**PROFESSIONAL RESOURCES**: Reference peer-reviewed research in relationship psychology and evidence-based practices for relational development.
 
-**STRATEGISK FRÅGA**: Hur kan du strukturera denna relation för att maximera gemensamt värde samtidigt som individutveckling och -utveckling bevaras?"""
+**STRATEGIC QUESTION**: How can you structure this relationship to maximize mutual value while preserving individual growth and development?"""
     
     def _generate_health_fallback(self, user_text: str, guidance: str) -> str:
         """

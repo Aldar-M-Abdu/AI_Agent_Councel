@@ -35,15 +35,15 @@ export default function HistoryPanel({ open, onClose, token }) {
       
       // Show appropriate message
       if (res.data.demo && !token) {
-        setInfo('Visar demo-data. Logga in för att se din personliga historik.');
+        setInfo('Showing demo data. Log in to see your personal history.');
       } else if (res.data.message && token) {
         setInfo(res.data.message);
       } else if (!token) {
-        setInfo('Ingen inloggning krävs. Historiken visas automatiskt.');
+        setInfo('No login required. History is shown automatically.');
       }
     } catch (err) {
       console.error('History fetch error:', err);
-      setError(`Misslyckades att ladda historik: ${err.message}`);
+      setError(`Failed to load history: ${err.message}`);
       
       // Add fallback demo data for testing
       setHistory([
@@ -57,7 +57,7 @@ export default function HistoryPanel({ open, onClose, token }) {
           final_recommendation: "Proceed with renewable energy investment strategy"
         }
       ]);
-      setInfo('Visar lokal demo-data på grund av anslutningsfel.');
+      setInfo('Showing local demo data due to a connection error.');
     }
     setLoading(false);
   };
@@ -75,7 +75,7 @@ export default function HistoryPanel({ open, onClose, token }) {
       <div style={{ width: 450, padding: 24, maxHeight: '100vh', overflow: 'auto' }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 16 }}>
           <HistoryIcon style={{ marginRight: 8 }} />
-          <Typography variant="h6">Beslutshistorik</Typography>
+          <Typography variant="h6">Decision History</Typography>
         </div>
         
         {info && (
@@ -94,23 +94,23 @@ export default function HistoryPanel({ open, onClose, token }) {
           <div style={{ textAlign: 'center', padding: 20 }}>
             <CircularProgress />
             <Typography variant="body2" style={{ marginTop: 10 }}>
-              Laddar historik...
+              Loading history...
             </Typography>
           </div>
         ) : history.length === 0 ? (
           <div style={{ textAlign: 'center', padding: 20 }}>
             <HistoryIcon style={{ fontSize: 48, color: '#ccc', marginBottom: 16 }} />
             <Typography variant="body1" color="textSecondary">
-              Ingen historik hittades.
+              No history found.
             </Typography>
             <Typography variant="body2" color="textSecondary" style={{ marginTop: 8 }}>
-              Dina beslut kommer att visas här när du använder systemet.
+              Your decisions will appear here when you use the system.
             </Typography>
           </div>
         ) : (
           <>
             <Typography variant="body2" color="textSecondary" style={{ marginBottom: 16 }}>
-              {history.length} beslut i historiken
+              {history.length} decisions in history
             </Typography>
             <List>
               {history.map((item, idx) => (
@@ -119,13 +119,13 @@ export default function HistoryPanel({ open, onClose, token }) {
                     <ListItemText
                       primary={
                         <Typography variant="subtitle1" style={{ fontWeight: 600, marginBottom: 4 }}>
-                          {item.user_query || item.question || 'Ingen fråga'}
+                          {item.user_query || item.question || 'No question'}
                         </Typography>
                       }
                       secondary={
                         <div>
                           <Typography variant="body2" style={{ marginBottom: 8 }}>
-                            {item.final_recommendation || item.executive_summary || 'Ingen rekommendation'}
+                            {item.final_recommendation || item.executive_summary || 'No recommendation'}
                           </Typography>
                           {item.decision_quality_score && (
                             <div style={{ 
@@ -136,9 +136,9 @@ export default function HistoryPanel({ open, onClose, token }) {
                               borderRadius: '4px',
                               display: 'inline-block'
                             }}>
-                              <strong>Kvalitet:</strong> {Math.round(item.decision_quality_score * 100)}% • 
-                              <strong> Förtroende:</strong> {item.confidence_level || 'medium'} • 
-                              <strong> Datum:</strong> {item.saved_at ? new Date(item.saved_at).toLocaleDateString('sv-SE') : 'Okänt'}
+                              <strong>Quality:</strong> {Math.round(item.decision_quality_score * 100)}% • 
+                              <strong> Confidence:</strong> {item.confidence_level || 'medium'} • 
+                              <strong> Date:</strong> {item.saved_at ? new Date(item.saved_at).toLocaleDateString('en-US') : 'Unknown'}
                             </div>
                           )}
                         </div>
@@ -154,7 +154,7 @@ export default function HistoryPanel({ open, onClose, token }) {
         
         <div style={{ marginTop: 24, display: 'flex', gap: 12 }}>
           <Button onClick={onClose} variant="contained" color="primary" fullWidth>
-            Stäng
+            Close
           </Button>
           <Button 
             onClick={fetchHistory} 
@@ -162,10 +162,10 @@ export default function HistoryPanel({ open, onClose, token }) {
             style={{ minWidth: 100 }}
             disabled={loading}
           >
-            Uppdatera
+            Refresh
           </Button>
         </div>
       </div>
     </Drawer>
   );
-} 
+}

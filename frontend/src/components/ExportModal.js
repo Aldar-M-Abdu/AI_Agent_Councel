@@ -32,7 +32,7 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
 
   const handleExport = async () => {
     if (!requestId && isProfessional) {
-      setError('Inget förfrågnings-ID tillgängligt för export');
+      setError('No request ID available for export');
       return;
     }
 
@@ -54,7 +54,7 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `beslutsanalys-${requestId}.json`;
+            link.download = `decision-analysis-${requestId}.json`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -64,7 +64,7 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
             const downloadUrl = `${API_BASE_URL}${response.data.download_url}`;
             window.open(downloadUrl, '_blank');
           } else {
-            setError('Nedladdningslänk inte tillgänglig. Försök igen.');
+            setError('Download link not available. Please try again.');
             setIsExporting(false);
             return;
           }
@@ -76,11 +76,11 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
           }, 2000);
           
         } else {
-          setError(response.data.message || 'Export misslyckades');
+          setError(response.data.message || 'Export failed');
         }
       } else {
         // Fallback to basic export (to be implemented)
-        setError('Standardexport inte implementerat ännu. Använd Professionell Analys-läge.');
+        setError('Standard export is not implemented yet. Use Professional Analysis mode.');
         setIsExporting(false);
         return;
       }
@@ -90,7 +90,7 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
       setError(
         err.response?.data?.detail || 
         err.message || 
-        'Misslyckades att exportera rapport. Försök igen.'
+        'Failed to export report. Please try again.'
       );
     }
 
@@ -121,13 +121,13 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
   const getFormatDescription = (format) => {
     switch (format) {
       case 'html':
-        return 'Vacker HTML-rapport med interaktiva element och styling';
+        return 'Beautiful HTML report with interactive elements and styling';
       case 'pdf':
-        return 'PDF-format (kommer snart - använd HTML för tillfället)';
+        return 'PDF format (coming soon — use HTML for now)';
       case 'json':
-        return 'Rå JSON-data för integration och vidare analys';
+        return 'Raw JSON data for integration and further analysis';
       default:
-        return 'Exportformat';
+        return 'Export format';
     }
   };
 
@@ -135,10 +135,10 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
       <DialogTitle sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
         <FileDownloadIcon />
-        {isProfessional ? 'Exportera Professionell Rapport' : 'Exportera Beslutsanalys'}
+        {isProfessional ? 'Export Professional Report' : 'Export Decision Analysis'}
         {isProfessional && (
           <Chip 
-            label="Professionell" 
+            label="Professional" 
             color="primary" 
             size="small" 
             sx={{ ml: 1 }}
@@ -155,20 +155,20 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
         
         {success && (
           <Alert severity="success" sx={{ mb: 2 }}>
-            Rapport exporterad framgångsrikt!
+            Report exported successfully!
           </Alert>
         )}
 
         {isProfessional ? (
           <>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-              Exportera din professionella beslutsanalys i olika format lämpliga för 
-              ledningspresentationer, dokumentation och vidare analys.
+              Export your professional decision analysis in formats suitable for
+              executive presentations, documentation, and further analysis.
             </Typography>
 
             <FormControl component="fieldset" fullWidth>
               <FormLabel component="legend" sx={{ mb: 2, fontWeight: 600 }}>
-                Välj Exportformat
+                Choose Export Format
               </FormLabel>
               <RadioGroup
                 value={exportFormat}
@@ -182,7 +182,7 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
                       {getFormatIcon('html')}
                       <Box>
                         <Typography variant="body1" fontWeight={500}>
-                          HTML-rapport
+                          HTML Report
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {getFormatDescription('html')}
@@ -201,7 +201,7 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
                       {getFormatIcon('pdf')}
                       <Box>
                         <Typography variant="body1" fontWeight={500}>
-                          PDF-rapport
+                          PDF Report
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {getFormatDescription('pdf')}
@@ -220,7 +220,7 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
                       {getFormatIcon('json')}
                       <Box>
                         <Typography variant="body1" fontWeight={500}>
-                          JSON-data
+                          JSON Data
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                           {getFormatDescription('json')}
@@ -235,15 +235,15 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
           </>
         ) : (
           <Typography variant="body2" color="text.secondary">
-            Exportfunktionalitet är endast tillgänglig i Professionell Analys-läge.
-            Växla till professionellt läge för att få tillgång till exportalternativ.
+            Export functionality is only available in Professional Analysis mode.
+            Switch to professional mode to access export options.
           </Typography>
         )}
       </DialogContent>
       
       <DialogActions>
         <Button onClick={handleClose} disabled={isExporting}>
-          Avbryt
+          Cancel
         </Button>
         <Button 
           onClick={handleExport} 
@@ -251,9 +251,9 @@ export default function ExportModal({ open, onClose, requestId, isProfessional =
           disabled={isExporting || !isProfessional}
           startIcon={isExporting ? <CircularProgress size={20} /> : <FileDownloadIcon />}
         >
-          {isExporting ? 'Exporterar...' : 'Exportera'}
+          {isExporting ? 'Exporting...' : 'Export'}
         </Button>
       </DialogActions>
     </Dialog>
   );
-} 
+}

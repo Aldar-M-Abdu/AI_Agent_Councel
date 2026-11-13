@@ -31,7 +31,7 @@ except ImportError as e:
         DirectHFManager = None  # type: ignore
         logger.warning("Model manager unavailable: %s. Using fallback responses.", e2)
 
-# Global modellhanterareinstans (delad mellan alla agenter för effektivitet)
+# Global model manager instance (shared across agents for efficiency)
 _global_model_manager = None
 
 class BaseAgent(ABC):
@@ -41,14 +41,14 @@ class BaseAgent(ABC):
     """
     def __init__(self, agent_name: str, system_prompt: str) -> None:
         """
-        Initiera agenten med ett namn och systemprompt. Använder gratis modeller utan API-nycklar.
+        Initialize the agent with a name and system prompt. Uses free models without API keys.
         """
         global _global_model_manager
         
         self.agent_name: str = agent_name
         self.system_prompt: str = system_prompt
         
-        # Initiera global modellhanterare om inte redan gjort
+        # Initialize global model manager if not already done
         if _global_model_manager is None and MODEL_MANAGER_AVAILABLE:
             config = settings if CONFIG_AVAILABLE else None
             
@@ -60,14 +60,14 @@ class BaseAgent(ABC):
         
         if self.model_manager and self.model_manager.is_available():
             model_info = self.model_manager.get_model_info()
-            logger.info(f"{self.agent_name} initierad med {model_info.get('model_type', 'unknown')} modell (ingen API-nyckel krävs)")
+            logger.info(f"{self.agent_name} initialized with {model_info.get('model_type', 'unknown')} model (no API key required)")
         else:
-            logger.info(f"{self.agent_name} använder intelligent reservsvarssystem.")
+            logger.info(f"{self.agent_name} using intelligent fallback response system.")
 
     def generate_response(self, user_text: str) -> str:
         """
-        Generera svar baserat på användartext. Använder modellhanterare om tillgänglig,
-        annars faller tillbaka på intelligent reservsvarssystem.
+        Generate a response based on user text. Uses the model manager if available,
+        otherwise falls back to the intelligent fallback response system.
         """
         try:
             if self.model_manager and self.model_manager.is_available():
@@ -111,12 +111,12 @@ class BaseAgent(ABC):
                 return self._generate_fallback_response(user_text)
                 
         except Exception as e:
-            logger.error(f"Fel vid svarsgenerering för {self.agent_name}: {e}")
+            logger.error(f"Error generating response for {self.agent_name}: {e}")
             return self._generate_fallback_response(user_text)
 
     def _enhance_response_quality(self, response: str) -> str:
         """
-        Förbättra svarskvaliteten genom att lägga till diskussionselement och professionell ton.
+        Improve response quality by adding discussion elements and a professional tone.
         """
         # Remove any system artifacts
         response = response.replace("Assistant:", "").replace("User:", "").strip()
@@ -167,19 +167,20 @@ class BaseAgent(ABC):
 
     def _generate_fallback_response(self, user_text: str) -> str:
         """
-        Generera intelligent reservsvar när modeller inte är tillgängliga.
-        Använder sofistikerade mallar baserade på textanalys.
+        Generate an intelligent fallback response when models are unavailable.
+        Uses sophisticated templates based on text analysis.
         """
         user_lower = user_text.lower()
         
         # Advanced categorization for professional responses
+        # Swedish keywords kept as aliases so Swedish user input still categorizes
         if any(word in user_lower for word in ['strategy', 'strategic', 'plan', 'planning', 'strategi', 'strategisk', 'planering']):
             responses = [
                 "Strategic planning requires thorough analysis of market conditions, competitive landscape, and internal resources. I recommend starting with a SWOT analysis to identify strengths, weaknesses, opportunities, and threats. What strategic goals are you prioritizing highest right now?",
                 "For successful strategic development, you should consider both short-term tactical actions and long-term strategic initiatives. Market positioning and value proposition are central elements. How does your current competitive situation look?",
                 "Strategic success builds on clear vision, well-defined goals, and systematic execution. I suggest a phased approach with regular evaluation points. What resources do you have available for strategic implementation?"
             ]
-        elif any(word in user_lower for word in ['risk', 'risks', 'threat', 'danger', 'risk', 'risker', 'hot', 'fara']):
+        elif any(word in user_lower for word in ['risk', 'risks', 'threat', 'danger', 'risker', 'hot', 'fara']):
             responses = [
                 "Risk management requires systematic identification, evaluation, and mitigation of potential threats. I recommend developing a risk matrix that categorizes risks by probability and impact. What risks concern you most at the moment?",
                 "Effective risk analysis includes both quantitative and qualitative assessments. Scenario planning and stress testing are valuable tools for understanding potential consequences. How do you work with risk management today?",
@@ -202,76 +203,76 @@ class BaseAgent(ABC):
 
     @abstractmethod
     def get_agent_perspective(self) -> str:
-        """Returnera agentens unika perspektiv eller approach"""
+        """Return the agent's unique perspective or approach"""
         pass
 
     def get_model_info(self) -> Dict[str, Any]:
-        """Få information om den aktuella modellen"""
+        """Get information about the current model"""
         if self.model_manager:
             return self.model_manager.get_model_info()
         return {"model_type": "fallback", "requires_api_key": False}
 
     def clear_cache(self):
-        """Rensa modellens cache om tillgängligt"""
+        """Clear the model's cache if available"""
         if self.model_manager and hasattr(self.model_manager, 'clear_cache'):
             self.model_manager.clear_cache()
-            logger.info(f"Cache rensad för {self.agent_name}")
+            logger.info(f"Cache cleared for {self.agent_name}")
 
     def is_model_available(self) -> bool:
-        """Kontrollera om modellen är tillgänglig"""
+        """Check if the model is available"""
         return self.model_manager is not None and self.model_manager.is_available()
 
     def discuss_with_peers(self, user_text: str, other_agent_opinions: List[Dict[str, str]]) -> str:
         """
-        Generera ett diskussionssvar baserat på andra agenters åsikter - optimerat för snabbhet.
+        Generate a discussion response based on other agents' opinions - optimized for speed.
         Args:
-            user_text (str): Den ursprungliga användarfrågan.
-            other_agent_opinions (List[Dict[str, str]]): Lista över andra agenters svar.
+            user_text (str): The original user question.
+            other_agent_opinions (List[Dict[str, str]]): List of other agents' responses.
         Returns:
-            str: Agentens diskussionssvar.
+            str: The agent's discussion response.
         """
-        discussion_context = f"Ursprunglig fråga: {user_text}\n\n"
-        discussion_context += "Andra agenters åsikter:\n"
+        discussion_context = f"Original question: {user_text}\n\n"
+        discussion_context += "Other agents' opinions:\n"
         for opinion in other_agent_opinions:
             if opinion['agent_name'] != self.agent_name:
                 discussion_context += f"- {opinion['agent_name']}: {opinion['text_response'][:100]}...\n"
         
         discussion_prompt = f"""
-        Baserat på andra agenters åsikter, ge dina tankar om deras perspektiv.
-        Håller du med eller inte med någon av dem? Vilka aspekter tror du de missade?
-        Håll ditt svar fokuserat och konstruktivt (max 100 ord).
+        Based on the other agents' opinions, share your thoughts on their perspectives.
+        Do you agree or disagree with any of them? What aspects do you think they missed?
+        Keep your response focused and constructive (max 100 words).
         """
         
         if self.model_manager and self.model_manager.is_available():
-            # Använd gratis AI-modell med snabba parametrar
-            prompt = f"{self.system_prompt}\n\n{discussion_prompt}\n\n{discussion_context}\n\nDitt diskussionssvar:"
+            # Use free AI model with fast parameters
+            prompt = f"{self.system_prompt}\n\n{discussion_prompt}\n\n{discussion_context}\n\nYour discussion response:"
             response = self.model_manager.generate_response(prompt, max_tokens=100, temperature=0.7)
             return response
         else:
-            # Använd intelligent reserv för diskussion
+            # Use intelligent fallback for discussion
             return self._generate_discussion_fallback(user_text, other_agent_opinions)
 
     def contribute_to_consensus(self, user_text: str, discussion_history: List[Dict[str, str]]) -> str:
         """
-        Bidra till att bygga konsensus baserat på diskussionshistoriken - optimerat för snabbhet.
+        Contribute to building consensus based on discussion history - optimized for speed.
         Args:
-            user_text (str): Den ursprungliga användarfrågan.
-            discussion_history (List[Dict[str, str]]): Lista över diskussionsbidrag från agenter.
+            user_text (str): The original user question.
+            discussion_history (List[Dict[str, str]]): List of discussion contributions from agents.
         Returns:
-            str: Agentens konsensusbidrag.
+            str: The agent's consensus contribution.
         """
         consensus_prompt = f"""
-        Baserat på alla diskussioner, hjälp till att formulera en enda, enhetlig rekommendation.
-        Fokusera på att hitta gemensam grund och den mest praktiska lösningen.
-        Ditt bidrag ska vara kortfattat och handlingsinriktat (max 80 ord).
+        Based on all discussions, help formulate a single, unified recommendation.
+        Focus on finding common ground and the most practical solution.
+        Your contribution should be concise and action-oriented (max 80 words).
         """
         
-        discussion_summary = f"Ursprunglig fråga: {user_text}\n\nDiskussionspunkter:\n"
+        discussion_summary = f"Original question: {user_text}\n\nDiscussion points:\n"
         for discussion in discussion_history:
             discussion_summary += f"- {discussion['agent_name']}: {discussion['discussion'][:80]}...\n"
         
         if self.model_manager and self.model_manager.is_available():
-            prompt = f"{self.system_prompt}\n\n{consensus_prompt}\n\n{discussion_summary}\n\nDitt konsensusbidrag:"
+            prompt = f"{self.system_prompt}\n\n{consensus_prompt}\n\n{discussion_summary}\n\nYour consensus contribution:"
             response = self.model_manager.generate_response(prompt, max_tokens=80, temperature=0.6)
             return response
         else:
@@ -280,39 +281,39 @@ class BaseAgent(ABC):
     @abstractmethod
     def _generate_discussion_fallback(self, user_text: str, other_opinions: List[Dict[str, str]]) -> str:
         """
-        Generera diskussionssvar med reservlogik.
+        Generate a discussion response with fallback logic.
         Args:
-            user_text (str): Den ursprungliga användarfrågan.
-            other_opinions (List[Dict[str, str]]): Lista över andra agenters svar.
+            user_text (str): The original user question.
+            other_opinions (List[Dict[str, str]]): List of other agents' responses.
         Returns:
-            str: Agentens reservdiskussionssvar.
+            str: The agent's fallback discussion response.
         """
         pass
 
     @abstractmethod
     def _generate_consensus_fallback(self, user_text: str, discussion_history: List[Dict[str, str]]) -> str:
         """
-        Generera konsensusbidrag med reservlogik.
+        Generate a consensus contribution with fallback logic.
         Args:
-            user_text (str): Den ursprungliga användarfrågan.
-            discussion_history (List[Dict[str, str]]): Lista över diskussionsbidrag från agenter.
+            user_text (str): The original user question.
+            discussion_history (List[Dict[str, str]]): List of discussion contributions from agents.
         Returns:
-            str: Agentens reservkonsensusbidrag.
+            str: The agent's fallback consensus contribution.
         """
         pass
 
     def _get_llm_response(self, user_text: str, specific_guidance: str) -> str:
         """
-        Generera svar med gratis AI-modeller eller intelligent reserv - optimerat för snabbhet.
+        Generate a response with free AI models or intelligent fallback - optimized for speed.
         Args:
-            user_text (str): Användarens inmatade fråga eller påstående.
-            specific_guidance (str): Ytterligare promptvägledning för LLM.
+            user_text (str): The user's input question or statement.
+            specific_guidance (str): Additional prompt guidance for the LLM.
         Returns:
-            str: Det genererade svaret.
+            str: The generated response.
         """
         if self.model_manager and self.model_manager.is_available():
-            # Använd gratis AI-modell med optimerade parametrar för snabbhet
-            prompt = f"{self.system_prompt}\n\n{specific_guidance}\n\nAnvändare: {user_text}\n\nAssistent:"
+            # Use free AI model with optimized parameters for speed
+            prompt = f"{self.system_prompt}\n\n{specific_guidance}\n\nUser: {user_text}\n\nAssistant:"
             response = self.model_manager.generate_response(
                 prompt, 
                 max_tokens=128,  # Reduced for speed
@@ -320,21 +321,22 @@ class BaseAgent(ABC):
             )
             return response
         else:
-            # Använd intelligent reserv baserat på innehållsanalys
+            # Use intelligent fallback based on content analysis
             return self._generate_intelligent_fallback(user_text, specific_guidance)
 
     def _generate_intelligent_fallback(self, user_text: str, specific_guidance: str) -> str:
         """
-        Generera intelligenta svar baserat på nyckelord och kontextanalys.
+        Generate intelligent responses based on keyword and context analysis.
         Args:
-            user_text (str): Användarens inmatade fråga eller påstående.
-            specific_guidance (str): Ytterligare promptvägledning för reserven.
+            user_text (str): The user's input question or statement.
+            specific_guidance (str): Additional prompt guidance for the fallback.
         Returns:
-            str: Det genererade reservsvaret.
+            str: The generated fallback response.
         """
         user_text_lower = user_text.lower()
         
         # Determine question type and delegate to subclass methods
+        # Swedish keywords kept as aliases so Swedish user input still categorizes
         if any(word in user_text_lower for word in ['invest', 'money', 'financial', 'crypto', 'stock', 'fund', 'budget', 'loan', 'debt', 'save', 'spend', 'buy', 'sell', 'price', 'investera', 'pengar', 'finansiell', 'krypto', 'aktie', 'fond', 'lån', 'skuld', 'spara', 'spendera', 'köpa', 'sälja', 'pris']):
             return self._generate_financial_fallback(user_text, specific_guidance)
         elif any(word in user_text_lower for word in ['job', 'career', 'work', 'promotion', 'interview', 'resume', 'salary', 'boss', 'colleague', 'quit', 'hire', 'jobb', 'karriär', 'arbete', 'befordran', 'intervju', 'cv', 'lön', 'chef', 'kollega', 'sluta', 'anställa']):
@@ -352,59 +354,59 @@ class BaseAgent(ABC):
         else:
             return self._generate_general_fallback(user_text, specific_guidance)
 
-    # Abstrakta metoder som subklasser måste implementera för reservsvar
+    # Abstract methods that subclasses must implement for fallback responses
     @abstractmethod
     def _generate_financial_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Generera ett reservsvar för finansrelaterade frågor.
+        Generate a fallback response for finance-related questions.
         """
         pass
 
     @abstractmethod
     def _generate_career_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Generera ett reservsvar för karriärrelaterade frågor.
+        Generate a fallback response for career-related questions.
         """
         pass
 
     @abstractmethod
     def _generate_relationship_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Generera ett reservsvar för relationsrelaterade frågor.
+        Generate a fallback response for relationship-related questions.
         """
         pass
 
     @abstractmethod
     def _generate_health_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Generera ett reservsvar för hälsorelaterade frågor.
+        Generate a fallback response for health-related questions.
         """
         pass
 
     @abstractmethod
     def _generate_education_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Generera ett reservsvar för utbildningsrelaterade frågor.
+        Generate a fallback response for education-related questions.
         """
         pass
 
     @abstractmethod
     def _generate_travel_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Generera ett reservsvar för reserelaterade frågor.
+        Generate a fallback response for travel-related questions.
         """
         pass
 
     @abstractmethod
     def _generate_technology_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Generera ett reservsvar för teknikrelaterade frågor.
+        Generate a fallback response for technology-related questions.
         """
         pass
 
     @abstractmethod
     def _generate_general_fallback(self, user_text: str, guidance: str) -> str:
         """
-        Generera ett reservsvar för allmänna frågor.
+        Generate a fallback response for general questions.
         """
-        pass 
+        pass

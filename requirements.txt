@@ -1,68 +1,68 @@
 # ===================================
-# AI Agent Råd - Beroenden
+# AI Decision Council - Dependencies
 # ===================================
 
-# Grundläggande FastAPI Ramverk
+# Core FastAPI stack
 fastapi>=0.104.0
 uvicorn[standard]>=0.24.0
 pydantic>=2.4.0
 pydantic-settings>=2.0.0
 
-# HTTP och Webbtjänster
+# HTTP and web services
 requests>=2.31.0
 python-multipart>=0.0.6
 httpx>=0.25.0
 
-# AI och ML Beroenden
+# AI / ML
 langchain-core>=0.1.0
 langchain-community>=0.0.12
 langgraph>=0.0.25
 
-# OpenRouter Integration
+# OpenRouter integration
 openai>=1.3.0
 
-# Autentisering och Säkerhet
+# Auth and security helpers
 python-jose[cryptography]>=3.3.0
 passlib[bcrypt]>=1.7.4
 
-# Databehandling
+# Data helpers
 python-dateutil>=2.8.2
 typing-extensions>=4.5.0
 numpy>=1.24.0  # used by consensus_manager
 
-# Rapportgenerering
+# Report generation
 reportlab>=4.0.0
 jinja2>=3.1.2
 
-# Webskrapning (för forskningskapacitet)
+# Web scraping (research helpers)
 beautifulsoup4>=4.12.0
 lxml>=4.9.0
 
-# Prestanda och Övervakning
+# Performance / monitoring
 psutil>=5.9.0
 
-# Utveckling och Testning
+# Development and testing
 pytest>=7.4.0
 pytest-cov>=4.1.0
 pytest-asyncio>=0.21.0
 
-# Datavisualisering (för rapporter)
+# Visualization (reports)
 plotly>=5.15.0
 
-# Valfritt: Kodkvalitetsverktyg (endast dev)
+# Optional: code quality (dev)
 black>=23.0.0
 isort>=5.12.0
 flake8>=6.0.0
 mypy>=1.5.0
 
-# Valfritt: Miljöhantering
+# Optional: environment loading
 python-dotenv>=1.0.0
 
 # ===================================
-# Versionsnoter:
-# - Alla versioner är fästa till minsta stabila utgåvor
-# - Säkerhetsfokuserade beroenden använder senaste stabila versioner
-# - Kärn-AI beroenden kompatibla med OpenRouter
-# - Alla vektor/embedding beroenden borttagna (chromadb, sentence-transformers)
-# - Borttagna oanvända beroenden (torch, accelerate, numpy, streamlit)
-# =================================== 
+# Notes:
+# - Versions pinned to minimum stable releases
+# - Security-focused packages prefer recent stable releases
+# - Core AI deps aligned with OpenRouter usage
+# - Vector/embedding deps removed (chromadb, sentence-transformers)
+# - Unused heavy deps removed (torch, accelerate, streamlit)
+# ===================================

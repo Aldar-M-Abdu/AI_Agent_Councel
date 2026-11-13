@@ -26,22 +26,22 @@ export default function AuthModal({ open, onClose, onAuthSuccess }) {
       setPassword('');
       onClose();
     } catch (err) {
-      setError(err.response?.data?.detail || 'Autentisering misslyckades');
+      setError(err.response?.data?.detail || 'Authentication failed');
     }
     setLoading(false);
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Konto</DialogTitle>
+      <DialogTitle>Account</DialogTitle>
       <DialogContent>
         <Tabs value={tab} onChange={handleTabChange} centered>
-          <Tab label="Logga in" />
-          <Tab label="Registrera" />
+          <Tab label="Log in" />
+          <Tab label="Register" />
         </Tabs>
         <Box mt={2}>
           <TextField
-            label="Användarnamn"
+            label="Username"
             value={username}
             onChange={e => setUsername(e.target.value)}
             fullWidth
@@ -49,7 +49,7 @@ export default function AuthModal({ open, onClose, onAuthSuccess }) {
             autoFocus
           />
           <TextField
-            label="Lösenord"
+            label="Password"
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -61,10 +61,10 @@ export default function AuthModal({ open, onClose, onAuthSuccess }) {
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleAuth(tab === 0 ? 'login' : 'register')} color="primary" variant="contained" disabled={loading}>
-          {tab === 0 ? 'Logga in' : 'Registrera'}
+          {tab === 0 ? 'Log in' : 'Register'}
         </Button>
-        <Button onClick={onClose}>Avbryt</Button>
+        <Button onClick={onClose}>Cancel</Button>
       </DialogActions>
     </Dialog>
   );
-} 
+}
